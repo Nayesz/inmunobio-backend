@@ -2,6 +2,7 @@ from flask import Flask
 import config
 from flask_migrate import Migrate
 from flask_jwt import JWT
+
 from db import db, dbMongo
 from security import authenticate, identity
 
