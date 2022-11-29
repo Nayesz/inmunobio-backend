@@ -20,22 +20,29 @@ $pip install wheel
 
 $pip install -r requirements.txt
 
-## 4-Levantar la app dentro de la carpeta raíz:
+
+## 5- Crear bases en Docker
+
+$sudo docker run -d -p 27017-27019:27017-27019 --name mongoDB mongo
+$sudo docker run -d -p 33060:3306 --name mysqlDB -e MYSQL_ROOT_PASSWORD=secret mysql
+
+## 5-Levantar la app dentro de la carpeta raíz:
+
 $python app.py
 
 Posibles errores solucionables con algunos de estos comandos:
-
 
 Problemas al installar mysql-client:
 * En ubuntu
 $apt-get install libmysqlclient-dev python-dev (Fuera del entorno)
 
-pip install --only-binary :all: mysqlclient
+En windows:
+$pip install --only-binary :all: mysqlclient
 
-## Bases en Docker
+- Problemas de compatibilidad con libreria Flask-JWT Y PyJWT : https://github.com/tensorflow/tensorboard/issues/5478
 
-$sudo docker run -d -p 27017-27019:27017-27019 --name mongoDB mongo
-$sudo docker run -d -p 33060:3306 --name mysqlDB -e MYSQL_ROOT_PASSWORD=secret mysql
+
+
 
 -------------------
 
