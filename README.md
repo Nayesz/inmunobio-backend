@@ -10,7 +10,7 @@
 $python3 -m venv env
 
 ## 3-Entrar al entorno e instalar librerías:
-$source /path/to/env/bin/activate
+$source ./env/bin/activate
 
 (El prompt de la consola debe cambiar a (env)
 
@@ -41,6 +41,7 @@ $pip install --only-binary :all: mysqlclient
 
 - Problemas de compatibilidad con libreria Flask-JWT Y PyJWT : https://github.com/tensorflow/tensorboard/issues/5478
 
+-Problemas de certificado SSL : https://stackoverflow.com/questions/49324802/pip-always-fails-ssl-verification?rq=1
 
 
 

@@ -1,0 +1,200 @@
+{"permiso": [
+   {
+       "descripcion": "Superusuario"
+   },
+   {
+       "descripcion": "Director de centro"
+   },
+   {
+       "descripcion": "Jefe de grupo"
+   },
+   {
+       "descripcion": "Director de proyecto / bioterio"
+   },
+   {
+       "descripcion": "Técnico"
+   }
+],
+"usuario": [
+   {
+       "direccion": "Dirección 1",
+       "email": "usuario1@gmail.com",
+       "nombre": "User 1 ",
+       "password": "Atoi5858",
+       "permisos": [
+           {
+               "descripcion": "Técnico",
+               "id_permiso": 5
+           }
+       ],
+       "telefono": "11111111",
+       "id_grupoDeTrabajo":1,
+        "esJefeDe":0
+
+   },
+     {
+       "direccion": "Dirección 2",
+       "email": "usuario2@gmail.com",
+       "nombre": "User 2 ",
+       "password": "Atoi5858",
+       "permisos": [
+           {
+               "descripcion": "Técnico",
+               "id_permiso": 5
+           },  
+            {
+               "descripcion": "Director de proyecto / bioterio",
+               "id_permiso": 4
+           } ,
+             {
+                "id_permiso": 3,
+                "descripcion": "Jefe de grupo"
+            }
+       ],
+       "telefono": "11111111",
+       "esJefeDe":1,
+        "id_grupoDeTrabajo":0
+
+
+   },
+    {
+       "direccion": "Dirección 3",
+       "email": "usuario3@gmail.com",
+       "nombre": "User 3 ",
+       "password": "Atoi5858",
+       "permisos": [
+           {
+               "descripcion": "Técnico",
+               "id_permiso": 5
+           },  
+            {
+               "descripcion": "Director de proyecto / bioterio",
+               "id_permiso": 4
+           }  ,
+            {
+               "descripcion": "Jefe de grupo",
+               "id_permiso": 3
+           }  
+       ],
+       "telefono": "11111111",
+        "esJefeDe":2,
+        "id_grupoDeTrabajo":0
+
+   },
+       {
+       "direccion": "Dirección 4",
+       "email": "usuario4@gmail.com",
+       "nombre": "User 4 ",
+       "password": "Atoi5858",
+       "permisos": [
+           {
+               "descripcion": "Técnico",
+               "id_permiso": 5
+           },  
+            {
+               "descripcion": "Director de proyecto / bioterio",
+               "id_permiso": 4
+           }  ,
+            {
+               "descripcion": "Jefe de grupo",
+               "id_permiso": 3
+           } ,
+            {
+               "descripcion":   "Director de centro",
+               "id_permiso": 2
+           }  
+         
+       ],
+       "telefono": "11111111",
+        "esJefeDe":3,
+        "id_grupoDeTrabajo":0
+
+
+       
+   },
+    {
+       "direccion": "Dirección 5",
+       "email": "usuario5@gmail.com",
+       "nombre": "User 5",
+       "password": "Atoi5858",
+       "permisos": [
+           {
+               "descripcion": "Técnico",
+               "id_permiso": 5
+           },  
+            {
+               "descripcion": "Director de proyecto / bioterio",
+               "id_permiso": 4
+           }  ,
+            {
+               "descripcion": "Jefe de grupo",
+               "id_permiso": 3
+           } ,
+            {
+               "descripcion":   "Director de centro",
+               "id_permiso": 2
+           }  ,
+            {
+               "descripcion":   " SUperusuario",
+               "id_permiso": 1
+           }  
+         
+       ],
+       "telefono": "11111111",
+        "esJefeDe":0,
+        "id_grupoDeTrabajo":0
+
+
+   },
+      {
+       "direccion": "Dirección 6",
+       "email": "usuario6@gmail.com",
+       "nombre": "User 6 ",
+       "password": "Atoi5858",
+       "permisos": [
+           {
+               "descripcion": "Técnico",
+               "id_permiso": 5
+           }
+       ],
+       "telefono": "11111111",
+       "id_grupoDeTrabajo":2,
+        "esJefeDe":0
+
+   },
+    {
+       "direccion": "Dirección 7",
+       "email": "usuario7@gmail.com",
+       "nombre": "User 7",
+       "password": "Atoi5858",
+       "permisos": [
+           {
+               "descripcion": "Técnico",
+               "id_permiso": 5
+           }
+       ],
+       "telefono": "11111111",
+       "id_grupoDeTrabajo":3,
+        "esJefeDe":0
+
+   },
+   {
+       "direccion": "Dirección 8",
+       "email": "usuario8@gmail.com",
+       "nombre": "User 8",
+       "password": "Atoi5858",
+       "permisos": [
+           {
+               "descripcion": "Técnico",
+               "id_permiso": 5
+           }
+       ],
+       "telefono": "11111111",
+        "id_grupoDeTrabajo":3,
+        "esJefeDe":0
+
+
+   }
+]
+}
+
