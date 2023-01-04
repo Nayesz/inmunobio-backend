@@ -30,6 +30,9 @@ $sudo docker run -d -p 33060:3306 --name mysqlDB -e MYSQL_ROOT_PASSWORD=secret m
 
 $python app.py
 
+
+----
+
 Posibles errores solucionables con algunos de estos comandos:
 
 Problemas al installar mysql-client:
