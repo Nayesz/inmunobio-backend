@@ -1,23 +1,35 @@
-version: "3.7"
+version: "3.8"
 services:
+    flask:
+      container_name: BackDocker
+      restart: always
+      build:
+        context: ./
+        args:
+           http_proxy: "http://wwwafip:80"
+           https_proxy: "http://wwwafip:80"
+           no_proxy: "localhost,127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,.afip.gob.ar,.afip.gov.ar"
+      ports: 
+         - 8080:8080
+      depends_on:
+         - mongo
+         - mysql    
+
     mysql:
-      container_name: MysqlDocker
-      image: mysql
+      container_name: mysql
+      image: mysql:8.0.31
       ports:
-          - 33060:3306
-      command: --default-authentication-plugin=mysql_native_password
-      
+          - 3306:3306
+      command: >
+        --default-authentication-plugin=mysql_native_password
       restart: always
       environment:
           MYSQL_ROOT_PASSWORD: secret
-          MYSQL_DATABASE: db_mysql_inmunobio         
+          MYSQL_DATABASE: db_mysql_inmunobio   
+          TZ: 'America/Argentina/Buenos_Aires'      
       volumes:
           - ../data/mysql:/var/lib/mysql
-      cap_add:
-          - SYS_NICE
-      networks:
-          - env_prod
-          
+
     mongo:
       container_name: MongoDocker
       restart: always
@@ -26,51 +38,9 @@ services:
           - 27017:27017
       volumes:
         - ../data/mongo:/data/db
-      networks:
-          - env_prod
-
-    flask:
-      container_name: BackDocker
-      restart: always
-      build:
-        context: ./
-      ports: 
-         - 8080:8080
-      links:
-         - mysql
-         - mongo
-      networks:
-         - env_prod
-      volumes:
-        - ../data/uploads
       depends_on:
-         - mongo
-         - mysql
+        - mysql  
 
-networks:
-  env_prod:
-    driver: bridge  
-    #activate ipv6
-    driver_opts: 
-            com.docker.network.enable_ipv6: "true"
-    #IP Adress Manager
-    # ipam: 
-    #     driver: default
-    #     config:
-    #     - subnet: 172.16.232.0/24
-    #       gateway: 172.16.232.1
-    #     - subnet: "2001:3974:3979::/64"
-    #       gateway: "2001:3974:3979::1"
-#   env_prep:   
-#     driver: bridge  
-#     #activate ipv6
-#     driver_opts: 
-#             com.docker.network.enable_ipv6: "true"
-#     #IP Adress Manager
-#     ipam:
-#         driver: default
-#         config:
-#         - subnet: 172.16.235.0/24
-#           gateway: 172.16.235.1
-#         - subnet: "2001:3984:3989::/64"
-#           gateway: "2001:3984:3989::1"
+
+
+  
