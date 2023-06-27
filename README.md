@@ -1,6 +1,13 @@
+TODO:
+-Arreglar el start-up de la aplicacion, hay que esperar un rato hasta que este disponible la conexion de la base para conectarse
 
 
-# Pasos para levantar el entorno:
+# Pasos para levantar el entorno con docker-compose:
+
+"$docker-compose up --build"
+
+
+# Pasos para levantar el entorno de forma local:
 
 -Requerimientos: tener python 3.10 instalado.
 -

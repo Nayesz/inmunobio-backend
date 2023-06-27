@@ -1,7 +1,7 @@
 version: "3.8"
 services:
     flask:
-      container_name: BackDocker
+      container_name: flask-app
       restart: always
       build:
         context: ./
@@ -12,7 +12,7 @@ services:
          - mysql    
 
     mysql:
-      container_name: mysql
+      container_name: mysql-db
       image: mysql:8.0.31
       ports:
           - 3306:3306
@@ -27,7 +27,7 @@ services:
           - ../data/mysql:/var/lib/mysql
 
     mongo:
-      container_name: MongoDocker
+      container_name: mongo-db
       restart: always
       image: mongo:4.4.6
       ports:
