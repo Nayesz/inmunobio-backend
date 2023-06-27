@@ -1,19 +1,82 @@
+h3{
+    margin: 1.5em;
+}
+.title{
+    margin: 1em;
+}
 .search-container{
-    width: 100%;
-    padding: 0.7em;
+    width: 70%;
+    height: auto;
     margin: auto;
     display: flex;
     justify-content: space-around;
 }
-
-.search-container .form-control{
-    width: 32%;
+.fecha-blog{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+    padding:0.7em;
+}
+.blog-detalle{
+    width: 100%;
+    margin-left: 5px;
+}
+.card-jaula{
+    width: 25%;
+    margin: 5px;
+    padding: 4px;
+}
+.card-blog{
+    width: 100%;
+    margin: 1em;
+    margin-left: 0px;
+    vertical-align: auto;
+    align-items: center;
+    background-color: rgba(93, 155, 209, 0.082);
+    display: flex;
+}
+.form-group{
+    margin: 2px;
+    display: flex;
+    width: auto;
+}
+.jaula-container{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+}
+.search__btn-agregar{
+    margin-left: 1em;
 }
 
-.input-group{
-    width: 32%;
+@media screen and (max-width: 360px){
+    .search-container{
+        width: 100%;
+        height: auto;
+        display: block;
+        align-items: center;
+    }
+    button{
+        width: 100%;
+    }
+    .jaula-container{
+        display: block;
+        justify-content: center;
+        margin: 2;
+    }
+    .card-jaula{
+        width:90%;
+        align-items: center;
+    }
+    .search__btn-agregar{
+        margin-left: 0px;
+    }
 }
-.col-11{
-    background-color: #4d758f59    ;
-    border-color: #4d758f ;
+@media screen and (max-width: 1024px){
+    .title{
+        margin:0.5em;
+    }
+      
 }

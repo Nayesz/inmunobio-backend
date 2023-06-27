@@ -1,7 +1,74 @@
-.container{
+.contenedor{
     height: 100vh;
+    display: flex;
 }
-
+.content__form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
 form{
     width: 100%;
+}
+.content{
+    height: 90%;
+}
+.formulario{
+    width: 60%;
+}
+.background{
+    background-color: #033980;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+.title {
+    font-family: 'Staatliches', cursive;
+    font-size: 80px;
+}
+
+.Staatliches{
+    color: #033980;
+    font-family: 'Staatliches', cursive;
+}
+.background-mobile{
+    display: none;
+}
+button{
+    background-color: #033980;
+    border-color: #033980;
+}
+.btn-login:hover{
+    background-color:white;
+    color:#033980;
+}
+@media screen and (max-width: 860px){
+    .contenedor{
+        display: block;
+    }
+    /* .background{
+        display: none;
+    }   */
+    .col{
+        height: 75%;
+    }
+    button{
+        width: 100%;
+    }
+    .background{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        height: 5em;
+        background-color: #033980 ;
+    }
+    .logo{
+        height: 3.5em;
+    }
+    .title{
+        font-size: 3em;
+        margin-bottom: 0px;
+    }
 }

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { JwtService } from 'src/app/services/jwt.service';
 
 @Component({
   selector: 'app-navigation',
@@ -7,13 +9,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavigationComponent implements OnInit {
 
-  constructor() { }
+  MenuSel: string;
+
+  constructor(
+    private router: Router,
+    private jwtService: JwtService
+    ) { }
 
   ngOnInit(): void {
   }
 
-  navegar(): void{
-    console.log('asd');
+  navegar(url: string): void{
+    this.MenuSel = url;
+    this.router.navigateByUrl(`/home/${url}`);
   }
 
   clickMobile(active: boolean): void{
@@ -28,5 +36,9 @@ export class NavigationComponent implements OnInit {
     if ((document.getElementById(`mobile-menu-toggle`) as HTMLInputElement).checked === true){
       (document.getElementById(`mobile-menu-toggle`) as HTMLInputElement).checked = false;
     }
+  }
+
+  salir(): void{
+    this.jwtService.logout();
   }
 }

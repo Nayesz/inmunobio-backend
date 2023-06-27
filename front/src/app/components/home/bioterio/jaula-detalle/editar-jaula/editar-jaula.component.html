@@ -1,51 +1,72 @@
-<div class="text-black ml-3 mt-3" routerLink="../" role="button" style="position: relative;">
-  <h5><span><i class="bi bi-arrow-left"></i></span>VOLVER</h5>
-</div>
-  <h3 class="text-center mt-4">Datos de la Jaula</h3>
-  <div class="card rounded shadow p-4 m-5">
+<div *ngIf='!cargando'>
+  <div class="m-4" routerLink="../" role="button">
+    <h5><span><i class="bi bi-arrow-left"></i></span>VOLVER</h5>
+  </div>
+  <h3 class="text-center m-3">Datos de la Jaula</h3>
+  
+  <div class="">
   <form [formGroup]="formJaula" (ngSubmit)="crearJaula()">
-          <div class="m-3">
-            <label  class="form-label">Codigo</label>
-            <input type="text" class="form-control" formControlName='codigo'>
-          </div> 
-          <div class="m-3">
+    <div class="form-primer_fila">
+      <div class="form-primer_fila-primer_bloque">
+        <div class="form-fila">
+          <label  class="form-label">Código</label>
+          <input type="text" class="form-control" formControlName='codigo' placeholder="Ingrese el código de la jaula" [attr.disabled]='disabledForm ? true : null'>
+        </div> 
+        <div class="d-flex"> 
+        <div class="form-fila">
               <label  class="form-label">Rack</label>
-              <input type="number" class="form-control" formControlName='rack'>
-          </div> 
-          <div class="m-3">
+              <input type="number" class="form-control" formControlName='rack'placeholder="Ingrese el rack de la jaula" [attr.disabled]='disabledForm ? true : null'> 
+        </div>
+        <div class="form-fila mx-1">
             <label  class="form-label">Estante</label>
-            <input type="number" class="form-control" formControlName='estante'>
-          </div>
-          <div class="m-3">
-            <label  class="form-label">Capacidad</label>
-            <input type="number" class="form-control" formControlName='capacidad'>
-          </div>
-          <div class=" m-3">
-            <label  class="form-label">Tipo</label>
-              <div class="input-group mb-3">
-                  <select class="form-control" aria-label=".form-select-lg example" formControlName='tipo'>
-                    <option value="Transparente">Transparente</option>
-                    <option value="Truncadas">Truncadas</option>
-                    <option value="Largas">Largas</option>
-                  </select>
-              </div>
-          </div>
-          <div class=" m-3">
-            <label  class="form-label">Espacio Fisico</label>
-              <div class="input-group mb-3">
-                  <select class="form-control" aria-label=".form-select-lg example" formControlName='id_espacioFisico'>
-                    <option *ngFor='let espacios of espaciosFisicos' value="{{espacios.id_espacioFisico}}">{{espacios.nombre}}</option>
-                  </select>
-              </div>
-          </div>
+            <input type="number" class="form-control" formControlName='estante' placeholder="Ingrese el estante de la jaula" [attr.disabled]='disabledForm ? true : null'>
+        </div>
+        </div>
+        <div class="form-fila">
+           <label  class="form-label">Capacidad</label>
+          <input type="number" class="form-control" formControlName='capacidad' placeholder="Ingrese la capacidad de la jaula" [attr.disabled]='disabledForm ? true : null'>
+        </div>
+      </div>
+      <div class="imagen mt-4">
           <div class="text-center">
-            <button type="submit" class="btn btn-success btn-lg">Guardar</button>
+              <i class="bi bi-archive" style="font-size: 8em;"></i>
           </div>
-    </form>
-    <div class="d-flex bd-highlight alert alert-{{estado}} mt-3" role="alert" *ngIf='alert'>
-      <div class="p-2 flex-grow-1 bd-highlight">{{mensajeAlert}}</div>
-      <div class="p-2 bd-highlight">
-      <button type="button" class="btn btn-outline-dark" routerLink="../">VOLVER</button>
       </div>
     </div>
+    <div class=" mb-3">
+      <label  class="form-label">Tipo</label>
+        <div class="input-group mb-3">
+            <select class="form-select form-control" aria-label=".form-select-lg example" formControlName='tipo' [attr.disabled]='disabledForm ? true : null'>
+              <option value="0" disabled>Seleccione el tipo de jaula</option>
+              <option value="Transparente">Transparente</option>
+              <option value="Truncadas">Truncadas</option>
+              <option value="Largas">Largas</option>
+            </select>
+        </div>
+    </div>
+    <div class=" mb-3">
+      <label  class="form-label">Espacio Fisico</label>
+        <div class="input-group mb-3">
+            <select class="form-select form-control" aria-label=".form-select-lg example" formControlName='id_espacioFisico' [attr.disabled]='disabledForm ? true : null'>
+              <option value="0" disabled>Seleccione el espacio físico de la jaula</option>
+              <option *ngFor='let espacios of espaciosFisicos' value="{{espacios.id_espacioFisico}}">{{espacios.nombre}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="text-center">
+      <button type="submit" class="btn btn-primary btn-lg" [disabled]="!formJaula.valid" *ngIf='!disabledForm'>Guardar</button>
+      <button class="btn btn-primary btn-lg" type="button" disabled *ngIf='disabledForm'>
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        Cargando...
+    </button>
+    </div>
+  </form>
+  </div>
 </div>
+<div class="d-flex justify-content-center align-items-center h-100" *ngIf='cargando'>
+  <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+
+<app-toast></app-toast>

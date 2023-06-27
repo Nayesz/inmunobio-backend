@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { AuthInterceptorService } from './services/auth-interceptor.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -29,8 +29,6 @@ import { NuevoUsuarioComponent } from './components/home/configuracion/usuarios/
 import { JaulaDetalleComponent } from './components/home/bioterio/jaula-detalle/jaula-detalle.component';
 import { EditarJaulaComponent } from './components/home/bioterio/jaula-detalle/editar-jaula/editar-jaula.component';
 import { AltaAnimalComponent } from './components/home/bioterio/jaula-detalle/alta-animal/alta-animal.component';
-import { ConsumirStockComponent } from './components/home/stock/stock-detalle/consumir-stock/consumir-stock.component';
-import { EntradaBlogComponent } from './components/home/bioterio/entrada-blog/entrada-blog.component';
 import { GrupotrabajoComponent } from './components/home/configuracion/grupotrabajo/grupotrabajo.component';
 import { NuevoGrupoComponent } from './components/home/configuracion/grupotrabajo/nuevo-grupo/nuevo-grupo.component';
 import { NuevoExperimentoComponent } from './components/home/proyectos/nuevo-experimento/nuevo-experimento.component';
@@ -41,19 +39,19 @@ import { NuevoEspacioComponent } from './components/home/configuracion/espacio-f
 import { FinalizarProyectoComponent } from './components/home/proyectos/detalle-proyecto/finalizar-proyecto/finalizar-proyecto.component';
 import { FinalizarExperimentoComponent } from './components/home/proyectos/detalle-experimentos/finalizar-experimento/finalizar-experimento.component';
 import { GrupoExperimentalComponent } from './components/home/proyectos/detalle-experimentos/grupo-experimental/grupo-experimental.component';
-import { NuevoBlogEspacioComponent } from './components/home/stock/nuevo-blog-espacio/nuevo-blog-espacio.component';
-import { NuevoBlogHerramientaComponent } from './components/home/stock/blog-herramientas/nuevo-blog-herramienta/nuevo-blog-herramienta.component';
-import { BlogHerramientasComponent } from './components/home/stock/blog-herramientas/blog-herramientas.component';
-import { HerramientasComponent } from './components/home/stock/herramientas/herramientas.component';
-import { NuevaHerramientaComponent } from './components/home/stock/herramientas/nueva-herramienta/nueva-herramienta.component';
-import { NuevoBlogProyectoComponent } from './components/home/proyectos/detalle-proyecto/nuevo-blog-proyecto/nuevo-blog-proyecto.component';
-import { AsociarProyectoJaulaComponent } from './components/home/bioterio/jaula-detalle/asociar-proyecto-jaula/asociar-proyecto-jaula.component';
-import { NuevoBlogExperimentoComponent } from './components/home/proyectos/detalle-experimentos/nuevo-blog-experimento/nuevo-blog-experimento.component';
 import { FilterPipe } from './pipe/filter.pipe';
+import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
+import { FilterStatePipe } from './pipe/filter-state.pipe';
+import { ToastComponent } from './components/shared/toast/toast.component';
 import { FilterCodigosPipe } from './pipe/filter-codigos.pipe';
-import { FilterMetodologiaPipe } from './pipe/filter-metodologia.pipe';
-
-
+import { NuevaHerramientaComponent } from './components/home/stock/stock-detalle/nueva-herramienta/nueva-herramienta.component';
+import { DividirGrupoComponent } from './components/home/proyectos/detalle-experimentos/grupo-experimental/dividir-grupo/dividir-grupo.component';
+import { FilterTipoPipe } from './pipe/filter-tipo.pipe';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { FilterFechavencimientoPipe } from './pipe/filter-fechavencimiento.pipe';
+import { PerfilComponent } from './components/home/perfil/perfil.component';
+import { HerramientaComponent } from './components/home/stock/stock-detalle/herramienta/herramienta.component';
+import { BlogEspacioHerramientaComponent } from './components/home/stock/stock-detalle/blog-espacio-herramienta/blog-espacio-herramienta.component';
 
 @NgModule({
   declarations: [
@@ -81,8 +79,6 @@ import { FilterMetodologiaPipe } from './pipe/filter-metodologia.pipe';
     JaulaDetalleComponent,
     EditarJaulaComponent,
     AltaAnimalComponent,
-    ConsumirStockComponent,
-    EntradaBlogComponent,
     GrupotrabajoComponent,
     NuevoGrupoComponent,
     NuevoExperimentoComponent,
@@ -93,17 +89,17 @@ import { FilterMetodologiaPipe } from './pipe/filter-metodologia.pipe';
     FinalizarProyectoComponent,
     FinalizarExperimentoComponent,
     GrupoExperimentalComponent,
-    NuevoBlogEspacioComponent,
-    NuevoBlogHerramientaComponent,
-    BlogHerramientasComponent,
-    HerramientasComponent,
-    NuevaHerramientaComponent,
-    NuevoBlogProyectoComponent,
-    AsociarProyectoJaulaComponent,
-    NuevoBlogExperimentoComponent,
     FilterPipe,
+    FilterStatePipe,
+    ToastComponent,
     FilterCodigosPipe,
-    FilterMetodologiaPipe
+    NuevaHerramientaComponent,
+    DividirGrupoComponent,
+    FilterTipoPipe,
+    FilterFechavencimientoPipe,
+    PerfilComponent,
+    HerramientaComponent,
+    BlogEspacioHerramientaComponent
 
   ],
   imports: [
@@ -112,9 +108,16 @@ import { FilterMetodologiaPipe } from './pipe/filter-metodologia.pipe';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    AngularMultiSelectModule,
     NgbModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptorService,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,12 +1,15 @@
 import { DecimalPipe } from '@angular/common';
 import { Component, OnInit, PipeTransform } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
-import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
+import { NgbCalendar, NgbDate, NgbDateParserFormatter, NgbDateStruct, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 import { GetService } from 'src/app/services/get.service';
 import { PostService } from 'src/app/services/post.service';
 import { ActivatedRoute } from '@angular/router';
-import { BlogBuscadoProyecto } from 'src/app/models/blogs.model';
+import { ToastServiceService } from 'src/app/services/toast-service.service';
+
 
 @Component({
   selector: 'app-detalle-proyecto',
@@ -20,69 +23,78 @@ export class DetalleProyectoComponent implements OnInit {
   experimentoFiltro = [];
   filter = new FormControl('');
   model: NgbDateStruct;
+  model2: NgbDateStruct;
   proyecto: any;
   jefeProyecto: any;
   usuariosProyecto = [];
   idProyecto: number;
-  fecHoy = new Date(Date.now());
+  active = 1;
+  filterPostName: string;
+  filterPostActive: number;
+  fecHoy=new Date(Date.now());
   fecDesde:any;
   fecHasta:any;
-  fecHastaReal:any;
-  formFecha!: FormGroup;
-  blogs =[];
-  blogsSinFiltro =[];
-  filtrados =[];
-  filterPost: string;
-  filterPost2: string;
-  
-  constructor(private router: Router, private postService: PostService,private getService: GetService, private activatedRouter: ActivatedRoute) {}
+  tipo:string = 'opc1';
+  blogs = [];
+  cargando: boolean;
+  fecHastaReal: Date;
+
+  constructor(
+    private router: Router,
+    private getService: GetService,
+    private postService: PostService,
+    private activatedRouter: ActivatedRoute,
+    private modalService: NgbModal,
+    public toastService: ToastServiceService
+  ) {}
 
   ngOnInit(): void {
-    this.filterPost = '';
-    this.filterPost2 = '';
+    this.cargando = true;
+    this.filterPostActive = -1;
+    this.filterPostName = '';
     this.idProyecto = parseInt(this.activatedRouter.snapshot.paramMap.get('id'), 10);
     this.getService.obtenerProyectosPorId(this.idProyecto).subscribe(res => {
-      console.log(res)
-      this.proyecto = res;
-      this.traerDirector(res.idDirectorProyecto);
-      this.traerUsuarios(res.participantes);
+      if (res){
+        this.proyecto = res;
+        console.log(res)
+        console.log(res.idDirectorProyecto.id)
+      } else {
+        this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
+        this.cargando = false;
+      }
+      
     });
+
     this.getService.obtenerExperimentos(this.idProyecto).subscribe(res => {
-      console.log(res);
-      this.experimentos = res;
-      this.experimentoFiltro = res;
+      if (res){
+        console.log(res);
+        this.experimentos = res;
+        this.experimentoFiltro = res;
+      } else {
+        this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
+        this.cargando = false;
+      }
     });
+    
     const dia = (this.fecHoy).getDate() + 1;
     this.fecHasta = new Date(this.fecHoy.getFullYear(),this.fecHoy.getMonth(), dia)
     this.fecHasta = this.fecHasta.toDateString();
-    const blog : BlogBuscadoProyecto = {
-          id_proyecto: this.idProyecto,
-          fechaDesde: 'Mon May 31 2021',
-          fechaHasta: this.fecHasta
-        } 
+    const blog : any = {
+      id_proyecto: this.idProyecto,
+      fechaDesde: 'Mon May 31 2021',
+      fechaHasta: this.fecHasta
+    }
+    console.log(blog)
     this.postService.obtenerBlogsProyecto(blog).subscribe(res =>{
-      console.log(res)
-      this.blogs = res; 
+      if (res){
+        this.blogs = res;
+        this.cargando = false;
+      } else {
+        this.blogs=[];
+        this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
+        this.cargando = false;
+      }
     })
-    this.formFecha = new FormGroup({
-      fecDesde: new FormControl('', [Validators.required, Validators.maxLength(20)]),
-      fecHasta: new FormControl('', [Validators.required, Validators.maxLength(20)]),
-      filtro: new FormControl()
-    })
-  }
-
-  traerDirector(id: number): void {
-    this.getService.obtenerUsuariosPorId(id).subscribe(res => {
-      this.jefeProyecto = res;
-    });
-  }
-
-  traerUsuarios(usuarios: Array<number>): void {
-    this.proyecto.participantes.map(id => {
-      this.getService.obtenerUsuariosPorId(id).subscribe(res => {
-        this.usuariosProyecto.push(res);
-      });
-    });
   }
 
   irA(id: number): void {
@@ -95,42 +107,46 @@ export class DetalleProyectoComponent implements OnInit {
     });
   }
 
+  open(content): void {
+    this.modalService.open(content, { centered: true, size: 'lg' });
+  }
   Buscar(){
-    this.fecDesde = new Date(this.formFecha.value.fecDesde);
-    this.fecHastaReal= new Date(this.formFecha.value.fecHasta);
-    const diaMas1 = (this.fecHastaReal).getDate() + 2;
-    this.fecHasta = new Date(this.fecHastaReal.getFullYear(),this.fecHastaReal.getMonth(), diaMas1)
+    this.fecDesde =  new Date(this.fecDesde.year,(this.fecDesde.month -1)  ,this.fecDesde.day)
+    const fechaHasta = new Date(this.fecHasta.year,(this.fecHasta.month -1) ,this.fecHasta.day)
+    console.log(this.fecDesde, fechaHasta)
+    const diaMas1 = (fechaHasta).getDate() + 2;
+    this.fecHasta = new Date(fechaHasta.getFullYear(),fechaHasta.getMonth(), diaMas1)
     this.fecDesde = this.fecDesde.toDateString();
     this.fecHasta = this.fecHasta.toDateString();
-    const blog : BlogBuscadoProyecto = {
+    const blog : any = {
       id_proyecto : this.idProyecto,
       fechaDesde: this.fecDesde,
       fechaHasta: this.fecHasta
     }
-    console.log(blog)
     this.postService.obtenerBlogsProyecto(blog).subscribe(res =>{
-      console.log(res)
-      this.blogs = res; })
-
-      setTimeout(() => {
-        if (this.formFecha.value.filtro == 'Jaula'){
+      if (res){
+        console.log(res)
+        this.blogs = res;
+        this.cargando = false;
+      } else {
+        this.blogs = [];
+        this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
+        this.cargando = false;
+      }})
+        if (this.tipo == 'Jaula'){
           var filtrados= this.blogs.filter(blog => blog.tipo === 'Jaula')
-          console.log(filtrados)
           setTimeout(() => {
-            this.blogs =filtrados;
+            this.blogs=filtrados;
             console.log(this.blogs)
           }, 1000);
-        } else if (this.formFecha.value.filtro == 'Experimento'){
+        } else if (this.tipo == 'Experimento'){
           var filtrados= this.blogs.filter(blog => blog.tipo === 'Experimento')
           setTimeout(() => {
             this.blogs=filtrados;
             console.log(this.blogs)
           }, 1000);
+        } else if (this.tipo == 'Todos'){
         }
-      }, 2000);
-    
-    
   }
-
 
 }

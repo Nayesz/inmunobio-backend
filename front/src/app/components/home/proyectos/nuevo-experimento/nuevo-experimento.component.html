@@ -1,53 +1,55 @@
-<div class="m-4" routerLink="../" role="button">
-    <h5><span><i class="bi bi-arrow-left"></i></span>VOLVER</h5>
+<div *ngIf='!cargando'>   
+<div class="m-4" role="button">
+    <h5 (click)='volver()'><span><i class="bi bi-arrow-left"></i></span>VOLVER</h5>
 </div>
 <div class="mx-4">
-    <div class="text-center my-4">
-        <h2>Datos del Experimento</h2>
+    <div class="my-4">
+        <h2>Datos Experimento</h2>
     </div>
 
-    <div class="card rounded shadow p-4 mb-4">
+    <div class="">
         <form [formGroup]="formExperimento" (ngSubmit)="crearExperimento()">
-            <div class="row">
-                <div class="col-9">
-                    <div class="mb-3 row">
-                        <div class="col">
+            <div class="filaMayor">
+                <div class="primer-bloque">
+                    <div class="metodologiaYCodigo">
+                        <div class="fila">
                             <label for="metodologia" class="form-label">Metodologia</label>
-                            <input type="text" class="form-control" id="metodologia" formControlName='metodologia'>
-                            <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+                            <input type="text" class="form-control" id="metodologia" formControlName='metodologia' placeholder="Ingrese metodología del experimento" [attr.disabled]='disabledForm ? true : null'>
                         </div>
-                        <div class="col" *ngIf='editar === false'>
+                        <div class="fila codigo">
                             <label for="codigo" class="form-label">Codigo de experimento</label>
-                            <input type="text" class="form-control" id="codigo" formControlName='codigo'>
-                            <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+                            <input type="text" class="form-control" id="codigo" formControlName='codigo' placeholder="Ingrese código del experimento" [attr.disabled]='disabledForm ? true : null'>
                         </div>
                     </div>
-                    <div class="mb-3">
+                    <div class="fila">
                         <label for="objetivos" class="form-label">Objetivos</label>
-                        <textarea class="form-control" id='objetivos' aria-label="With textarea" rows="4" formControlName='objetivos'></textarea>
-                        <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+                        <textarea class="form-control" id='objetivos' aria-label="With textarea" rows="4" formControlName='objetivos' placeholder="Ingrese los objetivos del experimento" [attr.disabled]='disabledForm ? true : null'></textarea>
                     </div>
                 </div>
-                <div class="col-3">
+                <div class="imagen">
                     <div class="text-center">
                         <i class="bi bi-folder-plus" style="font-size: 8em;"></i>
                     </div>
                 </div>
-
             </div>
-            
-            
-            <div class="d-flex flex-row justify-content-end">
-                <div class="mx-3">
-                    <button class="btn btn-primary btn-lg" type="submit" [disabled]='!formExperimento.valid'>Guardar</button>
-                </div>
-            </div>
-            <div class="d-flex bd-highlight alert alert-{{estado}} mt-3" role="alert" *ngIf='alert'>
-                <div class="p-2 flex-grow-1 bd-highlight">{{mensajeAlert}}</div>
-                <div class="p-2 bd-highlight">
-                    <button class="btn btn-secondary btn-lg" routerLink="../">VOLVER</button>
+                
+            <div class="boton">
+                <div class="">
+                    <button class="btn btn-primary btn-lg boton" type="submit" [disabled]='!formExperimento.valid' *ngIf='!disabledForm'>Guardar</button>
+                    <button class="btn btn-primary btn-lg boton" type="button" disabled *ngIf='disabledForm'>
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Cargando...
+                    </button>
                 </div>
             </div>
         </form>
     </div>
 </div>
+</div>
+<div class="d-flex justify-content-center align-items-center h-100" *ngIf='cargando'>
+  <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+
+<app-toast></app-toast>

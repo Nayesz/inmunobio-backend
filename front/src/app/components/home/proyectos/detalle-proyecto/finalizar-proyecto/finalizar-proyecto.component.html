@@ -1,24 +1,17 @@
-<div class="m-4" routerLink="../" role="button">
-    <h5><span><i class="bi bi-arrow-left"></i></span>VOLVER</h5>
-</div>
-<div class="mx-4">
-    <div class="text-center my-4">
-        <h2>Finalizar Proyecto</h2>
-    </div>
-
-    <div class="card rounded shadow p-4 mb-4">
+<div class="">
+    <div class="">
         <form>
-            <div class="row">
-                <div class="col-9">
-                    <div class="mb-3 row">
-                        <div class="col">
+            <div class="container">
+                <div class="conclusion">
+                    <div class="">
+                        <div class="">
                             <label  class="form-label">Conclusion</label>
-                            <textarea class="form-control" name='conclusion' aria-label="With textarea" rows="5" [(ngModel)]="obj.conclusion"></textarea>
+                            <textarea class="form-control" name='conclusion' aria-label="With textarea" rows="5" [(ngModel)]="obj.conclusion" placeholder="Ingrese la conclusión del proyecto" [attr.disabled]='disabledForm ? true : null'></textarea>
                             <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
                         </div>
                     </div>
                 </div>
-                <div class="col-3">
+                <div class="imagen">
                     <div class="text-center">
                         <i class="bi bi-inboxes-fill" style="font-size: 8em;"></i>
                         <!-- <i class="bi bi-folder-plus" ></i> -->
@@ -26,14 +19,18 @@
                 </div>
 
             </div>
-            <div class="d-flex flex-row justify-content-center">
-                <div class="mx-3">
-                    <button class="btn btn-primary btn-lg" (click)='finalizarProyecto()'>Finalizar Proyecto</button>
+            <div class="botones">
+                <div class="">
+                    <button class="btn btn-primary btn-lg " (click)='finalizarProyecto()' *ngIf='!disabledForm'>Finalizar Proyecto</button>
+                    <button class="btn btn-primary btn-lg boton" type="button" disabled *ngIf='disabledForm'>
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Cargando...
+                    </button>
+                    <button class="btn btn-secondary btn-lg cancelar" (click)='cerrarModal()' *ngIf='!disabledForm'>Cancelar</button>
                 </div>
             </div>
         </form>
-        <div class="alert alert-{{estado}} mt-3" role="alert" *ngIf='alert'>
-            {{mensajeAlert}}
-        </div>
     </div>
 </div>
+
+<app-toast></app-toast>

@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { PostService } from 'src/app/services/post.service';
+import { ToastServiceService } from 'src/app/services/toast-service.service';
 
 @Component({
   selector: 'app-finalizar-experimento',
@@ -12,14 +13,18 @@ export class FinalizarExperimentoComponent implements OnInit {
   obj = {
     conclusion: '',
     resultados: '',
-  }
+  };
   idExperimento!: number;
   idProyecto!: number;
-  mensajeAlert: string;
-  estado!: string;
-  alert!:boolean;
+  disabledForm: boolean;
+  @Output() cerrar = new EventEmitter<any>();
 
-  constructor(private activatedRouter: ActivatedRoute, private router: Router, private postService: PostService) { }
+  constructor(
+    private activatedRouter: ActivatedRoute,
+    private router: Router,
+    private postService: PostService,
+    public toastService: ToastServiceService
+  ) { }
 
   ngOnInit(): void {
     this.idExperimento = parseInt(this.activatedRouter.snapshot.paramMap.get('idExperimento'), 10);
@@ -27,25 +32,30 @@ export class FinalizarExperimentoComponent implements OnInit {
   }
 
   finalizarExperimento(): void {
+    this.disabledForm = true;
     const obj = {
       id_experimento: this.idExperimento,
       conclusiones: this.obj.conclusion,
       resultados: this.obj.resultados
     };
     this.postService.cerrarExperimento(obj).subscribe(res => {
-        console.log(res)
-        this.alert = true;
-        this.estado = 'success';
-        this.mensajeAlert = 'El experimento fue cerrado correctamente';
-        setTimeout(() => {
-          this.router.navigateByUrl(`home/proyectos/${this.idProyecto}/experimento/${this.idExperimento}`)
-        }, 2000);
+      this.toastService.show('Experimento finalizado', { classname: 'bg-success text-light', delay: 2000 });
+      setTimeout(() => {
+        this.cerrarModal();
+        this.toastService.removeAll()
+        this.disabledForm = false;
+        this.router.navigate(['/home/proyectos/' + this.idProyecto]);
+      }, 2000);
       }, err => {
+        this.toastService.show('Problema al finalizar experimento' + err, { classname: 'bg-danger text-light', delay: 2000 });
         console.log(err)
-        this.alert = true;
-        this.estado = 'danger';
-        this.mensajeAlert = JSON.stringify(err.error.Error);
+        this.disabledForm = false;
+
     });
+  }
+
+  cerrarModal(): void {
+    this.cerrar.emit();
   }
 
 }

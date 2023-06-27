@@ -1,34 +1,46 @@
-<h3 class="text-center mt-4">Alta de Animal</h3>
-<div class="card rounded shadow p-4 m-5">
-  <form [formGroup]="formAnimal" (ngSubmit)="crearAnimal()">
-        <div class="m-3">
+<div>
+<div class="m-4" routerLink="../" role="button">
+    <h5><span><i class="bi bi-arrow-left"></i></span>VOLVER</h5>
+  </div>
+  <h3 class="text-center m-3">Datos del Animal</h3>
+  
+  <div class="">
+    <form [formGroup]="formAnimal" (ngSubmit)="crearAnimal()">
+    <div class="form-primer_fila">
+      <div class="">
+        <div class="form-fila">
             <label  class="form-label">Especie</label>
-            <input type="" class="form-control" formControlName='especie'>
+            <input type="" class="form-control" formControlName='especie' placeholder="Ingrese la especie del animal" [attr.disabled]='disabledForm ? true : null'>
         </div> 
-        <div class="m-3">
+        <div class="form-fila">
             <label  class="form-label">Cepa</label>
-            <input type="" class="form-control" formControlName='cepa'>
-        </div> 
-        <div class=" m-3">
-          <label  class="form-label">Sexo</label>
-              <div class="input-group mb-3">
-                  <select class="form-control" aria-label=".form-select-lg example" formControlName='sexo'>
-                    <option selected>Seleccionar Sexo</option>
-                    <option value="M">Masculino</option>
-                    <option value="F">Femenino</option>
-                  </select>
-              </div>
+                    <input type="" class="form-control" formControlName="cepa" placeholder="Ingrese la cepa del animal" [attr.disabled]='disabledForm ? true : null'>
         </div>
+        <div class="form-fila">
+            <label  class="form-label">Sexo</label>
+                <div class="input-group mb-3">
+                    <select class="form-select form-control" aria-label=".form-select-lg example" formControlName='sexo' placeholder="Ingrese el sexo del animal" [attr.disabled]='disabledForm ? true : null'>
+                      <option  value="0" disabled>Seleccionar Sexo</option>
+                      <option value="M">Masculino</option>
+                      <option value="F">Femenino</option>
+                    </select>
+                </div>
+        </div>
+    </div>
+      <div class="imagen mx-4">
         <div class="text-center">
-          <button type="submit" class="btn btn-secondary btn-lg m-2" routerLink="../" >Cancelar</button>
-          <button type="submit" class="btn btn-success btn-lg">Guardar</button>
+            <i class="bi bi-plus-square" style="font-size: 8em;"></i>
         </div>
-    </form>
-    <div class="d-flex bd-highlight alert alert-{{estado}} mt-3" role="alert" *ngIf='alert'>
-      <div class="p-2 flex-grow-1 bd-highlight">{{mensajeAlert}}</div>
-      <div class="p-2 bd-highlight">
-      <button type="button" class="btn btn-outline-dark" routerLink="../">VOLVER</button>
       </div>
     </div>
+    <div class="text-center">
+      <button type="submit" class="btn btn-primary btn-lg" [disabled]="!formAnimal.valid" *ngIf='!disabledForm'>Guardar</button>
+      <button class="btn btn-primary btn-lg" type="button" disabled *ngIf='disabledForm'>
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        Cargando...
+    </button>
+    </div>
+  </form>
 </div>
-
+</div>
+<app-toast></app-toast>

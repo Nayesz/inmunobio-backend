@@ -1,0 +1,108 @@
+.titulo{
+  display: flex;
+  align-items:center;
+}
+.editar-eliminar, .eliminar{
+  margin-left: 1em;
+}
+.descripcion,.fuentes{
+  margin: 1rem;
+}
+.bi-exclamation-triangle{
+  font-size: 4em;
+
+}
+.modal-body-eliminarGrupo{
+  padding: 0.5em;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.cards-container{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+.card{
+    max-width: 18em;
+    margin: 1em;
+    padding: 1em;
+  }
+  .fuentes{
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+  .muestra{
+    display: flex;
+    justify-content: space-around;
+  }
+  .detalle-muestra{
+    display: block;
+    width: 60%;
+  }
+  .card-muestra{
+    max-width: 22em;
+    width: 20em;
+  }
+.ver-muestras{
+  font-style: italic;
+  cursor: pointer;
+  text-align: center;
+  margin-top: 0.5em;
+  margin-bottom: 0;
+}
+.card-body-title{
+  display: flex;
+  justify-content:space-between;
+}
+.card-title{
+  width:95%;
+  text-align: center;
+}
+.mensaje-error__no-hay-fuentes{
+  text-align: center;
+}
+.filtro{
+  display: flex;
+  width: 47%;
+  margin: 1em 0;
+  margin-left: 2.5em;
+}
+  @media screen and (max-width: 360px){
+    .titulo{
+      display: block;
+      align-items:center;
+    }
+    .editar-eliminar{
+      margin-left:0;
+      margin-top: 0.5em;
+    }
+    .eliminar{
+      margin-left:0.5em;
+    }
+    .busqueda{
+      display: block;
+    }
+    .imagenModal{
+      display: none;
+    }
+    label,input,select,.boton,textarea,.detalle-muestra{
+      width: 100%;
+    }
+    .muestra{
+      justify-content: start;
+    }
+    .card{
+      padding: 0.5em;
+      margin: 0.5em;
+    }
+    .fuentes{
+      margin: 0;
+      justify-content: center;
+    }
+    .filtro{
+      width: 100%;
+      margin: 1em 0;
+    }
+  }

@@ -1,34 +1,14 @@
-export interface Jaula{
+export class Jaula{
+    capacidad: number;
     codigo: string;
-    rack : number;
-    estante : number;
-    capacidad:number;
+    estante: number;
+    rack: number;
+    tipo: string;
+    id_espacioFisico: number;
+    habilitado?: boolean;
     id_jaula?: number;
     id_proyecto?: number;
+    nombreEspFisico?: string;
+    nombreProyecto?: string;
     nombre_proyecto?: string;
-    habilitado?:boolean;
-    id_espacioFisico?:number;
-    tipo: string;
-}
-export class TodosBlogsJaulas{
-    detalle: string;
-    fecha: any;
-    id_blog: number;
-    id_jaula: number;
-    id_usuario:number;
-    tipo: string;
-}
-export class BuscarBlogJaula{
-    id_jaula?:number;
-    fechaDesde:any;
-    fechaHasta:any;
-}
-export class BlogJaula{
-    id_jaula:number;
-    blogs: BlogDescripcion
-}
-export class BlogDescripcion{
-    id_usuario: number;
-    detalle: string;
-    tipo: string;
 }

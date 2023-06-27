@@ -1,160 +1,274 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnDestroy, OnInit, ResolvedReflectiveFactory } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgbTypeaheadWindow } from '@ng-bootstrap/ng-bootstrap/typeahead/typeahead-window';
-import { Subscription, VirtualTimeScheduler } from 'rxjs';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Subscription } from 'rxjs';
 import { EspacioFisico } from 'src/app/models/espacioFisico.model';
-import { BlogJaula, BuscarBlogJaula, Jaula } from 'src/app/models/jaula.model';
+import { Jaula } from 'src/app/models/jaula.model';
 import { GetService } from 'src/app/services/get.service';
 import { PostService } from 'src/app/services/post.service';
+import { Proyecto } from 'src/app/models/proyectos.model';
+import { BlogBuscadoJaula, BlogJaula, Blogs, BlogsJaula } from 'src/app/models/blogs.model';
+import { ToastServiceService } from 'src/app/services/toast-service.service';
+
 
 @Component({
   selector: 'app-jaula-detalle',
   templateUrl: './jaula-detalle.component.html',
   styleUrls: ['./jaula-detalle.component.css']
 })
-export class JaulaDetalleComponent implements OnInit {
+export class JaulaDetalleComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
-  @Output() volviendo = new EventEmitter<number>();
-  idJaula:number;
-  animales = [];
-  espacios=[];
-  blogs: BlogJaula;
+  idJaula!: number;
   jaula: Jaula;
-  proyectos=[];
-  proyecto: any;
-  id:number;
-  step:number;
+  espacioFisico: EspacioFisico;
+
+  // animales:Animal[];
+  animales=[];
+  idAnimal_eliminar:number;
+
+  proyectos: Proyecto[];
+  miProyecto:Proyecto;
+  idProyecto_asociar:number;
+
   fecHoy=new Date(Date.now());
   fecDesde:any;
   fecHasta:any;
-  fecHastaReal:any;
-  formFecha!:FormGroup;
-  formProyecto!:FormGroup;
-  estado: string;
-  mensajeAlert: string;
-  alert: boolean;
-  espacioFisico:any;
-  miProyecto:any;
-
-  constructor(private router: Router, private postService: PostService,private getService: GetService, private activatedRouter: ActivatedRoute) { }
+  blogs: BlogsJaula[];
+  detalleBlog: string;
+  usuario:any;
+  cargando: boolean;
+  disabledForm: boolean;
+  constructor(
+    private router: Router,
+    private activatedRouter: ActivatedRoute,
+    private getService: GetService,
+    private postService: PostService,
+    private modalService: NgbModal,
+    public toastService: ToastServiceService
+  ) { }
 
   ngOnInit(): void {
-    this.alert = false;
+    this.cargando = true;
+    this.detalleBlog ='';
+    this.usuario = JSON.parse(localStorage.getItem('usuario'));
     this.idJaula = parseInt(this.activatedRouter.snapshot.paramMap.get('id'), 10);
-    
     this.subscription.add(this.getService.obtenerJaulasPorId(this.idJaula).subscribe(res => {
-      console.log(res)
-      this.jaula = res;
+      if(res){
+        console.log(res);
+        this.jaula = res;
+      } else{
+        this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
+        this.cargando = false;
+      }
     }))
     setTimeout(() => {
       this.subscription.add(this.getService.obtenerEspacioFisico(this.jaula.id_espacioFisico).subscribe(res =>{
-        this.espacioFisico = res;
+        if(res){
+          this.espacioFisico = res;
+        } else{
+          this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
+          this.cargando = false;
+        }
       }))
-    },500);
+      if(this.jaula.id_proyecto != 0){
+      this.subscription.add(this.getService.obtenerProyectosPorId(this.jaula.id_proyecto).subscribe(res =>{
+        if(res){
+          this.miProyecto = res
+          this.cargando = false;
+        } else{
+          this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
+          this.cargando = false;
+        }
+        console.log(res)
+      }))
+      }
+
+    },1000);
     this.subscription.add(this.getService.obtenerAnimalesPorJaula(this.idJaula).subscribe(res => {
       if(!res.Status){
         this.animales = res;
+      } else{
+        this.animales=[];
+        this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
+        this.cargando = false;
       }
       console.log(res)
     }))
-    // this.subscription.add(this.getService.obtenerEspaciosFisicos().subscribe(res => {
-    //   console.log(res)
-    //     this.espacios = res;
-    // }))
-    this.subscription.add(this.getService.obtenerProyectos().subscribe(res => {
+    this.subscription.add( this.getService.obtenerProyectos().subscribe(res => {
+      if(res){
       this.proyectos = res.filter(proyecto => !proyecto.finalizado );
+    } else{
+      this.proyectos=[];
+      this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
+      this.cargando = false;
+    }
       console.log(res)
+
     }))
-    //MEJORAR
-    setTimeout(() => {
-      this.miProyecto = this.proyectos.find(proyecto => proyecto.id_proyecto === this.jaula.id_proyecto)
-      console.log(this.miProyecto)
-    }, 500);
+    //Blogs
     const dia = (this.fecHoy).getDate() + 1;
     this.fecHasta = new Date(this.fecHoy.getFullYear(),this.fecHoy.getMonth(), dia)
-    console.log(this.fecHasta)
     this.fecHasta = this.fecHasta.toDateString();
-    const blog : BuscarBlogJaula = {
+    const blog : BlogBuscadoJaula = {
           id_jaula: this.idJaula,
           fechaDesde: 'Mon May 31 2021',
           fechaHasta: this.fecHasta
         } 
     console.log(blog)
     this.subscription.add(this.postService.obtenerBlogJaula(blog).subscribe(res =>{
-      console.log(res)
-      if(!res.Status){
+      if(res){
         this.blogs = res;
+      } else{
+        this.blogs=[];
+        this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
+        this.cargando = false;
       }
-    }))
-    this.formFecha = new FormGroup({
-      fecDesde: new FormControl('', [Validators.required, Validators.maxLength(20)]),
-      fecHasta: new FormControl('', [Validators.required, Validators.maxLength(20)])
-    })
-    this.formProyecto = new FormGroup({
-      id_proyecto : new FormControl('', [Validators.required, ]) })
-    // setTimeout( () => {
-    //   this.espacioFisico = this.espacios.find(espacio => espacio.id_espacioFisico === this.jaula.id_espacioFisico)
-    // },500)
-  }
-
-  eliminar(id_animal: number){
-    this.subscription.add(this.postService.eliminarAnimal(id_animal).subscribe(res =>{
-      if (res.Status === 'Se dio de baja el animal con id '+ id_animal ){
-        this.alert = true;
-        this.estado = 'success';
-        this.mensajeAlert = 'Animal eliminado correctamente';
-        setTimeout(() => {
-          this.ngOnInit()
-        }, 1000);
-      }
-      console.log(res)
-    }, err => {
-      this.alert = true;
-      this.estado = 'danger';
-      this.mensajeAlert = JSON.stringify(err);
-      console.log(err)
+        console.log(res)
     }))
   }
 
-  Buscar(){
-    this.fecDesde = new Date(this.formFecha.value.fecDesde);
-    this.fecHastaReal= new Date(this.formFecha.value.fecHasta);
-    const diaMas1 = (this.fecHastaReal).getDate() + 2;
-    this.fecHasta = new Date(this.fecHastaReal.getFullYear(),this.fecHastaReal.getMonth(), diaMas1)
-    this.fecDesde = this.fecDesde.toDateString();
-    this.fecHasta = this.fecHasta.toDateString();
-    console.log(this.fecHasta)
-    const blog : BuscarBlogJaula = {
-      id_jaula: this.idJaula,
-      fechaDesde: this.fecDesde,
-      fechaHasta: this.fecHasta
+  open(content): void {
+    this.modalService.open(content, { centered: true, size: 'lg' });
+  }
+  
+  asociar(){
+    this.disabledForm = true;
+    const datos: any = {
+      id_jaula : this.idJaula,
+      id_proyecto : this.idProyecto_asociar
     }
-    console.log(blog)
-    this.subscription.add(this.postService.obtenerBlogJaula(blog).subscribe(res =>{
-      this.blogs = res; }))
+    this.subscription.add(this.postService.asignarJaulaProyecto(datos).subscribe(res => {
+      console.log(res)
+      if (res.status === 'Se asignó la jaula al proyecto.'){
+        this.toastService.show('Jaula asociada', { classname: 'bg-success text-light', delay: 2000 });
+        setTimeout(() => {
+          this.toastService.removeAll()
+          this.modalService.dismissAll()
+          this.disabledForm =false;
+          this.ngOnInit()
+        }, 2000);
+      }} , err => {
+        this.toastService.show('Problema al asociar jaula' + err.error.error, { classname: 'bg-danger text-light', delay: 2000 });
+        console.log(err)
+        setTimeout(() => {
+          this.disabledForm = false;
+          this.modalService.dismissAll()
+          this.toastService.removeAll()
+        }, 4000);
+    }))
   }
   eliminarJaula(){
-    this.subscription.add(this.postService.eliminarJaula(this.idJaula).subscribe(res =>{
-      if (res.Status === 'Ok'){
-        this.alert = true;
-        this.estado = 'success';
-        this.mensajeAlert = 'Jaula eliminada correctamente';
+    this.disabledForm = true;
+  this.subscription.add(this.postService.eliminarJaula(this.idJaula).subscribe(res =>{
+      if (res.Status === 'Se dió de baja la jaula.'){
+        this.toastService.show('Jaula eliminada', { classname: 'bg-success text-light', delay: 2000 });
         setTimeout(() => {
+          this.toastService.removeAll()
+          this.modalService.dismissAll()
+          this.disabledForm = false;
           this.router.navigate(['/home/bioterio']);
         }, 1000);
       }
       console.log(res)
     }, err => {
-      this.alert = true;
-      this.estado = 'danger';
-      this.mensajeAlert ='La jaula debe estar vacía para poder darla de baja';
+      this.toastService.show( err.error.Error, { classname: 'bg-danger text-light', delay: 2000 });
+      console.log(err)
       setTimeout(() => {
-        this.ngOnInit()
-      }, 2000);
+        this.modalService.dismissAll()
+        this.toastService.removeAll()
+        this.disabledForm = false;
+      }, 4000);
     }))
   }
+  Buscar(){
+    this.fecDesde =  new Date(this.fecDesde.year,(this.fecDesde.month -1)  ,this.fecDesde.day)
+    const fechaHasta = new Date(this.fecHasta.year,(this.fecHasta.month -1) ,this.fecHasta.day)
+    const diaMas1 = (fechaHasta).getDate() + 2;
+    this.fecHasta = new Date(fechaHasta.getFullYear(),fechaHasta.getMonth(), diaMas1)
+    this.fecDesde = this.fecDesde.toDateString();
+    this.fecHasta = this.fecHasta.toDateString();
+    const blog : BlogBuscadoJaula = {
+      id_jaula: this.idJaula,
+      fechaDesde: this.fecDesde,
+      fechaHasta: this.fecHasta
+    }
+    setTimeout(() => {
+      this.subscription.add(this.postService.obtenerBlogJaula(blog).subscribe(res =>{
+        if(res){
+          this.blogs = res;
+        } else{
+          this.blogs=[];
+          this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
+          this.cargando = false;
+        }
+          console.log(res) }))
+    }, 1000);
+  }
+
+  crearBlog(): void{
+    this.disabledForm = true;
+    const Blog: Blogs={
+      id_usuario:this.usuario.id,
+      detalle: this.detalleBlog,
+      tipo: 'Jaula'
+    }
+    const nuevoBlog : BlogJaula={
+      id_jaula: this.idJaula,
+      blogs: Blog
+    }
+    this.subscription.add( this.postService.nuevoBlogJaula(nuevoBlog).subscribe(res => {
+      if (res.Status === 'Se creó el blog de jaula.'){
+        this.toastService.show('Blog creado', { classname: 'bg-success text-light', delay: 2000 });
+        setTimeout(() => {
+          this.toastService.removeAll()
+          this.modalService.dismissAll()
+          this.disabledForm = false;
+          this.ngOnInit()
+        }, 2000);
+      }
+      console.log(res)
+    }, err => {
+      this.toastService.show('Problema al crear el blog' + err.error.Error, { classname: 'bg-danger text-light', delay: 2000 });
+      console.log(err)
+      setTimeout(() => {
+        this.toastService.removeAll()
+        this.modalService.dismissAll()
+        this.disabledForm = false;
+      }, 4000);
+    }));
+  }
+
+  eliminarAnimal(){
+    this.disabledForm = true;
+    this.subscription.add(this.postService.eliminarAnimal(this.idAnimal_eliminar).subscribe(res =>{
+      if (res.Status === "Se dio de baja el animal con id "+ this.idAnimal_eliminar){
+        this.toastService.show('Animal eliminado', { classname: 'bg-success text-light', delay: 2000 });
+        setTimeout(() => {
+          this.animales = [];
+          this.toastService.removeAll()
+          this.modalService.dismissAll()
+          this.disabledForm = false;
+          this.ngOnInit()
+        }, 1500);
+      }
+      console.log(res)
+    }, err => {
+      this.toastService.show('Problema al eliminar el animal ' + err.error.Error, { classname: 'bg-danger text-light', delay: 2000 });
+      console.log(err)
+      setTimeout(() => {
+        this.toastService.removeAll()
+        this.modalService.dismissAll()
+        this.disabledForm = false;
+      }, 4000);
+    }))
+  }
+  eliminarModalAnimal(id:number,content){
+    this.idAnimal_eliminar = id;
+    this.open(content)
+  }
+
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 }
+

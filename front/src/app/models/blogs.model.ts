@@ -7,8 +7,8 @@ export class BlogHerramienta{
     id_herramienta:number;
     blogs: Blogs
 }
-export class BlogExperimento{
-    id_experimento:number;
+export class BlogJaula{
+    id_jaula:number;
     blogs: Blogs
 }
 export class Blogs{
@@ -16,23 +16,7 @@ export class Blogs{
     detalle: string;
     tipo: string;
 }
-export class BlogBuscadoExperimento{
-    id_experimento: number;
-    fechaDesde: any;
-    fechaHasta:any;
-}
-export class BlogBuscadoProyecto{
-    id_proyecto: number;
-    fechaDesde: any;
-    fechaHasta:any;
-}
-export class BlogProyecto{
-    id_proyecto:number;
-    id:number;
-    blogs: Blogs;
-}
-
-export class BlogsBuscados{
+export class BlogsBuscadosEspFisico{
     id_espacioFisico: number;
     fechaDesde: any;
     fechaHasta:any;
@@ -42,8 +26,24 @@ export class BlogsBuscadosHerr{
     fechaDesde: any;
     fechaHasta:any;
 }
+export class BlogsJaula{
+    codigoJaula: string;
+    detalle: string;
+    fecha: any;
+    id_blog: number;
+    id_jaula: number;
+    id_usuario: number;
+    tipo: string;
+}
 export class BlogBuscadoJaula{
     id_jaula:number;
     fechaDesde: any;
     fechaHasta:any;
+}
+export class BlogBuscados{
+    detalle: string;
+    fecha: any;
+    id_blog: number;
+    id_usuario: number;
+    tipo: string;
 }

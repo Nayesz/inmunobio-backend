@@ -1,23 +1,152 @@
-.search-container{
+.ubicacion-jaula{
+    display: flex;
+    flex: row;
+    text-align: center;
+}
+.ubicacion__fila{
+    display: flex;
+    flex-direction: row;
+    margin: 0.5em;
     width: 100%;
-    padding: 0.7em;
+    justify-content: space-around;
+    text-align: center;
+}
+.form-group{
+    margin: 2px;
+    display: flex;
+    width: auto;
+}
+.table-animales{
+    width: 90%;
+    height: auto;
+    margin: 2em;
+    text-align: center;
+    font-weight: bold;
+}
+.search-container-blog{
+    width: 70%;
+    height: auto;
     margin: auto;
     display: flex;
     justify-content: space-around;
 }
-
-.search-container .form-control{
-    width: 32%;
+.card-blog{
+    width: 95%;
+    margin: 1em;
+    vertical-align: auto;
+    align-items: center;
+    background-color: rgba(93, 155, 209, 0.082);
+    display: flex;
 }
-
-.input-group{
-    width: 32%;
+.blog-detalle{
+    width: 100%;
+    margin-left: 5px;
+}
+.barra{
+    border: none;
+    border-left: 2px solid #999;
+    background-color: rgb(148, 148, 148);
+    height: 40px;
+    width: 2px;
+}
+select{
+    width: 400px;
+}
+.busqueda-blogs{
+    display: flex;
+    flex-direction: row;
+    margin: 1em; 
+}
+.fecha-blog{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+    padding:0.7em;
 }
 .col-11{
     background-color: #4d758f59    ;
     border-color: #4d758f ;
 }
-.card{
-    width: auto;
-    margin: auto auto;
+.body-asociar, .body-crear_blog{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
 }
+textarea{
+    width: 200% ;
+}
+.detalle-eliminar_jaula, .detalle-eliminar_animal{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.filtrar{
+    margin: 0.5em;
+}
+.botones-informacion{
+    width: 70%;
+    display: flex;
+    justify-content: space-between;
+}
+.botones{
+    display: flex;
+    justify-content: center;
+    margin-top: 2em;
+}
+
+@media screen and (max-width: 360px){
+    .ubicacion__fila{
+        display: flex;
+        flex-direction: row;
+        margin: 0.5em;
+        width: 100%;
+        justify-content: space-around;
+        text-align: center;
+    }
+    .ubicacion-jaula, .busqueda-blogs{
+        display: block;
+    }
+    label,input,select, .btn{
+        width: 100%;
+    }
+    .imagenModal, .barra{
+        display: none !important;
+    }
+    .modal-dialog-asociar{
+        width: 50%;
+        height: 50%;
+    }
+    .table-animales{
+        margin:0px;
+        margin-left: 1em;
+    }
+    .search-container-blog{
+        width: 100%;
+        height: auto;
+        display: block;
+        align-items: center;
+    }
+    textarea{
+        width:auto;
+        margin: 0px;
+    }
+    .card-blog{
+        margin-left: 7px;
+    }
+    .filtrar{
+        margin-left: 0;
+    }
+    .body-asociar-detalle{
+        width: 100%;
+    }
+    .body-crear_blog-detalle{
+        width: 100%;
+        margin-left: 1em;
+    }
+    .textarea_nuevoBlog{
+        width: 90%;
+    }
+}
+

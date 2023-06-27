@@ -1,59 +1,48 @@
-<div *ngIf='step === 0'>
+<div *ngIf='!cargando'>
     <h3>Proyectos Asignados</h3>
-    <div class="search-container flex-wrap">
-        <div class="input-group mb-3">
+    <div class="search-container">
+        <div class="input-group my-2">
             <span class="input-group-text">
                 <i class="bi bi-search"></i>
             </span>
-            <input type="text" class="form-control" id="usuario" placeholder="Buscar por titulo" [(ngModel)]='filterPost'>
+            <input type="text" class="form-control " id="usuario" name='filterPost' placeholder="Buscar por nombre de proyecto" [(ngModel)]='filterPost'>
         </div>
-        <!-- <select class="form-control"  aria-label="Default select example">
-            <option selected>-Filtrar por estado-</option>
-            <option value="1">Todos</option>
-            <option value="2">Activo</option>
-            <option value="3">Inactivo</option>
-        </select> -->
         <div>
-            <button type="button" class="btn btn-primary btn-lg" routerLink='nuevo-proyecto'>NUEVO PROYECTO</button>
+          <button class="btn btn-outline-primary agregar-proyecto my-2" routerLink='nuevo-proyecto'>+Agregar</button>
         </div>
     </div>
-    <hr>
+
+    <hr class="my-3">
     <div class="proyects-container">
-        <div *ngFor="let proyecto of proyectos | filter: filterPost" class="card my-3 p-4 shadow rounded list-group-item-action" routerLink='{{proyecto.id_proyecto}}'>
-            <div class="row g-0">
-                <div class="col-md-4">
-                    <img src="../../../../assets/img/default1.jpg" class="img-fluid" alt="">
-                </div>
-                <div class="col-md-8">
+        <div *ngFor="let proyecto of proyectos | filter: filterPost" class="card shadow rounded list-group-item-action" routerLink='{{proyecto.id_proyecto}}'>
+            <div class="">
+                <div class="">
                     <div class="card-body">
                         <h5 class="card-title text-center">{{proyecto.nombre}} - {{proyecto.codigoProyecto}}</h5>
-                        <p class="card-text">{{proyecto.descripcion}}</p>
+                        <hr class="my-3 bg-{{proyecto.finalizado? 'danger' : 'success'}}">
+                        <p class="card-text text-center">{{proyecto.descripcion.substring(0,100)}}{{proyecto.descripcion.length > 100 ? '...' : ''}}</p>
                         <div class="d-flex flex-row justify-content-between">
                             <div>
                                 <h6><i>Fecha de Inicio</i></h6>
-                                <p class="mb-0">{{proyecto.fechaInicio | date}}</p>
+                                <p class="mb-0">{{proyecto.fechaInicio | date:'dd/MM/yy'}}</p>
                             </div>
-                            <div>
+                            <div class="ml-2">
                                 <h6><i>Estado</i></h6>
                                 <p class="mb-0">{{proyecto.finalizado ? 'Finalizado' : 'Activo'}}</p>
                             </div>
                         </div>
                     </div>
-                    <!-- <div class="d-flex justify-content-around">
-                        <button class="btn btn-primary btn-lg" routerLink='{{proyecto.id_proyecto}}'>Ver</button>
-                        <button class="btn btn-primary btn-lg" (click)='editarProyecto(proyecto)'>Editar</button>
-                    </div> -->
                 </div>
             </div>
         </div>
+        <div *ngIf='proyectos.length === 0' class="text-center">
+            <i class="bi bi-shield-exclamation" style="font-size: 3em"></i>
+            <h5>No hay proyectos asignados, cree uno para continuar</h5>
+        </div>
     </div>
 </div>
-
-<!-- <div *ngIf='step === 1'>
-    <app-nuevo-proyecto
-    [element]='proyectoSeleccionado'
-    [modo]='modo'
-    (volviendo)='onVolviendo($event)'
-    >
-    </app-nuevo-proyecto>
-  </div> -->
+<div class="d-flex justify-content-center align-items-center h-100" *ngIf='cargando'>
+    <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+</div>

@@ -7,7 +7,5 @@ RUN npm run build
 
 FROM nginx:stable-alpine3.17-slim
 COPY --from=builder /usr/src/app/dist/Inmunobio /usr/share/nginx/html
-#EXPOSE 4200  80 
-#EXPOSE 4200 
-#ENTRYPOINT ["nginx", "-g", "daemon off;"]
+
 
