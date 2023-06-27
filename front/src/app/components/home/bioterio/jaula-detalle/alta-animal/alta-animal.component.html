@@ -1,0 +1,34 @@
+<h3 class="text-center mt-4">Alta de Animal</h3>
+<div class="card rounded shadow p-4 m-5">
+  <form [formGroup]="formAnimal" (ngSubmit)="crearAnimal()">
+        <div class="m-3">
+            <label  class="form-label">Especie</label>
+            <input type="" class="form-control" formControlName='especie'>
+        </div> 
+        <div class="m-3">
+            <label  class="form-label">Cepa</label>
+            <input type="" class="form-control" formControlName='cepa'>
+        </div> 
+        <div class=" m-3">
+          <label  class="form-label">Sexo</label>
+              <div class="input-group mb-3">
+                  <select class="form-control" aria-label=".form-select-lg example" formControlName='sexo'>
+                    <option selected>Seleccionar Sexo</option>
+                    <option value="M">Masculino</option>
+                    <option value="F">Femenino</option>
+                  </select>
+              </div>
+        </div>
+        <div class="text-center">
+          <button type="submit" class="btn btn-secondary btn-lg m-2" routerLink="../" >Cancelar</button>
+          <button type="submit" class="btn btn-success btn-lg">Guardar</button>
+        </div>
+    </form>
+    <div class="d-flex bd-highlight alert alert-{{estado}} mt-3" role="alert" *ngIf='alert'>
+      <div class="p-2 flex-grow-1 bd-highlight">{{mensajeAlert}}</div>
+      <div class="p-2 bd-highlight">
+      <button type="button" class="btn btn-outline-dark" routerLink="../">VOLVER</button>
+      </div>
+    </div>
+</div>
+

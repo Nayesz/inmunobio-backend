@@ -10,7 +10,6 @@ services:
       depends_on:
          - mongo
          - mysql    
-
     mysql:
       container_name: mysql-db
       image: mysql:8.0.31
@@ -25,7 +24,6 @@ services:
           TZ: 'America/Argentina/Buenos_Aires'      
       volumes:
           - ../data/mysql:/var/lib/mysql
-
     mongo:
       container_name: mongo-db
       restart: always
@@ -36,7 +34,16 @@ services:
         - ../data/mongo:/data/db
       depends_on:
         - mysql  
-
-
+    front:
+      container_name: angular-app
+      restart: always
+      build:
+        context: ./front
+      ports:
+          - 8000:80
+      depends_on:
+        - mongo
+        - mysql  
+        - flask
 
   

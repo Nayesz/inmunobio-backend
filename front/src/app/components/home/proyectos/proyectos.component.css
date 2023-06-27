@@ -1,0 +1,34 @@
+h3{
+    margin: 1.5em;
+}
+.search-container{
+    width: 100%;
+    padding: 0.7em;
+    margin: auto;
+    display: flex;
+    justify-content: space-around;
+}
+
+.search-container .form-control{
+    width: 32%;
+}
+
+.input-group{
+    width: 32%;
+}
+
+.card{
+    width: 95%;
+    margin: auto;
+    padding: 0.5em;
+}
+
+@media screen and (max-width: 1024px){
+    .search-container .form-control{
+        width: 40%;
+    }
+    
+    .input-group{
+        width: 40%;
+    }   
+}

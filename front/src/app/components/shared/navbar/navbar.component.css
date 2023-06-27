@@ -1,0 +1,24 @@
+.navbar{
+    min-height: 3em;
+    height: 4em;
+    background-color: #3D5E73;
+}
+.navbar-brand{
+    color: white;
+}
+.image{
+    height: 60px;
+    width: 60px;
+}
+.img2{
+    height: 50px;
+}
+
+@media screen and (max-width: 1024px){
+    .container-fluid{
+        justify-content: flex-end;
+    }
+    .navbar-brand{
+        display: none;
+    }
+}
