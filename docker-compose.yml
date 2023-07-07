@@ -34,6 +34,7 @@ services:
         - ../data/mongo:/data/db
       depends_on:
         - mysql  
+      command: --quiet
     front:
       container_name: angular-app
       restart: always

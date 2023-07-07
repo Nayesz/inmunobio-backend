@@ -1,9 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import {debounceTime} from 'rxjs/operators';
 import { NgbAlert } from '@ng-bootstrap/ng-bootstrap';
-import { Subject } from 'rxjs';
 import { PostService } from 'src/app/services/post.service';
 import { JwtService } from 'src/app/services/jwt.service';
 
@@ -20,7 +18,6 @@ export class LoginComponent implements OnInit {
   @ViewChild('selfClosingAlert', {static: false}) selfClosingAlert: NgbAlert;
 
   cargando: boolean;
-
   loginForm: FormGroup;
 
 
@@ -64,7 +61,7 @@ export class LoginComponent implements OnInit {
           }, 3000);
         }, err => {
           this.successMessage = err;
-          this.cargando = true;
+          this.cargando = false;
       });
   }
 }

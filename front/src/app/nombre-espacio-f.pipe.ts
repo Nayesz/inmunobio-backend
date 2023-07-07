@@ -1,6 +1,4 @@
-import { analyzeAndValidateNgModules } from '@angular/compiler';
 import { Pipe, PipeTransform } from '@angular/core';
-import { SelectMultipleControlValueAccessor } from '@angular/forms';
 import { async } from 'rxjs/internal/scheduler/async';
 import { __await } from 'tslib';
 import { GetService } from './services/get.service';
