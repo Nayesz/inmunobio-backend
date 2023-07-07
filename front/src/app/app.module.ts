@@ -52,7 +52,7 @@ import { FilterFechavencimientoPipe } from './pipe/filter-fechavencimiento.pipe'
 import { PerfilComponent } from './components/home/perfil/perfil.component';
 import { HerramientaComponent } from './components/home/stock/stock-detalle/herramienta/herramienta.component';
 import { BlogEspacioHerramientaComponent } from './components/home/stock/stock-detalle/blog-espacio-herramienta/blog-espacio-herramienta.component';
-
+import {LogService} from './services/log.service'
 @NgModule({
   declarations: [
     AppComponent,
@@ -117,6 +117,9 @@ import { BlogEspacioHerramientaComponent } from './components/home/stock/stock-d
       useClass: AuthInterceptorService,
       multi: true,
     },
+    LogService,
+  
+
   ],
   bootstrap: [AppComponent]
 })

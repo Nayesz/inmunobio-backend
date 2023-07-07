@@ -4,6 +4,11 @@ import { Router } from '@angular/router';
 import { NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 import { PostService } from 'src/app/services/post.service';
 import { JwtService } from 'src/app/services/jwt.service';
+import { LogService } from 'src/app/services/log.service';
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
+
+
 
 @Component({
   selector: 'app-login',
@@ -24,7 +29,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private router: Router,
     private postService: PostService,
-    private jwtService: JwtService
+    private jwtService: JwtService,
+    private logger: LogService
     ) {
     this.loginForm = new FormGroup({
       usuario: new FormControl('', [Validators.required]),
@@ -35,6 +41,10 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.successMessage = '';
     this.cargando = false;
+  }
+
+  testLog(mensaje): void {
+    this.logger.log(mensaje);
   }
 
   login(): void{
@@ -54,12 +64,21 @@ export class LoginComponent implements OnInit {
     this.postService.login({
         email: this.loginForm.controls.usuario.value,
         password: this.loginForm.controls.password.value
-      }).subscribe(res => {
+      })
+      .pipe(
+        catchError(error => {
+          this.testLog('ahora siiii obtuvimos un error!!')       
+          return of(null); // Devuelve un observable válido en caso de error
+        }))
+      .subscribe(res => {
           this.jwtService.login(res.token)
           setTimeout(() => {
             this.router.navigateByUrl('home/proyectos');
           }, 3000);
         }, err => {
+          this.testLog('obtuvimos un error!!')       
+          this.testLog(err)
+
           this.successMessage = err;
           this.cargando = false;
       });
