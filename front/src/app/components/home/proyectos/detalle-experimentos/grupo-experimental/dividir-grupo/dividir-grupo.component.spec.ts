@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { DividirGrupoComponent } from './dividir-grupo.component';
 
@@ -6,7 +6,7 @@ describe('DividirGrupoComponent', () => {
   let component: DividirGrupoComponent;
   let fixture: ComponentFixture<DividirGrupoComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ DividirGrupoComponent ]
     })
