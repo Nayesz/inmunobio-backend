@@ -25,9 +25,7 @@ export class AuthInterceptorService implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     let token: string;
-
     token = localStorage.getItem('token');
-
     let request = req;
 
     // SI EXISTE CONFIGURA HEADERS DE FUTURAS HTTP
@@ -40,17 +38,12 @@ export class AuthInterceptorService implements HttpInterceptor {
         },
       });
     }
-
-    // EN CASO DE ERROR 401 (UNAUTHORIZED) REDIRIJE A LOGIN
     return next.handle(request).pipe(
       catchError((err: HttpErrorResponse) => {
         if (err.status === 401) {
-          // console.log('ERROR 401 (InterceptorService)');
           this.router.navigateByUrl('/login');
-          return;
         }
-
-        return throwError(err);
+        return throwError(() => err);
       })
     );
   }

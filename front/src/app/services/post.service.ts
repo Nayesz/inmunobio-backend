@@ -1,15 +1,16 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Distribuidora } from '../models/distribuidora.model';
 import { Producto } from '../models/producto.model';
 import { Consumir, Stock, StockEdicion } from '../models/stock.model';
-import { postUsuario, Usuario } from '../models/usuarios.model';
+import { postUsuario } from '../models/usuarios.model';
 import { BlogBuscadoJaula, BlogBuscados, BlogEspacio, BlogHerramienta, BlogJaula, Blogs, BlogsBuscadosEspFisico, BlogsBuscadosHerr, BlogsJaula } from '../models/blogs.model';
 import { Herramienta } from '../models/herramientas.model';
 import { Contenedor } from '../models/contenedores.model';
 import { Jaula } from '../models/jaula.model';
 import { Animal } from '../models/animal.model';
+import { LogService } from 'src/app/services/log.service';
 
 
 @Injectable({
@@ -17,9 +18,16 @@ import { Animal } from '../models/animal.model';
 })
 export class PostService {
   private API_URL = 'http://localhost:8080/api/v1/';
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private logger: LogService
 
+    
+    ) { }
 
+  testLog(mensaje): void {
+      this.logger.log(mensaje);
+    }
   login(usuario: any): Observable<any>{
     return this.http.post<any>(this.API_URL + 'login', usuario);
   }

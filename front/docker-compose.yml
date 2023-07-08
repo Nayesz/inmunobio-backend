@@ -1,0 +1,11 @@
+version: "3.8"
+services:
+    front:
+      container_name: angular-app
+      restart: always
+      build:
+        context: .
+      ports:
+          - 8000:80
+
+  

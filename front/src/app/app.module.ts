@@ -116,7 +116,7 @@ import {LogService} from './services/log.service'
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptorService,
       multi: true,
-    },
+    }, 
     LogService,
   
 

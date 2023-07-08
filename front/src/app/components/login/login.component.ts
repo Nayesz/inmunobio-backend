@@ -8,6 +8,7 @@ import { LogService } from 'src/app/services/log.service';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 
+import { throwError } from 'rxjs';
 
 
 @Component({
@@ -67,8 +68,8 @@ export class LoginComponent implements OnInit {
       })
       .pipe(
         catchError(error => {
-          this.testLog('ahora siiii obtuvimos un error!!')       
-          return of(null); // Devuelve un observable válido en caso de error
+          this.testLog(error + 'ahora siiii obtuvimos un error!!')       
+          return throwError('Ocurrió un error en el proceso de login.');; // Devuelve un observable válido en caso de error
         }))
       .subscribe(res => {
           this.jwtService.login(res.token)

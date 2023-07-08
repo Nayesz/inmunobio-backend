@@ -35,16 +35,5 @@ services:
       depends_on:
         - mysql  
       command: --quiet
-    front:
-      container_name: angular-app
-      restart: always
-      build:
-        context: ./front
-      ports:
-          - 8000:80
-      depends_on:
-        - mongo
-        - mysql  
-        - flask
 
   
