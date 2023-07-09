@@ -63,3 +63,10 @@ $pip install --only-binary :all: mysqlclient
 #ImportError: cannot import name 'Mapping' from 'collections' (C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.10_3.10.2288.0_x64__qbz5n2kfra8p0\lib\collections\__init__.py)
 en api_jws.py y api_jwt.py
 
+
+
+------------------
+Sobre presentación:
+
+
+-Token JWT enviado en cada request http -> backend protegido, solo usuarios autorizados pueden obtener información.

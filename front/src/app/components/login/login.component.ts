@@ -6,7 +6,6 @@ import { PostService } from 'src/app/services/post.service';
 import { JwtService } from 'src/app/services/jwt.service';
 import { LogService } from 'src/app/services/log.service';
 import { catchError } from 'rxjs/operators';
-import { of } from 'rxjs';
 
 import { throwError } from 'rxjs';
 
@@ -68,7 +67,6 @@ export class LoginComponent implements OnInit {
       })
       .pipe(
         catchError(error => {
-          this.testLog(error + 'ahora siiii obtuvimos un error!!')       
           return throwError('Ocurrió un error en el proceso de login.');; // Devuelve un observable válido en caso de error
         }))
       .subscribe(res => {
@@ -77,8 +75,6 @@ export class LoginComponent implements OnInit {
             this.router.navigateByUrl('home/proyectos');
           }, 3000);
         }, err => {
-          this.testLog('obtuvimos un error!!')       
-          this.testLog(err)
 
           this.successMessage = err;
           this.cargando = false;

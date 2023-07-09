@@ -6,13 +6,16 @@ from warnings import catch_warnings
 from servicios.usuarioService import UsuarioService
 from flask_restful import Resource
 from flask import request
-
 from servicios.commonService import CommonService
+
+
 class ObtenerUsuariosResource(Resource):
+    @TokenDeAcceso.token_nivel_de_acceso(TokenDeAcceso.SUPERUSUARIO)
     def get(self):
         return CommonService.jsonMany(UsuarioService.findUsuariosHabilitados(), UsuarioSchema)
 
 class UsuarioResource(Resource):
+    @TokenDeAcceso.token_nivel_de_acceso(TokenDeAcceso.TEC)
     def put(self):
         datos = request.get_json()
         if (datos):
@@ -23,6 +26,7 @@ class UsuarioResource(Resource):
                 return {'Error': err.args}, 400
         return {'Error': 'Deben suministrarse los datos para modificar el usuario.'}, 400
 
+    @TokenDeAcceso.token_nivel_de_acceso(TokenDeAcceso.SUPERUSUARIO)
     def post(self):
         datos = request.get_json()
         if (datos):

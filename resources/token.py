@@ -23,11 +23,13 @@ class TokenDeAcceso():
                 from app import app
                 try:
                     data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=["HS256"])
-                except Exception as err:
-                    return {"Error": f"Token incorrecto. Mensaje del eror: {str(err)}"}, 400
                 except jwt.ExpiredSignatureError:
                     return {"Error": f"Token vencido."}, 400
+                except Exception as err:
+                    return {"Error": f"Token incorrecto. Mensaje del eror: {str(err)}"}, 400
+
                 permisosUsuario = UsuarioService.find_by_email(data['email']).permisos
+                
                 for permiso in permisosUsuario:
                     if permisoUsuario in permiso.descripcion:
                         return f(*args, **kwargs)
