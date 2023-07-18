@@ -11,6 +11,6 @@ RUN pip install -r requirements.txt --trusted-host=pypi.org --trusted-host=files
 
 COPY . /app
 EXPOSE 8080
-CMD ["python" , "app.py"]
+CMD ["python" , "-u","app.py"]
 
 #CMD python -m gunicorn -w 4 -b 0.0.0.0:8080 app:app

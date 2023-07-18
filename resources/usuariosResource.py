@@ -7,7 +7,7 @@ from servicios.usuarioService import UsuarioService
 from flask_restful import Resource
 from flask import request
 from servicios.commonService import CommonService
-
+from marshmallow import ValidationError
 
 class ObtenerUsuariosResource(Resource):
     @TokenDeAcceso.token_nivel_de_acceso(TokenDeAcceso.SUPERUSUARIO)
@@ -31,8 +31,12 @@ class UsuarioResource(Resource):
         datos = request.get_json()
         if (datos):
             try:
+                #UsuarioService.asignarRolDefault(datos)
                 UsuarioService.nuevoUsuario(datos)
                 return {'Status': 'Usuario creado.'}, 200
+            except ValidationError as errors:
+                error_messages = [error[key]["message"] for error in errors.args for key in error]
+                return {'Error': error_messages[0]}, 400
             except Exception as err:
                 return {'Error': err.args}, 400
         return {'Error': 'Deben suministrarse los datos para el alta de usuario.'}, 400

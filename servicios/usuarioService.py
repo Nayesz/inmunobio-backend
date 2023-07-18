@@ -38,6 +38,12 @@ class UsuarioService():
         from servicios.permisosService import PermisosService
         usuario.permisos = PermisosService.permisosById(permisosDicts)
 
+    #@classmethod
+    #def asignarRolDefault(datos):
+        
+
+
+
     @classmethod
     def nuevoUsuario(cls,datos):
         usuario = UsuarioNuevoSchema().load(datos)

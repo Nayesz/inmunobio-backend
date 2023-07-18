@@ -34,7 +34,11 @@ export class PostService {
 
   crearUsuario(nuevoUsuario: postUsuario): Observable<any>{
     const header = new HttpHeaders({'Access-Control-Allow-Origin': '*'});
-    return this.http.post<any>(this.API_URL + 'usuario', nuevoUsuario, {headers: header});
+    this.testLog("entramos a services del post")
+
+    let resp = this.http.post<any>(this.API_URL + 'usuario', nuevoUsuario, {headers: header});
+    this.testLog(resp)
+    return resp
   }
 
   editarUsuario(usuario: postUsuario): Observable<any>{

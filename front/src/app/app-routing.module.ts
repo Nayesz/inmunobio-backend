@@ -18,6 +18,7 @@ import { BioterioComponent } from './components/home/bioterio/bioterio.component
 import { ConfiguracionComponent } from './components/home/configuracion/configuracion.component';
 import { UsuariosComponent } from './components/home/configuracion/usuarios/usuarios.component';
 import { NuevoUsuarioComponent } from './components/home/configuracion/usuarios/nuevo-usuario/nuevo-usuario.component';
+import { EditarUsuarioComponent } from './components/home/configuracion/usuarios/editar-usuario/editar-usuario.component';
 import { EditarJaulaComponent } from './components/home/bioterio/jaula-detalle/editar-jaula/editar-jaula.component';
 import { JaulaDetalleComponent } from './components/home/bioterio/jaula-detalle/jaula-detalle.component';
 import { AltaAnimalComponent } from './components/home/bioterio/jaula-detalle/alta-animal/alta-animal.component';
@@ -64,7 +65,7 @@ const routes: Routes = [
       {path: 'configuracion', component: ConfiguracionComponent},
       {path: 'configuracion/usuarios', component: UsuariosComponent},
       {path: 'configuracion/usuarios/nuevo-usuario', component: NuevoUsuarioComponent},
-      {path: 'configuracion/usuarios/editar-usuario/:id', component: NuevoUsuarioComponent},
+      {path: 'configuracion/usuarios/editar-usuario/:id', component: EditarUsuarioComponent},
       {path: 'configuracion/grupo-trabajo', component: GrupotrabajoComponent},
       {path: 'configuracion/grupo-trabajo/nuevo-grupo', component: NuevoGrupoComponent},
       {path: 'configuracion/grupo-trabajo/editar-grupo/:id', component: NuevoGrupoComponent},

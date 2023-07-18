@@ -26,6 +26,7 @@ import { BioterioComponent } from './components/home/bioterio/bioterio.component
 import { ConfiguracionComponent } from './components/home/configuracion/configuracion.component';
 import { UsuariosComponent } from './components/home/configuracion/usuarios/usuarios.component';
 import { NuevoUsuarioComponent } from './components/home/configuracion/usuarios/nuevo-usuario/nuevo-usuario.component';
+import { EditarUsuarioComponent } from './components/home/configuracion/usuarios/editar-usuario/editar-usuario.component';
 import { JaulaDetalleComponent } from './components/home/bioterio/jaula-detalle/jaula-detalle.component';
 import { EditarJaulaComponent } from './components/home/bioterio/jaula-detalle/editar-jaula/editar-jaula.component';
 import { AltaAnimalComponent } from './components/home/bioterio/jaula-detalle/alta-animal/alta-animal.component';
@@ -99,7 +100,8 @@ import {LogService} from './services/log.service'
     FilterFechavencimientoPipe,
     PerfilComponent,
     HerramientaComponent,
-    BlogEspacioHerramientaComponent
+    BlogEspacioHerramientaComponent,
+    EditarUsuarioComponent
 
   ],
   imports: [
