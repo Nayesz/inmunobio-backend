@@ -43,7 +43,8 @@ export class NuevoUsuarioComponent implements OnInit {
     this.getService.obtenerPermisos().subscribe((res: any) => {
       if (res) {
         this.permisos = res;
-        this.itemList = res.filter(permiso => permiso.id_permiso !== 5);
+        //this.itemList = res.filter(permiso => permiso.id_permiso !== 5);
+        this.itemList = res;
         this.cargando = false;
       } else {
         this.toastService.show('Hubo un error', { classname: 'bg-danger text-light', delay: 2000 });
@@ -69,7 +70,7 @@ export class NuevoUsuarioComponent implements OnInit {
       password: new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(50)]),
       direccion: new FormControl('', [Validators.required, Validators.maxLength(100)]),
       telefono: new FormControl('', [Validators.required, Validators.maxLength(15)]),
-      nivel: new FormControl([],),
+      nivel: new FormControl([],[Validators.required]),
     });
 
   }
@@ -114,8 +115,12 @@ export class NuevoUsuarioComponent implements OnInit {
           }
         }, (err) => {
           this.testLog(err)
-          //let mensaje = err["error"]
-          this.toastService.show("ups", { classname: 'bg-danger text-light', delay: 2000 }); //TODO : enviar el error con otro formato
+          let mensaje = err["error"]
+          this.testLog("el mensaje")
+          this.testLog(mensaje)
+          mensaje = err.error.Error[0]
+
+          this.toastService.show(mensaje, { classname: 'bg-danger text-light', delay: 2000 }); //TODO : enviar el error con otro formato
           this.clearForm();
         });
     

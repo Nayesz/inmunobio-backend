@@ -1,4 +1,5 @@
 from re import U
+import sys
 from resources.token import TokenDeAcceso
 from schemas.usuarioSchema import UsuarioSchema
 from servicios.commonService import CommonService
@@ -32,11 +33,16 @@ class UsuarioResource(Resource):
         if (datos):
             try:
                 #UsuarioService.asignarRolDefault(datos)
+                
+                print(datos,flush=True)
+                sys.stdout.flush()
                 UsuarioService.nuevoUsuario(datos)
                 return {'Status': 'Usuario creado.'}, 200
-            #except ValidationError as errors:
-            #    error_messages = [error[key]["message"] for error in errors.args for key in error]
-            #    return {'Error': error_messages[0]}, 400
+            except ValidationError as errors:
+                print("errorcitos uwu")
+                primer_error = list(errors.messages.values())[0]['message']
+                print(primer_error)
+                return {'Error': primer_error}, 400
             except Exception as err:
                 return {'Error': err.args}, 400
         return {'Error': 'Deben suministrarse los datos para el alta de usuario.'}, 400
