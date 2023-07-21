@@ -113,8 +113,9 @@ export class NuevoUsuarioComponent implements OnInit {
             }, 2000);
           }
         }, (err) => {
-          let mensaje = err["error"]["Error"][0]
-          this.toastService.show(mensaje, { classname: 'bg-danger text-light', delay: 2000 }); //TODO : enviar el error con otro formato
+          this.testLog(err)
+          //let mensaje = err["error"]
+          this.toastService.show("ups", { classname: 'bg-danger text-light', delay: 2000 }); //TODO : enviar el error con otro formato
           this.clearForm();
         });
     

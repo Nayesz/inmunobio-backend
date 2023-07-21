@@ -33,10 +33,13 @@ export class PostService {
   }
 
   crearUsuario(nuevoUsuario: postUsuario): Observable<any>{
-    const header = new HttpHeaders({'Access-Control-Allow-Origin': '*'});
+    const headers= new HttpHeaders()
+    .set('content-type', 'application/json')
+    .set('Access-Control-Allow-Origin', '*');
+    //const header = new HttpHeaders({'Access-Control-Allow-Origin': '*'});
     this.testLog("entramos a services del post")
 
-    let resp = this.http.post<any>(this.API_URL + 'usuario', nuevoUsuario, {headers: header});
+    let resp = this.http.post<any>(this.API_URL + 'usuario', nuevoUsuario, {'headers': headers});
     this.testLog(resp)
     return resp
   }

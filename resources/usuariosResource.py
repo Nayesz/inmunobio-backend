@@ -34,9 +34,9 @@ class UsuarioResource(Resource):
                 #UsuarioService.asignarRolDefault(datos)
                 UsuarioService.nuevoUsuario(datos)
                 return {'Status': 'Usuario creado.'}, 200
-            except ValidationError as errors:
-                error_messages = [error[key]["message"] for error in errors.args for key in error]
-                return {'Error': error_messages[0]}, 400
+            #except ValidationError as errors:
+            #    error_messages = [error[key]["message"] for error in errors.args for key in error]
+            #    return {'Error': error_messages[0]}, 400
             except Exception as err:
                 return {'Error': err.args}, 400
         return {'Error': 'Deben suministrarse los datos para el alta de usuario.'}, 400

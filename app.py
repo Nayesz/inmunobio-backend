@@ -10,6 +10,7 @@ from flask_cors import CORS, cross_origin
 
 app= Flask(__name__,static_folder='uploads')
 app.config.from_object(config)
+CORS(app, resources={r"/api/*": {"origins": "http://localhost:8000"}})
 
 ############################db configuracion
 db.init_app(app)
