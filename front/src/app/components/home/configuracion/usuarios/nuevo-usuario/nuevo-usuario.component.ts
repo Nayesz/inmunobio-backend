@@ -43,7 +43,6 @@ export class NuevoUsuarioComponent implements OnInit {
     this.getService.obtenerPermisos().subscribe((res: any) => {
       if (res) {
         this.permisos = res;
-        //this.itemList = res.filter(permiso => permiso.id_permiso !== 5);
         this.itemList = res;
         this.cargando = false;
       } else {
@@ -93,7 +92,7 @@ export class NuevoUsuarioComponent implements OnInit {
       password: this.formUsuario.value.password,
       direccion: this.formUsuario.value.direccion,
       email: this.formUsuario.value.email,
-      telefono: JSON.stringify(this.formUsuario.value.telefono),
+      telefono: this.formUsuario.value.telefono,
       permisos: this.formUsuario.value.nivel
     };
 

@@ -25,7 +25,7 @@
                         </div>
                         <div class="item-datos">
                             <label for="telefono" class="form-label">Telefono</label>
-                            <input type="text" class="form-control" id="telefono" formControlName="telefono"
+                            <input type="tel" class="form-control" id="telefono" formControlName="telefono"
                                 placeholder="Ingrese el teléfono del usuario"
                                 [attr.disabled]="disabledForm ? true : null">
                             <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
@@ -57,9 +57,6 @@
 
 
                         </div>
-
-
-                        <!-- Inside your HTML template -->
                         <div class="item-datos">
                             <label for="password" class="form-label">Password</label>
                             <input type="password" class="form-control" id="password" formControlName="password"
@@ -74,7 +71,6 @@
                                     minimo.</div>
                             </div>
                         </div>
-
 
                     </div>
                     <div class="contenido__form-item">
@@ -96,7 +92,7 @@
                 <div class="content__buttons">
                     <div class="">
                         <button class="btn btn-primary btn-lg" type="submit"
-                            *ngIf="!disabledForm">Editar Usuario</button>
+                            *ngIf="!formUsuario.invalid && !disabledForm">Editar usuario</button>
                         <button class="btn btn-primary btn-lg" type="button" disabled *ngIf='disabledForm'>
                             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                             Cargando...

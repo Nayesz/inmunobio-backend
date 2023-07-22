@@ -14,6 +14,10 @@ TODO:
 
 7- confirmacion para borrar usuarios
 
+8- ~~Error al editar usuarios: no muestra bien el error~~
+
+9- ~~Error al editar usuarios: password hasheada~~ -> ahora pide siempre blanquear clave
+
 
 
 # Pasos para levantar el entorno con docker-compose:

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators,FormBuilder } from '@angular/forms';
+import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { postUsuario, Usuario } from 'src/app/models/usuarios.model';
 import { GetService } from 'src/app/services/get.service';
@@ -34,8 +34,8 @@ export class EditarUsuarioComponent implements OnInit {
     public toastService: ToastServiceService,
     private activatedRouter: ActivatedRoute,
     private logger: LogService,
-    private formBuilder: FormBuilder ) {
-     }
+    private formBuilder: FormBuilder) {
+  }
 
   testLog(mensaje): void {
     this.logger.log(mensaje);
@@ -49,7 +49,7 @@ export class EditarUsuarioComponent implements OnInit {
     this.getService.obtenerPermisos().subscribe((res: any) => {
       if (res) {
         this.permisos = res;
-        this.itemList = res.filter(permiso => permiso.id_permiso !== 5);
+        this.itemList = res;
         this.cargando = false;
       } else {
         this.toastService.show('Hubo un error', { classname: 'bg-danger text-light', delay: 2000 });
@@ -68,40 +68,37 @@ export class EditarUsuarioComponent implements OnInit {
       searchBy: ['descripcion'],
       disabled: false,
     };
-    
+
     this.formUsuario = new FormGroup({
       nombre: new FormControl('', [Validators.required, Validators.maxLength(20)]),
       email: new FormControl('', [Validators.required, Validators.maxLength(50)]),
-      password: new FormControl('', [Validators.required, Validators.minLength(8),Validators.maxLength(50)]),
-      direccion: new FormControl('', [Validators.required,Validators.maxLength(100)]),
-      telefono: new FormControl('', [Validators.required,Validators.maxLength(15)]),
-      nivel: new FormControl([],),
+      password: new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(50)]),
+      direccion: new FormControl('', [Validators.required, Validators.maxLength(100)]),
+      telefono: new FormControl('', [Validators.required, Validators.maxLength(15)]),
+      nivel: new FormControl([],[Validators.required]),
     });
 
-    
     this.idUsuario = parseInt(this.activatedRouter.snapshot.paramMap.get('id'), 10);
     this.getService.obtenerUsuariosPorId(this.idUsuario).subscribe(res => {
-    if (res) {
-          this.usuario = res;
-          this.formUsuario.patchValue({
-            nombre: this.usuario.nombre,
-            email: this.usuario.email,
-            password: this.usuario.password,
-            direccion: this.usuario.direccion,
-            telefono: this.usuario.telefono,
-            nivel: this.usuario.permisos.map(permiso => permiso.id_permiso)
-          });
-          this.selectedItems = this.usuario.permisos.filter(permiso => permiso.id_permiso != 5);
-          this.cargando = false;
-        } else {
-          this.toastService.show('Hubo un error', { classname: 'bg-danger text-light', delay: 2000 });
-          this.cargando = false;
-        }
+      if (res) {
+        this.usuario = res;
+        this.formUsuario.patchValue({
+          nombre: this.usuario.nombre,
+          email: this.usuario.email,
+          password: "",
+          direccion: this.usuario.direccion,
+          telefono: this.usuario.telefono,
+          nivel: this.usuario.permisos.map(permiso => permiso.id_permiso)
+        });
+        this.selectedItems = this.usuario.permisos;
+        this.cargando = false;
+      } else {
+        this.toastService.show('Hubo un error', { classname: 'bg-danger text-light', delay: 2000 });
+        this.cargando = false;
+      }
 
-      });
-    } 
-      
-  
+    });
+  }
 
   editarUsuario(): void {
     this.disabledForm = true;
@@ -121,33 +118,37 @@ export class EditarUsuarioComponent implements OnInit {
       password: this.formUsuario.value.password,
       direccion: this.formUsuario.value.direccion,
       email: this.formUsuario.value.email,
-      telefono: JSON.stringify(this.formUsuario.value.telefono),
+      telefono: this.formUsuario.value.telefono,
       permisos: this.formUsuario.value.nivel
     };
 
 
     if (!this.formUsuario.invalid) {
-        usuario.id = this.usuario.id;
-        this.postService.editarUsuario(usuario)
-          .subscribe(res => {
-            console.log(res);
-            if (res.Status) {
-              this.toastService.show('Usuario Editado', { classname: 'bg-success text-light', delay: 2000 });
-              setTimeout(() => {
-                this.volver();
-                this.toastService.removeAll()
-              }, 2000);
-            }
-          }, err => {
-            this.toastService.show('Problema al editar usuario' + err.error.error, { classname: 'bg-danger text-light', delay: 2000 });
-            this.clearForm();
-          });
-    }else{
+      usuario.id = this.usuario.id;
+      this.postService.editarUsuario(usuario)
+        .subscribe(res => {
+          console.log(res);
+          if (res.Status) {
+            this.toastService.show('Usuario Editado', { classname: 'bg-success text-light', delay: 2000 });
+            setTimeout(() => {
+              this.volver();
+              this.toastService.removeAll()
+            }, 2000);
+          }
+        }, err => {
+          let mensaje = err.error.Error[0]
+          this.toastService.show(mensaje, { classname: 'bg-danger text-light', delay: 2000 });
+          setTimeout(() => {
+            this.toastService.removeAll()
+          }, 2000);
+          this.clearForm();
+        });
+    } else {
       return
 
     }
 
-    
+
   }
 
   clearForm(): void {

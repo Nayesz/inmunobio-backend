@@ -32,6 +32,7 @@ class UsuarioResource(Resource):
         datos = request.get_json()
         if (datos):
             try:
+                print(datos)
                 UsuarioService.nuevoUsuario(datos)
                 return {'Status': 'Usuario creado.'}, 200
             except ValidationError as errors:
