@@ -1,7 +1,9 @@
 from calendar import c
 from models.mysql.usuario import Usuario
+from schemas.permisosSchema import PermisoExistenteSchema
 from schemas.usuarioSchema import UsuarioSchemaModificar, UsuarioNuevoSchema,LoginUsuario,UsuarioSchema
 from servicios.commonService import CommonService
+from servicios.permisosService import PermisosService
 from servicios.validationService import  ValidacionesUsuario
 from werkzeug.security import generate_password_hash,check_password_hash
 
@@ -38,15 +40,18 @@ class UsuarioService():
         from servicios.permisosService import PermisosService
         usuario.permisos = PermisosService.permisosById(permisosDicts)
 
-    #@classmethod
-    #def asignarRolDefault(datos):
-        
-
-
+    @classmethod
+    def asignarRolDefault(cls,datos):
+        permisos_obj = []
+        #Conversion de JSON a Objetos
+        for permisox in datos["permisos"]:
+           permisos_obj.append(PermisoExistenteSchema().load(permisox))
+        return PermisosService.permisosById(permisos_obj)
 
     @classmethod
     def nuevoUsuario(cls,datos):
         usuario = UsuarioNuevoSchema().load(datos)
+        usuario.permisos = cls.asignarRolDefault(datos)
         cls.validarEmail(usuario.email)
         cls.hashPassword(usuario,usuario.password)
         from db import db

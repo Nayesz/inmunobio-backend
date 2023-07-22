@@ -1,13 +1,20 @@
 TODO:
--Arreglar el start-up de la aplicacion, hay que esperar un rato hasta que este disponible la conexion de la base para conectarse
--En front, cambiar todas las referencias de :
-      private API_URL = 'http://localhost:8080/api/v1/';
-A variables externas..
+1 -Arreglar el start-up de la aplicacion, hay que esperar un rato hasta que este disponible la conexion de la base para conectarse.
+
+2- En front, cambiar todas las referencias de :
+      private API_URL = 'http://localhost:8080/api/v1/'; A variables externas..
+
+3-  Problema al enviar permisos con lista vacia desde postman.
+
+4- default para creacion de usuarios, siempre debe estar tecnico!!! para eso se agrega siempre desde el backend
+
+
+
+
 
 # Pasos para levantar el entorno con docker-compose:
 
 "$docker-compose up --build"
-
 
 # Pasos para levantar el entorno de forma local:
 

@@ -10,7 +10,7 @@ def validarPassword(password):
 def must_not_be_blank(data):
     if not data:
         raise ValidationError('Deben asignarse permisos .')
-
+    
 class UsuarioSchema(Schema):
     id = fields.Integer()
     email = fields.Str()

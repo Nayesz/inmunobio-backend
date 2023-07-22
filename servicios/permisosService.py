@@ -25,7 +25,11 @@ class PermisosService():
     def all_permisos(cls):
         permisos = Permiso.query.all()
         return CommonService.jsonMany(permisos,PermisoExistenteSchema)
-
+    
+    @classmethod
+    def tieneElPermiso(cls, permisos, idPermiso):
+        return any( permiso.id_permiso == idPermiso for permiso in permisos)
+    
     @classmethod
     def permisosDefault(cls,permisosDicts):
         if not cls.tieneElPermiso(permisosDicts,cls.tecnico): permisosDicts.append(cls.find_by_id(cls.tecnico))
@@ -41,10 +45,7 @@ class PermisosService():
             return CommonService.json(PermisosService.find_by_id(id_permiso),PermisoSchema)
         except Exception as err: return {'Error': err.message},400
 
-    @classmethod
-    def tieneElPermiso(cls, permisos, idPermiso):
-        return any( permiso.id_permiso == idPermiso for permiso in permisos)
-    
+
     @classmethod
     def esJefeDeProyecto(cls,usuario):
         if not cls.tieneElPermiso(usuario.permisos,cls.jefeProyecto): raise Exception(f"El usuario {usuario.nombre} no tiene permisos como Jefe De Proyecto id.{cls.jefeProyecto}")
