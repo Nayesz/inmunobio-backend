@@ -76,11 +76,10 @@ export class NuevoProyectoComponent implements OnInit {
       nombre: new FormControl('', [Validators.required, Validators.maxLength(20)]),
       codigoProyecto: new FormControl('', [Validators.required, Validators.maxLength(10)]),
       montoInicial: new FormControl(''),
-      idDirectorProyecto: new FormControl(this.directorProyecto, [Validators.required]),
+      idDirectorProyecto: new FormControl('-1', [Validators.required]),
       descripcion: new FormControl('', [Validators.required, Validators.maxLength(1000)]),
       usuarios: new FormControl([])
     });
-
     this.cargando = false;
     if (this.modo === 'EDITAR'){
       this.cargando = true;
@@ -112,13 +111,13 @@ export class NuevoProyectoComponent implements OnInit {
    }
   }
 
-/*   filtrarDirector(): void {
+  filtrarDirector(): void {
     const directorSeleccionado = this.formProyecto.value.idDirectorProyecto;
     console.log(directorSeleccionado)
     this.itemList = this.usuariosDisponibles.filter(usuario => usuario.id != directorSeleccionado);
     this.selectedItems = this.selectedItems.filter(usuario => usuario.id != directorSeleccionado);
   }
- */
+
 
   crearProyecto(): void {
     this.disabledForm = true;

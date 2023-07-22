@@ -25,6 +25,11 @@ export class GetService {
   obtenerUsuarios(): Observable<Usuario[]>{
     return this.http.get<Usuario[]>(this.API_URL + 'usuarios');
   }
+
+  obtenerCandidatosProyecto(): Observable<Usuario[]>{
+    return this.http.get<Usuario[]>(this.API_URL + 'usuariosParaProyecto');
+  }
+
   obtenerUsuariosPorId(id: number): Observable<Usuario>{
     return this.http.get<Usuario>(this.API_URL + `usuario/${id}`);
 

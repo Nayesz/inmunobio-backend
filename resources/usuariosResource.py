@@ -65,10 +65,11 @@ class UsuarioID(Resource):
         return {'Error': 'Debe indicarse id_usuario'}, 400
 
 class ObtenerUsuariosParaProyecto(Resource):
-    # aca el 4 representa la id del permiso director de proyecto,ya que no hay visibilidad
-    # entre un director de proyecto y otro con mismo permiso.
+    # aca el 5 representa el id de los tecnicos, ya que ellos pueden formar parte de proyectos
+    @TokenDeAcceso.token_nivel_de_acceso(TokenDeAcceso.BIO)
     def get(self):
-        return CommonService.jsonMany(UsuarioService.usuariosSinElPermiso(4), UsuarioSchema)
+        return CommonService.jsonMany(UsuarioService.usuariosSoloConElPermiso(5), UsuarioSchema)
+        #return CommonService.jsonMany(UsuarioService.usuariosSinElPermiso(4), UsuarioSchema)
 
 class Logins(Resource):
     def post(self):

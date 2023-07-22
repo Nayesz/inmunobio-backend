@@ -102,6 +102,17 @@ class UsuarioService():
             Permiso.id_permiso.in_([id_permiso])))            
 
     @classmethod
+    def usuariosSoloConElPermiso(cls, id_permiso):
+        from models.mysql.permiso import Permiso
+        usuarios_con_permiso_exclusivo = Usuario.query.filter(
+        Usuario.permisos.any(Permiso.id_permiso == id_permiso) &
+    ~Usuario.permisos.any(Permiso.id_permiso != id_permiso)).all()
+        return usuarios_con_permiso_exclusivo
+        #return Usuario.query.filter(~Usuario.permisos.any(
+        #    Permiso.id_permiso.in_([id_permiso])))  
+    
+
+    @classmethod
     def deshabilitarUsuario(cls, id_usuario):
         from db import db
         usuario = UsuarioService.find_by_id(id_usuario)
