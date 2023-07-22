@@ -6,9 +6,13 @@ TODO:
 
 3-  Problema al enviar permisos con lista vacia desde postman.
 
-4- default para creacion de usuarios, siempre debe estar tecnico!!! para eso se agrega siempre desde el backend
+4- ~~default para creacion de usuarios: siempre debe estar tecnico, para eso se agrega siempre desde el backend~~
 
+5- ~~cola de mensajes de error al crear usuarios no se borra.~~
 
+6- ~~Borrar usuarios no actualiza la lista de usuarios~~
+
+7- confirmacion para borrar usuarios
 
 
 

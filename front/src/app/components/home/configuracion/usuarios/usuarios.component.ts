@@ -33,6 +33,10 @@ export class UsuariosComponent implements OnInit {
     this.cargando = true;
     this.page = 1;
     this.pageSize = 10;
+    this.obtenerUsuarios();
+  }
+
+  obtenerUsuarios() : void {
     this.getService.obtenerUsuarios().subscribe(res => {
       if (res){
         this.usuariosTodos = res;
@@ -54,6 +58,8 @@ export class UsuariosComponent implements OnInit {
         setTimeout(() => {
           this.toastService.removeAll()
         }, 2000);
+        this.obtenerUsuarios();
+        
       }
     });
   }
