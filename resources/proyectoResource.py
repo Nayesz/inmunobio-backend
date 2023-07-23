@@ -20,6 +20,8 @@ class NuevoProyecto(Resource):
         datos = request.get_json()
         if datos:
             try:
+                print("RECIBIMOS:")
+                print(datos)
                 ProyectoService.nuevoProyecto(datos)
                 return {'Status':'El proyecto fue dado de alta.'},200
             except Exception as err:

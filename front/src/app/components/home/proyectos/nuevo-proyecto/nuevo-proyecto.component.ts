@@ -7,6 +7,7 @@ import { PostService } from 'src/app/services/post.service';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { ToastServiceService } from 'src/app/services/toast-service.service';
+import { LogService } from 'src/app/services/log.service';
 
 @Component({
   selector: 'app-nuevo-proyecto',
@@ -20,6 +21,7 @@ export class NuevoProyectoComponent implements OnInit {
   alert!: boolean;
   estado!: string;
   cargando: boolean;
+  nombreDirectorProyecto: string;
 
 
   formProyecto!: FormGroup;
@@ -36,16 +38,24 @@ export class NuevoProyectoComponent implements OnInit {
     private postService: PostService,
     private activatedRouter: ActivatedRoute,
     private router: Router,
-    public toastService: ToastServiceService
+    public toastService: ToastServiceService,
+    private logger: LogService
   ) { }
+
+  testLog(mensaje): void {
+    this.logger.log(mensaje);
+  }
 
   ngOnInit(): void {
     this.cargando = true;
     window.location.href.includes('editar') ? this.modo = 'EDITAR' : this.modo = 'CREAR';
-    this.directorProyecto = JSON.parse(localStorage.getItem('usuario'));
+    this.directorProyecto = JSON.parse(localStorage.getItem('usuario')).id;
+    this.nombreDirectorProyecto = JSON.parse(localStorage.getItem('usuario')).nombre;
+
     this.getService.obtenerCandidatosProyecto().subscribe(res => {
       if (res){
-        console.log(res)
+        this.testLog("Candidatos obtenidos: ")
+        this.testLog(res)
         //this.directoresProyecto = res.filter(usuario => {
         //  return usuario.permisos.some(permiso => permiso.id_permiso === 4);
         //});
@@ -76,9 +86,10 @@ export class NuevoProyectoComponent implements OnInit {
       nombre: new FormControl('', [Validators.required, Validators.maxLength(20)]),
       codigoProyecto: new FormControl('', [Validators.required, Validators.maxLength(10)]),
       montoInicial: new FormControl(''),
-      idDirectorProyecto: new FormControl(this.directorProyecto, [Validators.required]),
+      idDirectorProyecto: new FormControl(this.directorProyecto.id, [Validators.required]),
       descripcion: new FormControl('', [Validators.required, Validators.maxLength(1000)]),
-      usuarios: new FormControl([])
+      usuarios: new FormControl([]),
+      nomDirP: new FormControl(this.nombreDirectorProyecto, [Validators.required]),
     });
 
     this.cargando = false;
@@ -87,18 +98,20 @@ export class NuevoProyectoComponent implements OnInit {
       this.idProyecto = parseInt(this.activatedRouter.snapshot.paramMap.get('id'), 10);
       this.getService.obtenerProyectosPorId(this.idProyecto).subscribe(res => {
         if (res){
-            // console.log(res);
+            this.testLog("Entramos en modo edicion y se va a editar el sig proyecto: ")
+            this.testLog(res)
             this.element = res;
             this.formProyecto.patchValue({
               nombre: this.element.nombre,
               codigoProyecto: this.element.codigoProyecto,
               montoInicial: this.element.montoInicial,
-              idDirectorProyecto: this.element.idDirectorProyecto.id,
+              idDirectorProyecto: this.element.idDirectorProyecto,
               descripcion: this.element.descripcion
             });
             this.getService.obtenerUsuarioPorProyecto(this.element.id_proyecto).subscribe(usuarios => {
               const participantes = res.participantes.map(user => user.id);
-              console.log(participantes)
+              this.testLog("Participantes del proyecto: ")
+              this.testLog(participantes)
               this.selectedItems = usuarios.filter( usuario => participantes.indexOf(usuario.id) > -1);
               this.cargando = false;
             });
@@ -106,19 +119,15 @@ export class NuevoProyectoComponent implements OnInit {
           this.cargando = false;
         } else {
           this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
+          setTimeout(() => {
+            this.toastService.removeAll()
+          }, 3000);
           this.cargando = false;
         }
         });
    }
   }
 
-/*   filtrarDirector(): void {
-    const directorSeleccionado = this.formProyecto.value.idDirectorProyecto;
-    console.log(directorSeleccionado)
-    this.itemList = this.usuariosDisponibles.filter(usuario => usuario.id != directorSeleccionado);
-    this.selectedItems = this.selectedItems.filter(usuario => usuario.id != directorSeleccionado);
-  }
- */
 
   crearProyecto(): void {
     this.disabledForm = true;
@@ -131,26 +140,38 @@ export class NuevoProyectoComponent implements OnInit {
       nombre: this.formProyecto.value.nombre,
       descripcion: this.formProyecto.value.descripcion,
       participantes: int,
-      idDirectorProyecto: JSON.parse(this.formProyecto.value.idDirectorProyecto),
+      idDirectorProyecto: JSON.parse(localStorage.getItem('usuario')).id,
       montoInicial: this.formProyecto.value.montoInicial,
     };
 
     if (this.modo === 'CREAR'){
+      this.testLog("se van a enviar los sig datos : ")
+      this.testLog(proyecto)
       this.postService.crearProyecto(proyecto).subscribe(res => {
-          console.log(res);
+        this.testLog(res);
           this.toastService.show('Proyecto Creado', { classname: 'bg-success text-light', delay: 2000 });
           setTimeout(() => {
             this.disabledForm = false;
             this.volver();
           }, 2000);
+          setTimeout(() => {
+            this.toastService.removeAll()
+          }, 3000);
         }, err => {
-          this.toastService.show('Problema al crear Proyecto' + err.error.error, { classname: 'bg-danger text-light', delay: 2000 });
+          let mensaje = err.error.Error[0]
+          this.toastService.show('Problema al crear Proyecto' + mensaje , { classname: 'bg-danger text-light', delay: 2000 });
+          setTimeout(() => {
+            this.toastService.removeAll()
+          }, 3000);
           this.disabledForm = false;
         });
     } else {
       // console.log(proyecto);
       // console.log(this.formProyecto.status);
+
       proyecto.id_proyecto = this.idProyecto;
+      this.testLog("se van a enviar los sig datos para editar : ")
+      this.testLog(proyecto)
       this.postService.modificarProyecto(proyecto).subscribe(res => {
           console.log(res);
           this.toastService.show('Proyecto Editado', { classname: 'bg-success text-light', delay: 2000 });
@@ -158,8 +179,15 @@ export class NuevoProyectoComponent implements OnInit {
             this.disabledForm = false;
             this.volver();
           }, 2000);
+          setTimeout(() => {
+            this.toastService.removeAll()
+          }, 3000);
         }, err => {
-          this.toastService.show('Problema al editar Proyecto' + err.error.error, { classname: 'bg-danger text-light', delay: 2000 });
+          let mensaje = err.error.Error[0]
+          this.toastService.show('Problema al editar Proyecto ' +mensaje, { classname: 'bg-danger text-light', delay: 2000 });
+          setTimeout(() => {
+            this.toastService.removeAll()
+          }, 3000);
           this.disabledForm =false;
       });
     }

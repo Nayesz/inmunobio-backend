@@ -15,6 +15,11 @@
                         <div class="fila">
                             <label for="nombre" class="form-label">Nombre de proyecto</label>
                             <input type="text" class="form-control" id="nombre" formControlName='nombre' placeholder="Ingrese nombre de proyecto" [attr.disabled]='disabledForm ? true : null'>
+                            <div
+                                *ngIf="formProyecto.get('nombre').invalid && (formProyecto.get('nombre').dirty || formProyecto.get('nombre').touched)">
+                                <div *ngIf="formProyecto.get('nombre').errors.required">El nombre es requerido.</div>
+                                <div *ngIf="formProyecto.get('nombre').errors.maxLength">20 caracteres máximo.</div>
+                            </div>
                         </div>
                         <div class="codigoYpresupuesto">
                             <div class="fila">
@@ -28,7 +33,7 @@
                         </div>
                         <div class="fila">
                             <label for="director" class="form-label">Director de Proyecto</label>
-                            <input type="text" class="form-control" id="director" formControlName='idDirectorProyecto' placeholder="Ud.Será asignado como Director." [readonly]="true" [attr.disabled]='disabledForm ? true : null'>
+                            <input type="text" class="form-control" id="director" formControlName='nomDirP'  [readonly]="true" [attr.disabled]='disabledForm ? true : null'>
 
                             <!-- <label for="director" class="form-label">Director de Proyecto</label>
                             <select class="form-control"  id='director' aria-label="Default select example" formControlName="idDirectorProyecto" (change)="filtrarDirector()" [attr.disabled]='disabledForm ? true : null'> 
