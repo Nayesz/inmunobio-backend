@@ -15,8 +15,7 @@ services:
       stdin_open: true
       depends_on:
          - mongo
-         - mysql 
- 
+         - mysql    
     mysql:
       container_name: mysql-db
       image: mysql:8.0.31
@@ -35,11 +34,21 @@ services:
     mongo:
       container_name: mongo-db
       restart: always
-      image: mongo:4.4.6
+      #image: mongo:4.4.6
+      image: mongo:latest
       ports:
           - 27017:27017
+      #command: --quiet
       volumes:
-        - ../data/mongo:/data/db
-      depends_on:
-        - mysql  
-      command: --quiet
+          - ./data/baseMongo.json:/baseMongo.json
+          - ./data/init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh
+      command: bash -c "chmod +x /docker-entrypoint-initdb.d/init-mongo.sh && /docker-entrypoint-initdb.d/init-mongo.sh"
+
+
+      #volumes:
+      #  - ./data/baseMongo.json:/docker-entrypoint-initdb.d/datos.json:ro
+      #volumes:
+      #  - ../data/mongo:/data/db
+      #depends_on:
+      #  - mysql  
+      #command: --quiet

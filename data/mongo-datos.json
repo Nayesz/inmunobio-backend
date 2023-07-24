@@ -1,0 +1,290 @@
+[
+    {
+        "proyecto":
+        [
+           {
+               "codigoProyecto" : "PROY1",
+               "nombre" : "Proyecto 1",
+               "descripcion" : "Una descripción para el proyecto 1.",
+               "fechaInicio" : "2021-06-13T02:21:33.617000",
+               "finalizado" : false,
+               "montoInicial" : 10000,
+               "participantes" : [ 1],
+               "idDirectorProyecto" : 2
+        },
+        {
+               "codigoProyecto" : "PROY2",
+               "nombre" : "Proyecto 2",
+               "descripcion" :"Una descripción para el proyecto 2.",
+               "fechaInicio" : "2020-06-13T02:21:33.617000",
+               "fechaFinal" : "2021-09-13T02:21:33.617000",
+               "finalizado" : true,
+               "montoInicial" : 2331000,
+               "conclusion" : "Una conclusión para el proyecto 2.",
+               "participantes" : [1],
+               "idDirectorProyecto" : 3
+        },
+        {
+               "codigoProyecto" : "PROY3",
+               "nombre" : "Proyecto 3.",
+               "descripcion" : "Una descripción para el proyecto 3.",
+               "finalizado" : false,
+               "montoInicial" : 13940000,
+               "participantes" : [1],
+               "idDirectorProyecto" : 4
+        }
+        ],
+        "espacioFisico": [
+           {
+               "nombre":"ESPACIO 1 ",
+               "piso": "1",
+               "sala":"SALA 1",
+               "descripcion":"ESPACIO FISICO NRO 1",
+               "blogs":  [
+                   {
+                       "fecha": "2021-07-13T02:21:33.617000",
+                       "detalle": "BLOG 1 ESPACIO 1",
+                       "id_usuario":  1,
+                       "tipo":  ""
+                   },
+                   {
+                       "fecha":  "2021-07-15T02:21:33.617000",
+                       "detalle": "BLOG 2  ESPACIO 1",
+                       "id_usuario":  1,
+                       "tipo":  ""
+                   },
+                   {
+                       "fecha":  "2021-07-16T02:21:33.617000",
+                       "detalle": "BLOG 3  ESPACIO 1",
+                       "id_usuario":  2,
+                       "tipo":  ""
+                   }
+               ]},
+               {
+                   "nombre":"ESPACIO 2 ",
+                   "piso": "1",
+                   "sala":"SALA 2",
+                   "descripcion":"ESPACIO FISICO NRO 2",
+                   "blogs":  [
+                   {
+                       "fecha":  "2021-07-13T02:21:33.617000",
+                       "detalle": "BLOG 1  ESPACIO 2",
+                       "id_usuario":  2,
+                       "tipo":  ""
+                   },
+                   {
+                       "fecha":  "2021-07-15T02:21:33.617000",
+                       "detalle": "BLOG 2  ESPACIO 2",
+                       "id_usuario":  2,
+                       "tipo":  ""
+                   },
+                   {
+                       "fecha":  "2021-07-16T02:21:33.617000",
+                       "detalle": "BLOG 3  ESPACIO 2",
+                       "id_usuario":  3,
+                       "tipo":  ""
+                   }]
+               },
+               {
+               "nombre":"ESPACIO 3 ",
+               "piso": "2",
+               "sala":"SALA 1",
+               "descripcion":"ESPACIO FISICO NRO 3",
+               "blogs":  [
+                   {
+                       "fecha":  "2021-07-13T02:21:33.617000",
+                       "detalle": "BLOG 1",
+                       "id_usuario":  4,
+                       "tipo":  ""
+                   },
+                   {
+                       "fecha":  "2021-07-15T02:21:33.617000",
+                       "detalle": "BLOG 2  ESPACIO 3",
+                       "id_usuario":  1,
+                       "tipo":  ""
+                   },
+                   {
+                       "fecha":  "2021-07-16T02:21:33.617000",
+                       "detalle": "BLOG 3  ESPACIO 3",
+                       "id_usuario":  2,
+                       "tipo":  ""
+                   }]
+               },
+               {
+                   "nombre":"ESPACIO 4 ",
+                   "piso": "2",
+                   "sala":"SALA 2",
+                   "descripcion":"ESPACIO FISICO NRO 4",
+                   "blogs":  [
+                   {
+                       "fecha":  "2021-07-13T02:21:33.617000",
+                       "detalle": "BLOG 1  ESPACIO 4",
+                       "id_usuario":  1,
+                       "tipo":  ""
+                   },
+                   {
+                       "fecha":  "2021-07-15T02:21:33.617000",
+                       "detalle": "BLOG 2  ESPACIO 4",
+                       "id_usuario":  2,
+                       "tipo":  ""
+                   },
+                   {
+                       "fecha":  "2021-07-16T02:21:33.617000",
+                       "detalle": "BLOG 3  ESPACIO 4",
+                       "id_usuario":  1,
+                       "tipo":  ""
+                   }]
+               }
+           ],
+           "distribuidora": [
+           {
+               "nombre" : "DISTRIBUIDORA 1",
+               "direccion" : "Direccion distribuidora 1",
+               "contacto" : "Un contacto para distribuidora 1",
+               "cuit" : "111111111111",
+               "representante" : "Representante para distribuidora 1"
+           },
+           {
+               "nombre" : "DISTRIBUIDORA 2",
+               "direccion" : "Direccion distribuidora 2",
+               "contacto" : "Un contacto para distribuidora 2",
+               "cuit" : "222222222222",
+               "representante" : "Representante para distribuidora 2"
+           },
+           {
+               "nombre" : "DISTRIBUIDORA 3",
+               "direccion" : "Direccion distribuidora 3",
+               "contacto" : "Un contacto para distribuidora 3",
+               "cuit" : "333333333333",
+               "representante" : "Representante para distribuidora 3"
+           }],
+           "contenedor":[
+           {
+               "codigo" : "CONTENEDOR1",
+               "nombre" : "Nombre contenedor 1",
+               "descripcion" : "Descripcion contenedor 1",
+               "temperatura" : "10C - 30C ",
+               "capacidad" :40,
+               "disponible" : true,
+               "id_espacioFisico" : 1
+           },
+           {
+               "codigo" : "CONTENEDOR2",
+               "nombre" : "Nombre contenedor 2",
+               "descripcion" : "Descripcion contenedor 2",
+               "temperatura" : "10C - 30C ",
+               "capacidad" :20,
+               "disponible" : false,
+               "id_espacioFisico" : 2
+           },
+           {
+               "codigo" : "CONTENEDOR3",
+               "nombre" : "Nombre contenedor 3",
+               "descripcion" : "Descripcion contenedor 3",
+               "temperatura" : "10C - 50C ",
+               "capacidad" :10,
+               "disponible" : true,
+               "id_espacioFisico" : 3
+           }
+        ],
+            "herramienta":[
+            {
+                "nombre":"HERRAMIENTA 1 ",
+               "detalle": "MI HERRAMIENTA 1",
+               "id_espacioFisico":1,
+               "blogs":  [
+                   {
+                       "fecha":  "2021-07-13T02:21:33.617000",
+                       "detalle": " HERRAMIENTA 1 BLOG 1",
+                       "id_usuario":  1,
+                       "tipo":  ""
+                   },
+                      {
+                       "fecha":  "2021-01-23T02:21:33.617000",
+                       "detalle": " HERRAMIENTA 1 BLOG 2",
+                       "id_usuario":  4,
+                       "tipo":  ""
+                   }]},
+                {
+                "nombre":"HERRAMIENTA 2 ",
+                "detalle": "MI HERRAMIENTA 2",
+                "id_espacioFisico":2,
+                "blogs":  [
+                   {
+                       "fecha":  "2020-04-13T02:21:33.617000",
+                       "detalle": " HERRAMIENTA 2 BLOG 1",
+                       "id_usuario":  3,
+                       "tipo":  ""
+                   },
+                    {
+                       "fecha":  "2021-01-20T02:21:33.617000",
+                       "detalle": " HERRAMIENTA 2 BLOG 2",
+                       "id_usuario":  5,
+                       "tipo":  ""
+                   }]}
+        ],
+        "jaula":[
+            {
+                "rack":1,
+                "codigo": "CODIGO01",
+                "estante":2,
+                "tipo": "vidrio",
+                "capacidad":5,
+                "id_espacioFisico":1,
+                "blogs":  [
+                   {
+                       "fecha":  "2021-07-13T02:21:33.617000",
+                       "detalle": " JAULA 1 BLOG 1",
+                       "id_usuario":  2,
+                       "tipo":  "Jaula"
+                   },
+                      {
+                       "fecha":  "2021-01-23T02:21:33.617000",
+                       "detalle": " JAULA 1 BLOG 2",
+                       "id_usuario":  4,
+                       "tipo":  "Jaula"
+                   }]},
+             {
+                "rack":1,
+                "codigo": "CODIGO02",
+                "estante":2,
+                "tipo": "plastico",
+                "capacidad":5,
+                "id_espacioFisico":2,
+                "id_proyecto":1,
+                "blogs":  [
+                   {
+                       "fecha":  "2021-07-13T02:21:33.617000",
+                       "detalle": " JAULA 2 BLOG 1",
+                       "id_usuario":  2,
+                       "tipo":  "Jaula"
+                   },
+                      {
+                       "fecha":  "2021-01-23T02:21:33.617000",
+                       "detalle": " JAULA 2 BLOG 2",
+                       "id_usuario":  4,
+                       "tipo":  "Jaula"
+                   }]}
+            ],
+            "grupoDeTrabajo":[{
+               "nombre" : "GRUPO DE TRABAJO 1",
+               "jefeDeGrupo" : 2,
+               "integrantes" : [1],
+               "grupoGral" : true
+            },
+            {
+               "nombre" : "GRUPO DE TRABAJO 2",
+               "jefeDeGrupo" : 3,
+               "integrantes" : [6],
+               "grupoGral" : false
+            },
+            {
+               "nombre" : "GRUPO DE TRABAJO 3",
+               "jefeDeGrupo" : 4,
+               "integrantes" : [7,8],
+               "grupoGral" : false
+            }]
+        }
+        
+        
+]

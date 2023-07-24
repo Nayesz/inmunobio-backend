@@ -1,0 +1,33 @@
+version: "3.8"
+services:
+  mongo:
+    container_name: mongo-db
+    restart: always
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    volumes:
+      - ./data/mongo-datos.json:/data.json
+    command: mongod --bind_ip_all --quiet --port 27017 --dbpath /data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: secret
+    networks:
+      - mongo_network
+    depends_on:
+      - mongo-importer
+
+  mongo-importer:
+    image: mongo
+    command: mongoimport --host mongo --db db_mongo_inmunobio --collection proyecto --type json --file /data.json --jsonArray -u root -p secret --authenticationDatabase admin
+    volumes:
+      - ./data/mongo-datos.json:/data.json
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: secret
+    networks:
+      - mongo_network
+
+networks:
+  mongo_network:
+    driver: bridge
