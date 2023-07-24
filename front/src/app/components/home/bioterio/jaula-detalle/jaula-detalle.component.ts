@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ResolvedReflectiveFactory } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Subscription } from 'rxjs';
+import { Subscription, forkJoin } from 'rxjs';
 import { EspacioFisico } from 'src/app/models/espacioFisico.model';
 import { Jaula } from 'src/app/models/jaula.model';
 import { GetService } from 'src/app/services/get.service';
@@ -9,6 +9,8 @@ import { PostService } from 'src/app/services/post.service';
 import { Proyecto } from 'src/app/models/proyectos.model';
 import { BlogBuscadoJaula, BlogJaula, Blogs, BlogsJaula } from 'src/app/models/blogs.model';
 import { ToastServiceService } from 'src/app/services/toast-service.service';
+import { Animal } from 'src/app/models/animal.model';
+import { catchError, mergeMap, map, switchMap } from 'rxjs/operators';
 
 
 @Component({
@@ -23,7 +25,7 @@ export class JaulaDetalleComponent implements OnInit, OnDestroy {
   espacioFisico: EspacioFisico;
 
   // animales:Animal[];
-  animales=[];
+  animales:Animal[];
   idAnimal_eliminar:number;
 
   proyectos: Proyecto[];
@@ -47,86 +49,63 @@ export class JaulaDetalleComponent implements OnInit, OnDestroy {
     public toastService: ToastServiceService
   ) { }
 
-  ngOnInit(): void {
+  blogSearchObject(){
+    const diaHasta = (this.fecHoy).getDate() + 1;
+    const diaDesde = (this.fecHoy).getDate() - 8;
+    this.fecHasta = new Date(this.fecHoy.getFullYear(),this.fecHoy.getMonth(), diaHasta).toDateString()
+    this.fecDesde = new Date(this.fecHoy.getFullYear(),this.fecHoy.getMonth(), diaDesde).toDateString()
+    const blog : BlogBuscadoJaula = {
+          id_jaula: this.idJaula,
+          fechaDesde: this.fecDesde,
+          fechaHasta: this.fecHasta
+        }
+    return blog;
+  }
+
+  ngOnInit(){
     this.cargando = true;
     this.detalleBlog ='';
     this.usuario = JSON.parse(localStorage.getItem('usuario'));
     this.idJaula = parseInt(this.activatedRouter.snapshot.paramMap.get('id'), 10);
-    this.subscription.add(this.getService.obtenerJaulasPorId(this.idJaula).subscribe(res => {
-      if(res){
-        console.log(res);
-        this.jaula = res;
-      } else{
-        this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
-        this.cargando = false;
-      }
-    }))
-    setTimeout(() => {
-      this.subscription.add(this.getService.obtenerEspacioFisico(this.jaula.id_espacioFisico).subscribe(res =>{
-        if(res){
-          this.espacioFisico = res;
-        } else{
-          this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
-          this.cargando = false;
-        }
-      }))
-      if(this.jaula.id_proyecto != 0){
-      this.subscription.add(this.getService.obtenerProyectosPorId(this.jaula.id_proyecto).subscribe(res =>{
-        if(res){
-          this.miProyecto = res
-          this.cargando = false;
-        } else{
-          this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
-          this.cargando = false;
-        }
-        console.log(res)
-      }))
-      }
 
-    },1000);
-    this.subscription.add(this.getService.obtenerAnimalesPorJaula(this.idJaula).subscribe(res => {
-      if(!res.Status){
-        this.animales = res;
-      } else{
-        this.animales=[];
-        this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
-        this.cargando = false;
+    this.getService.obtenerJaulasPorId(this.idJaula).pipe(
+      switchMap(jaulaResultado => {
+        this.jaula = jaulaResultado;
+        if (jaulaResultado.id_proyecto > 0) {
+          // Si jaula.id_proyecto es mayor a 0, llamamos a los otros dos servicios dentro de forkJoin
+          return forkJoin([
+            this.getService.obtenerAnimalesPorJaula(this.jaula.id_jaula),
+            this.getService.obtenerProyectosPorId(this.jaula.id_proyecto),
+            this.getService.obtenerProyectos(),
+            this.getService.obtenerEspacioFisico(this.jaula.id_espacioFisico),
+            this.postService.obtenerBlogJaula(this.blogSearchObject())
+          ]);
+        } else {
+          // Si jaula.id_proyecto no es mayor a 0, simplemente devolvemos un array con null para los servicios que no se llamarán
+          return forkJoin([
+            this.getService.obtenerAnimalesPorJaula(this.jaula.id_jaula),
+            [null],
+            this.getService.obtenerProyectos(),
+            this.getService.obtenerEspacioFisico(this.jaula.id_espacioFisico),
+            this.postService.obtenerBlogJaula(this.blogSearchObject())
+          ]);
+        }
+      })
+    ).subscribe(
+      ([animalesResultado, proyectoResultado, proyectosResultado, espacioFisicoResultado, blogResultado]) => {
+        this.animales = animalesResultado;
+        this.miProyecto = proyectoResultado ? proyectoResultado[0] : null;
+        this.proyectos = proyectosResultado;
+        this.espacioFisico = espacioFisicoResultado;
+        this.blogs = blogResultado;
+      },
+      (error) => {
+        //Acá se podría enviar al usuario a una página de error y que le muestre el mensaje de error.
+        this.toastService.show(error.error['Error'],{ classname: 'bg-danger text-light', delay: 2000 });
       }
-      console.log(res)
-    }))
-    this.subscription.add( this.getService.obtenerProyectos().subscribe(res => {
-      if(res){
-      this.proyectos = res.filter(proyecto => !proyecto.finalizado );
-    } else{
-      this.proyectos=[];
-      this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
-      this.cargando = false;
-    }
-      console.log(res)
-
-    }))
-    //Blogs
-    const dia = (this.fecHoy).getDate() + 1;
-    this.fecHasta = new Date(this.fecHoy.getFullYear(),this.fecHoy.getMonth(), dia)
-    this.fecHasta = this.fecHasta.toDateString();
-    const blog : BlogBuscadoJaula = {
-          id_jaula: this.idJaula,
-          fechaDesde: 'Mon May 31 2021',
-          fechaHasta: this.fecHasta
-        } 
-    console.log(blog)
-    this.subscription.add(this.postService.obtenerBlogJaula(blog).subscribe(res =>{
-      if(res){
-        this.blogs = res;
-      } else{
-        this.blogs=[];
-        this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
-        this.cargando = false;
-      }
-        console.log(res)
-    }))
+    );
   }
-
+  
   open(content): void {
     this.modalService.open(content, { centered: true, size: 'lg' });
   }
