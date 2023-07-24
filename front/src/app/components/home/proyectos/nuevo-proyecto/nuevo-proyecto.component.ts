@@ -47,19 +47,14 @@ export class NuevoProyectoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.cargando = true;
-    window.location.href.includes('editar') ? this.modo = 'EDITAR' : this.modo = 'CREAR';
+    this.disabledForm = false;
+    this.cargando = false;
     this.directorProyecto = JSON.parse(localStorage.getItem('usuario')).id;
     this.nombreDirectorProyecto = JSON.parse(localStorage.getItem('usuario')).nombre;
-
     this.getService.obtenerCandidatosProyecto().subscribe(res => {
       if (res){
         this.testLog("Candidatos obtenidos: ")
         this.testLog(res)
-        //this.directoresProyecto = res.filter(usuario => {
-        //  return usuario.permisos.some(permiso => permiso.id_permiso === 4);
-        //});
-        //this.directorProyecto = JSON.parse(localStorage.getItem('usuario'));
         this.itemList = res;
         this.usuariosDisponibles = res;
         this.cargando = false;
@@ -86,48 +81,13 @@ export class NuevoProyectoComponent implements OnInit {
       nombre: new FormControl('', [Validators.required, Validators.maxLength(20)]),
       codigoProyecto: new FormControl('', [Validators.required, Validators.maxLength(10)]),
       montoInicial: new FormControl(''),
-      idDirectorProyecto: new FormControl(this.directorProyecto.id, [Validators.required]),
+      idDirectorProyecto: new FormControl(JSON.parse(localStorage.getItem('usuario')).id, [Validators.required]),
       descripcion: new FormControl('', [Validators.required, Validators.maxLength(1000)]),
-      usuarios: new FormControl([]),
-      nomDirP: new FormControl(this.nombreDirectorProyecto, [Validators.required]),
+      usuarios: new FormControl([], [Validators.required]),
+      nomDirP: new FormControl(JSON.parse(localStorage.getItem('usuario')).nombre),
     });
-
     this.cargando = false;
-    if (this.modo === 'EDITAR'){
-      this.cargando = true;
-      this.idProyecto = parseInt(this.activatedRouter.snapshot.paramMap.get('id'), 10);
-      this.getService.obtenerProyectosPorId(this.idProyecto).subscribe(res => {
-        if (res){
-            this.testLog("Entramos en modo edicion y se va a editar el sig proyecto: ")
-            this.testLog(res)
-            this.element = res;
-            this.formProyecto.patchValue({
-              nombre: this.element.nombre,
-              codigoProyecto: this.element.codigoProyecto,
-              montoInicial: this.element.montoInicial,
-              idDirectorProyecto: this.element.idDirectorProyecto,
-              descripcion: this.element.descripcion
-            });
-            this.getService.obtenerUsuarioPorProyecto(this.element.id_proyecto).subscribe(usuarios => {
-              const participantes = res.participantes.map(user => user.id);
-              this.testLog("Participantes del proyecto: ")
-              this.testLog(participantes)
-              this.selectedItems = usuarios.filter( usuario => participantes.indexOf(usuario.id) > -1);
-              this.cargando = false;
-            });
-            this.itemList = this.usuariosDisponibles.filter(usuario => usuario.id != this.formProyecto.value.idDirectorProyecto);
-          this.cargando = false;
-        } else {
-          this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
-          setTimeout(() => {
-            this.toastService.removeAll()
-          }, 3000);
-          this.cargando = false;
-        }
-        });
-   }
   }
-
 
   crearProyecto(): void {
     this.disabledForm = true;
@@ -144,7 +104,7 @@ export class NuevoProyectoComponent implements OnInit {
       montoInicial: this.formProyecto.value.montoInicial,
     };
 
-    if (this.modo === 'CREAR'){
+    if (!this.formProyecto.invalid){
       this.testLog("se van a enviar los sig datos : ")
       this.testLog(proyecto)
       this.postService.crearProyecto(proyecto).subscribe(res => {
@@ -165,37 +125,11 @@ export class NuevoProyectoComponent implements OnInit {
           }, 3000);
           this.disabledForm = false;
         });
-    } else {
-      // console.log(proyecto);
-      // console.log(this.formProyecto.status);
-
-      proyecto.id_proyecto = this.idProyecto;
-      this.testLog("se van a enviar los sig datos para editar : ")
-      this.testLog(proyecto)
-      this.postService.modificarProyecto(proyecto).subscribe(res => {
-          console.log(res);
-          this.toastService.show('Proyecto Editado', { classname: 'bg-success text-light', delay: 2000 });
-          setTimeout(() => {
-            this.disabledForm = false;
-            this.volver();
-          }, 2000);
-          setTimeout(() => {
-            this.toastService.removeAll()
-          }, 3000);
-        }, err => {
-          let mensaje = err.error.Error[0]
-          this.toastService.show('Problema al editar Proyecto ' +mensaje, { classname: 'bg-danger text-light', delay: 2000 });
-          setTimeout(() => {
-            this.toastService.removeAll()
-          }, 3000);
-          this.disabledForm =false;
-      });
-    }
+    } 
   }
 
   volver(): void{
-    let ruta;
-    this.modo === 'EDITAR' ? ruta = `home/proyectos/${this.idProyecto}` : ruta = 'home/proyectos';
+    let ruta = 'home/proyectos';
     this.router.navigateByUrl(ruta);
   }
 
