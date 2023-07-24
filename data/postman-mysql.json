@@ -17,26 +17,26 @@
 ],
 "usuario": [
    {
-       "direccion": "Dirección 1",
-       "email": "usuario1@gmail.com",
-       "nombre": "User 1 ",
-       "password": "Atoi5858",
+       "direccion": "San Lorenzo 321, La Plata",
+       "email": "jyole8@baidu.com",
+       "nombre": "Juana Caresse",
+       "password": "g7LCJh?Sc$hg",
        "permisos": [
            {
                "descripcion": "Técnico",
                "id_permiso": 5
            }
        ],
-       "telefono": "11111111",
+       "telefono": "+54 281 906 0485",
        "id_grupoDeTrabajo":1,
-        "esJefeDe":0
+       "esJefeDe":0
 
    },
      {
-       "direccion": "Dirección 2",
-       "email": "usuario2@gmail.com",
-       "nombre": "User 2 ",
-       "password": "Atoi5858",
+       "direccion": "Yrigoyen 567, Barrio La Cascada",
+       "email": "dcratere2@indiegogo.com",
+       "nombre": "Roxana Benson",
+       "password": "l3H5x_3Bkk9",
        "permisos": [
            {
                "descripcion": "Técnico",
@@ -51,17 +51,17 @@
                 "descripcion": "Jefe de grupo"
             }
        ],
-       "telefono": "11111111",
+       "telefono": "+92 125 142 9573",
        "esJefeDe":1,
         "id_grupoDeTrabajo":0
 
 
    },
     {
-       "direccion": "Dirección 3",
-       "email": "usuario3@gmail.com",
-       "nombre": "User 3 ",
-       "password": "Atoi5858",
+       "direccion": "9 de Julio 876, Villa Aurora",
+       "email": "bbrienf@vimeo.com",
+       "nombre": "Kevin Siffre",
+       "password": "u0N5qdiI3e",
        "permisos": [
            {
                "descripcion": "Técnico",
@@ -76,15 +76,15 @@
                "id_permiso": 3
            }  
        ],
-       "telefono": "11111111",
+       "telefono": "+82 173 506 5621",
         "esJefeDe":2,
         "id_grupoDeTrabajo":0
 
    },
        {
-       "direccion": "Dirección 4",
-       "email": "usuario4@gmail.com",
-       "nombre": "User 4 ",
+       "direccion": "Mitre 654, Barrio Los Pájaros",
+       "email": "schoppen3@gmail.com",
+       "nombre": "Santiago Rodríguez",
        "password": "Atoi5858",
        "permisos": [
            {
@@ -105,7 +105,7 @@
            }  
          
        ],
-       "telefono": "11111111",
+       "telefono": "+82 173 506 5621",
         "esJefeDe":3,
         "id_grupoDeTrabajo":0
 
@@ -113,9 +113,9 @@
        
    },
     {
-       "direccion": "Dirección 5",
-       "email": "usuario5@gmail.com",
-       "nombre": "User 5",
+       "direccion": "Sarmiento 987, Barrio del Sol",
+       "email": "arenoden4@gmail.com",
+       "nombre": "Valentina López",
        "password": "Atoi5858",
        "permisos": [
            {
@@ -140,16 +140,16 @@
            }  
          
        ],
-       "telefono": "11111111",
+       "telefono": "+255 599 345 4355",
         "esJefeDe":0,
         "id_grupoDeTrabajo":0
 
 
    },
       {
-       "direccion": "Dirección 6",
-       "email": "usuario6@gmail.com",
-       "nombre": "User 6 ",
+       "direccion": "Moreno 543, Barrio Primavera",
+       "email": "oharrimana@gmail.com",
+       "nombre": "Matías Fernández",
        "password": "Atoi5858",
        "permisos": [
            {
@@ -157,31 +157,31 @@
                "id_permiso": 5
            }
        ],
-       "telefono": "11111111",
+       "telefono": "+7 353 758 6246",
        "id_grupoDeTrabajo":2,
         "esJefeDe":0
 
    },
     {
-       "direccion": "Dirección 7",
-       "email": "usuario7@gmail.com",
-       "nombre": "User 7",
-       "password": "Atoi5858",
+       "direccion": "Belgrano 210, Villa Bella Vista",
+       "email": "kmcgerr1@gmail.com",
+       "nombre": "Facundo Gómez",
+       "password": "q5JwHu22",
        "permisos": [
            {
                "descripcion": "Técnico",
                "id_permiso": 5
            }
        ],
-       "telefono": "11111111",
+       "telefono": "+86 884 432 221",
        "id_grupoDeTrabajo":3,
         "esJefeDe":0
 
    },
    {
-       "direccion": "Dirección 8",
-       "email": "usuario8@gmail.com",
-       "nombre": "User 8",
+       "direccion": "Rivadavia 789, Villa Esperanza",
+       "email": "mohallagan0@gmail.com",
+       "nombre": "Sofía Herrera",
        "password": "Atoi5858",
        "permisos": [
            {
@@ -189,7 +189,7 @@
                "id_permiso": 5
            }
        ],
-       "telefono": "11111111",
+       "telefono": "+423 456 321 9680",
         "id_grupoDeTrabajo":3,
         "esJefeDe":0
 
