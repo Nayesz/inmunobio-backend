@@ -1,0 +1,329 @@
+{
+    "proyecto": [
+        {
+            "codigoProyecto": "PROY1",
+            "nombre": "EcoHarmony",
+            "descripcion": " Investigación sobre la biodiversidad y la conservación de ecosistemas para promover la armonía entre la naturaleza y la actividad humana.",
+            "fechaInicio": "2021-06-13T02:21:33.617000",
+            "finalizado": false,
+            "montoInicial": 10000,
+            "participantes": [
+                1
+            ],
+            "idDirectorProyecto": 2
+        },
+        {
+            "codigoProyecto": "PROY2",
+            "nombre": "NanoMedTech",
+            "descripcion": "Desarrollo de nanotecnología médica para diagnósticos y tratamientos más precisos y eficientes de enfermedades.",
+            "fechaInicio": "2020-06-13T02:21:33.617000",
+            "fechaFinal": "2021-09-13T02:21:33.617000",
+            "finalizado": true,
+            "montoInicial": 2331000,
+            "conclusion": "La aplicación de nanotecnología en medicina podría haber llevado a la reducción de efectos secundarios no deseados en tratamientos médicos, lo que mejora la calidad de vida de los pacientes.",
+            "participantes": [
+                1
+            ],
+            "idDirectorProyecto": 3
+        },
+        {
+            "codigoProyecto": "PROY3",
+            "nombre": "AstroGenius",
+            "descripcion": "Estudio avanzado de la astrofísica y la astronomía para comprender el origen y la evolución del universo y los cuerpos celestes.",
+            "finalizado": false,
+            "montoInicial": 13940000,
+            "participantes": [
+                1
+            ],
+            "idDirectorProyecto": 4
+        }
+    ],
+    "espacioFisico": [
+        {
+            "nombre": "Área de Cultivo Celular",
+            "piso": "1",
+            "sala": "SALA 1",
+            "descripcion": "Este espacio estaría diseñado para el cultivo y mantenimiento de células y tejidos vivos. Contaría con cabinas de flujo laminar, incubadoras, sistemas de cultivo celular y otros equipos necesarios para el crecimiento y estudio de células en condiciones controladas.",
+            "blogs": [
+                {
+                    "fecha": "2021-07-13T02:21:33.617000",
+                    "detalle": "Se realizó una transfección transitoria de células SK-N-SH con un plásmido de expresión para sobreexpresar una proteína de interés. Las células se analizarán 48 horas después para estudiar el efecto de la sobreexpresión en la vía de señalización celular.",
+                    "id_usuario": 1,
+                    "tipo": "Cultivo Celular para Línea Celular SK-N-SH"
+                },
+                {
+                    "fecha": "2021-07-15T02:21:33.617000",
+                    "detalle": "Se trató una subcultura de células A549 con un agente quimioterapéutico para estudiar su efecto en la viabilidad celular. Se prepararon pocillos con y sin el agente quimioterapéutico para comparar el efecto durante 48 horas.",
+                    "id_usuario": 1,
+                    "tipo": "Cultivo Celular para A549 (Células Epiteliales Pulmonares Humanas)"
+                },
+                {
+                    "fecha": "2021-07-16T02:21:33.617000",
+                    "detalle": "Las células HeLa se subcultivaron en una proporción de 1:4 cuando alcanzaron una confluencia del 80-90%. Se desechó el medio usado y se lavaron las células con PBS antes de añadir trypsin para desprender las células del frasco. Se suspendieron en medio fresco y se sembraron en nuevos frascos.",
+                    "id_usuario": 2,
+                    "tipo": "Cultivo Celular HeLa (Células Epiteliales Humanas)"
+                }
+            ]
+        },
+        {
+            "nombre": "Sala de Preparación de Muestras",
+            "piso": "1",
+            "sala": "SALA 2",
+            "descripcion": "Esta sala se dedicaría a la preparación y procesamiento de muestras para su análisis posterior en diferentes áreas del laboratorio. Podría incluir áreas para la extracción de muestras, el procesamiento de tejidos, la preparación de medios de cultivo y otras tareas de preparación.",
+            "blogs": [
+                {
+                    "fecha": "2021-07-13T02:21:33.617000",
+                    "detalle": " Se fijó una muestra de tejido de hígado de ratón en paraformaldehído al 4% durante 2 horas. Posteriormente, se lavó la muestra con tampón de cacodilato 0.1M y se deshidrató mediante una serie de etanol (30%, 50%, 70%, 90% y 100%). Finalmente, la muestra se incluyó en resina epon y se cortaron secciones ultrafinas utilizando un ultramicrótomo.",
+                    "id_usuario": 2,
+                    "tipo": "Muestra de Tejido de Hígado de Ratón"
+                },
+                {
+                    "fecha": "2021-07-15T02:21:33.617000",
+                    "detalle": "Se recolectó una muestra de agua contaminada del sitio de estudio y se filtró a través de un filtro de 0.22 μm para eliminar partículas grandes. Luego, se preparó una solución con un volumen conocido de la muestra filtrada para su análisis por espectroscopía de absorción atómica.",
+                    "id_usuario": 2,
+                    "tipo": "Muestra de Agua Contaminada"
+                },
+                {
+                    "fecha": "2021-07-16T02:21:33.617000",
+                    "detalle": "Se recolectaron células hepáticas cultivadas en placas de cultivo celular de 6 pocillos. Las células fueron lavadas con PBS y luego se les añadió un lisis celular para extraer el ARN total. Las muestras se alícuotaron en tubos Eppendorf y se almacenaron a -80°C para análisis posterior de expresión génica.",
+                    "id_usuario": 3,
+                    "tipo": "Muestra de Cultivo Celular de Células Hepáticas"
+                }
+            ]
+        },
+        {
+            "nombre": "Sala de Animales de Laboratorio",
+            "piso": "2",
+            "sala": "SALA 1",
+            "descripcion": "Esta área es especialmente diseñada para el cuidado y manejo ético de animales utilizados en investigaciones científicas y estudios experimentales. ",
+            "blogs": [
+                {
+                    "fecha": "2021-07-13T02:21:33.617000",
+                    "detalle": "Se proporcionó a los ratones una dieta estándar de pellets de alimento para roedores, junto con agua fresca en botellas de bebedero. Se verificó que todas las jaulas tuvieran suficiente alimento y agua. Los ratones mostraron un comportamiento normal y activo durante la alimentación.",
+                    "id_usuario": 4,
+                    "tipo": "Alimentación de ratones de laboratorio"
+                },
+                {
+                    "fecha": "2021-07-15T02:21:33.617000",
+                    "detalle": "Se realizaron cambios de jaulas para mantener el ambiente limpio y saludable. Se transfirieron los ratones a nuevas jaulas con lecho de viruta y se desechó el material usado. Se observó que los ratones estaban en buen estado de salud y sin signos de enfermedad.",
+                    "id_usuario": 1,
+                    "tipo": "Cambio de jaulas y limpieza de ratones de laboratorio"
+                },
+                {
+                    "fecha": "2021-07-16T02:21:33.617000",
+                    "detalle": "Se verificó que los conejos estuvieran consumiendo su alimento adecuadamente. Se registraron las cantidades de heno y alimento concentrado proporcionado. Todos los conejos mostraron una buena ingesta de alimentos y presentaron un comportamiento tranquilo y saludable.",
+                    "id_usuario": 2,
+                    "tipo": "Monitoreo de la alimentación de conejos"
+                }
+            ]
+        },
+        {
+            "nombre": "Laboratorio de Biología Molecular",
+            "piso": "2",
+            "sala": "SALA 2",
+            "descripcion": "En este laboratorio se llevarían a cabo investigaciones relacionadas con la biología molecular y la genética. Estaría equipado con equipos de PCR (reacción en cadena de la polimerasa), secuenciadores de ADN, electroforesis y otros instrumentos para el análisis y manipulación del material genético.",
+            "blogs": [
+                {
+                    "fecha": "2021-07-13T02:21:33.617000",
+                    "detalle": " Se trató una subcultura de células HeLa con un inhibidor de la proteína X para analizar su efecto sobre la proliferación celular. Se prepararon placas de cultivo con y sin el inhibidor para comparar el crecimiento celular durante 72 horas.",
+                    "id_usuario": 1,
+                    "tipo": "Cultivo celular: Línea celular HeLa"
+                },
+                {
+                    "fecha": "2021-07-15T02:21:33.617000",
+                    "detalle": "Se mezclaron 5 ml de solución de beta-mercaptoetanol con 45 ml de buffer de lisis TRIzol. La mezcla se mantuvo en hielo durante la preparación y se alícuotó en tubos Eppendorf de 1.5 ml para facilitar su uso posterior en la extracción de ARN.",
+                    "id_usuario": 2,
+                    "tipo": "Buffer de lisis para extracción de ARN (50 ml)"
+                },
+                {
+                    "fecha": "2021-07-16T02:21:33.617000",
+                    "detalle": " Se disolvieron 60.57 g de Tris base en 400 ml de agua desionizada. Luego, se ajustó el pH a 7.5 con HCl concentrado y se completó el volumen final a 500 ml con agua desionizada.",
+                    "id_usuario": 1,
+                    "tipo": "Buffer Tris-HCl 1M (500 ml)"
+                }
+            ]
+        }
+    ],
+    "distribuidora": [
+        {
+            "nombre": "BioLabTech",
+            "direccion": "Av. Corrientes 1234, CABA, Buenos Aires",
+            "contacto": "Ana Gómez",
+            "cuit": "30-11111111-5",
+            "representante": "Luis Martínez"
+        },
+        {
+            "nombre": "LabSupplies",
+            "direccion": "Av. Santa Fe 4567, CABA, Buenos Aires",
+            "contacto": "Juan Pérez",
+            "cuit": "30-22222222-6",
+            "representante": "María López"
+        },
+        {
+            "nombre": "LabInnova",
+            "direccion": "Av. Cabildo 789, CABA, Buenos Aires",
+            "contacto": "Carlos Ramírez",
+            "cuit": "30-33333333-7",
+            "representante": "Laura González"
+        },
+        {
+            "nombre": "QuimicLab",
+            "direccion": "Av. Rivadavia 5678, CABA, Buenos Aires",
+            "contacto": "Pedro Morales",
+            "cuit": "30-44444444-8",
+            "representante": "Ana Gutiérrez"
+        }
+    ],
+    "contenedor": [
+        {
+            "codigo": "HEL001",
+            "nombre": "Heladera Biológica",
+            "descripcion": "Heladera para almacenamiento de muestras biológicas",
+            "temperatura": "4°C",
+            "capacidad": 100,
+            "disponible": true,
+            "id_espacioFisico": 1
+        },
+        {
+            "codigo": "CONG002",
+            "nombre": "Congelador -80°C",
+            "descripcion": "Congelador ultrafrío para almacenamiento a -80°C",
+            "temperatura": "-80°C",
+            "capacidad": 50,
+            "disponible": false,
+            "id_espacioFisico": 2
+        },
+        {
+            "codigo": "CONSERV003",
+            "nombre": "Conservadora de Hielo",
+            "descripcion": "Conservadora portátil para transporte de muestras con hielo",
+            "temperatura": "Entre 0°C y 10°C",
+            "capacidad": 20,
+            "disponible": true,
+            "id_espacioFisico": 3
+        },
+        {
+            "codigo": "CAJA004",
+            "nombre": "Caja de Almacenamiento",
+            "descripcion": "Caja con compartimentos para almacenar tubos de muestras",
+            "temperatura": "Ambiente",
+            "capacidad": 64,
+            "disponible": true,
+            "id_espacioFisico": 4
+        }
+    ],
+    "herramienta": [
+        {
+            "nombre": "Pipeta Micropipetor",
+            "detalle": "Micropipetor de precisión para dispensar pequeños volúmenes",
+            "id_espacioFisico": 1,
+            "blogs": [
+                {
+                    "fecha": "2023-07-26T15:15:00.000Z",
+                    "detalle": "Mantenimiento de Pipeta Micropipetor - Limpieza y calibración",
+                    "id_usuario": 1,
+                    "tipo": "Mantenimiento"
+                },
+                {
+                    "fecha": "2023-07-25T10:30:00.000Z",
+                    "detalle": "Mantenimiento de Pipeta Micropipetor - Reemplazo de puntas desgastadas",
+                    "id_usuario": 4,
+                    "tipo": "Mantenimiento"
+                }
+            ]
+        },
+        {
+            "nombre": "Centrífuga de Mesa",
+            "detalle": "Centrífuga de laboratorio para separar componentes en muestras",
+            "id_espacioFisico": 2,
+            "blogs": [
+                {
+                    "fecha": "2023-08-02T11:45:00.000Z",
+                    "detalle": "Uso de la Centrífuga de Mesa para separación de muestras sanguíneas",
+                    "id_usuario": 3,
+                    "tipo": "Separación"
+                },
+                {
+                    "fecha": "2023-08-05T14:00:00.000Z",
+                    "detalle": "Mantenimiento de la Centrífuga de Mesa - Limpieza y revisión de rotores",
+                    "id_usuario": 5,
+                    "tipo": "Mantenimiento"
+                }
+            ]
+        }
+    ],
+    "jaula": [
+        {
+            "rack": 1,
+            "codigo": "J001",
+            "estante": 2,
+            "tipo": "Vidrio",
+            "capacidad": 5,
+            "id_espacioFisico": 1,
+            "blogs": [
+                {
+                    "fecha": "2023-08-14T16:45:00.000Z",
+                    "detalle": "Registro de pesaje de los animales en la jaula ",
+                    "id_usuario": 2,
+                    "tipo": "Jaula"
+                },
+                {
+                    "fecha": "2023-08-11T09:30:00.000Z",
+                    "detalle": "Registro de observación del comportamiento de los roedores en la jaula",
+                    "id_usuario": 4,
+                    "tipo": "Jaula"
+                }
+            ]
+        },
+        {
+            "rack": 2,
+            "codigo": "J002",
+            "estante": 1,
+            "tipo": "plastico",
+            "capacidad": 5,
+            "id_espacioFisico": 2,
+            "id_proyecto": 1,
+            "blogs": [
+                {
+                    "fecha": "2023-08-10T08:00:00.000Z",
+                    "detalle": "Registro de alimentación y limpieza de la jaula",
+                    "id_usuario": 2,
+                    "tipo": "Jaula"
+                },
+                {
+                    "fecha": "2023-08-11T09:30:00.000Z",
+                    "detalle": "Registro de observación del comportamiento de los roedores en la jaula ",
+                    "id_usuario": 4,
+                    "tipo": "Jaula"
+                }
+            ]
+        }
+    ],
+    "grupoDeTrabajo": [
+        {
+            "nombre": "GRUPO DE TRABAJO 1",
+            "jefeDeGrupo": 2,
+            "integrantes": [
+                1
+            ],
+            "grupoGral": true
+        },
+        {
+            "nombre": "GRUPO DE TRABAJO 2",
+            "jefeDeGrupo": 3,
+            "integrantes": [
+                6
+            ],
+            "grupoGral": false
+        },
+        {
+            "nombre": "GRUPO DE TRABAJO 3",
+            "jefeDeGrupo": 4,
+            "integrantes": [
+                7,
+                8
+            ],
+            "grupoGral": false
+        }
+    ]
+}
