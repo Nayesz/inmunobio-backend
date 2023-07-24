@@ -1,4 +1,4 @@
-<div *ngIf='!cargando'> 
+<div *ngIf="jaula"> 
     <div class="text-black ml-3 mt-3" routerLink="../" role="button" style="position: relative;">
         <h5><span><i class="bi bi-arrow-left"></i></span>VOLVER</h5>
       </div>
@@ -155,7 +155,7 @@
         </ul>
       <div [ngbNavOutlet]="nav" class="mt-2"></div>
 </div>
-<div class="d-flex justify-content-center align-items-center h-100" *ngIf='cargando'>
+<div class="d-flex justify-content-center align-items-center h-100" *ngIf='!jaula'>
   <div class="spinner-border text-primary" role="status">
       <span class="visually-hidden">Loading...</span>
   </div>
