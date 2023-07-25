@@ -35,6 +35,7 @@ import { GrupoExperimentalComponent } from './components/home/proyectos/detalle-
 import { NuevaHerramientaComponent } from './components/home/stock/stock-detalle/nueva-herramienta/nueva-herramienta.component';
 import { DividirGrupoComponent } from './components/home/proyectos/detalle-experimentos/grupo-experimental/dividir-grupo/dividir-grupo.component';
 import { PerfilComponent } from './components/home/perfil/perfil.component';
+import { EditarProyectoComponent } from './components/home/proyectos/editar-proyecto/editar-proyecto.component';
 
 const routes: Routes = [
   { path: 'home',
@@ -44,7 +45,7 @@ const routes: Routes = [
       {path: 'perfil', component: PerfilComponent},
       {path: 'proyectos', component: ProyectosComponent},
       {path: 'proyectos/nuevo-proyecto', component: NuevoProyectoComponent},
-      {path: 'proyectos/editar-proyecto/:id', component: NuevoProyectoComponent},
+      {path: 'proyectos/editar-proyecto/:id', component: EditarProyectoComponent},
       {path: 'proyectos/create', component: NuevoProyectoComponent},
       {path: 'proyectos/:id', component: DetalleProyectoComponent},
       {path: 'proyectos/:id/experimento/:idExperimento', component: DetalleExperimentosComponent},

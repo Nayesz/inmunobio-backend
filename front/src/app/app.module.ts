@@ -15,6 +15,7 @@ import { ProyectosComponent } from './components/home/proyectos/proyectos.compon
 import { DetalleProyectoComponent } from './components/home/proyectos/detalle-proyecto/detalle-proyecto.component';
 import { DetalleExperimentosComponent } from './components/home/proyectos/detalle-experimentos/detalle-experimentos.component';
 import { NuevoProyectoComponent } from './components/home/proyectos/nuevo-proyecto/nuevo-proyecto.component';
+import { EditarProyectoComponent } from './components/home/proyectos/editar-proyecto/editar-proyecto.component';
 import { StockComponent } from './components/home/stock/stock.component';
 import { StockDetalleComponent } from './components/home/stock/stock-detalle/stock-detalle.component';
 import { NuevoProductoComponent } from './components/home/configuracion/productos/nuevo-producto/nuevo-producto.component';
@@ -66,6 +67,7 @@ import {LogService} from './services/log.service'
     DetalleProyectoComponent,
     DetalleExperimentosComponent,
     NuevoProyectoComponent,
+    EditarProyectoComponent,
     StockComponent,
     StockDetalleComponent,
     NuevoProductoComponent,

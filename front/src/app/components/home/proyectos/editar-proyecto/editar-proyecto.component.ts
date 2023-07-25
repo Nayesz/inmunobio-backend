@@ -9,11 +9,11 @@ import { Router } from '@angular/router';
 import { ToastServiceService } from 'src/app/services/toast-service.service';
 
 @Component({
-  selector: 'app-nuevo-proyecto',
-  templateUrl: './nuevo-proyecto.component.html',
-  styleUrls: ['./nuevo-proyecto.component.css']
+  selector: 'app-editar-proyecto',
+  templateUrl: './editar-proyecto.component.html',
+  styleUrls: ['./editar-proyecto.component.css']
 })
-export class NuevoProyectoComponent implements OnInit {
+export class EditarProyectoComponent implements OnInit {
   element!: any;
   modo!: string;
   mensajeAlert: string;

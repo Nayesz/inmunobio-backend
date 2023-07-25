@@ -18,11 +18,23 @@ TODO:
 
 9- ~~Error al editar usuarios: password hasheada~~ -> ahora pide siempre blanquear clave
 
+----
 
 
 # Pasos para levantar el entorno con docker-compose:
 
-"$docker-compose up --build"
+## Backend y bases por un lado, frontend por otro
+1- Levantamos backend y bases:
+
+$docker-compose up --build
+
+(La base de mysql  ya arranca con datos, a la base de mongo hay que llenarla con el endpoint: localhost:8080/api/v1/llenarBaseMongo , enviando en el body los datos que se encuentran en /data/postman-mongo.json)
+
+2- Levantamos el front, dentro de la carpeta /front ejecutamos:
+
+$docker-compose up --build
+
+----
 
 # Pasos para levantar el entorno de forma local:
 
@@ -54,7 +66,6 @@ $sudo docker run -d -p 33060:3306 --name mysqlDB -e MYSQL_ROOT_PASSWORD=secret m
 
 $python app.py
 
-
 ----
 
 Posibles errores solucionables con algunos de estos comandos:
@@ -82,6 +93,5 @@ en api_jws.py y api_jwt.py
 
 ------------------
 Sobre presentación:
-
 
 -Token JWT enviado en cada request http -> backend protegido, solo usuarios autorizados pueden obtener información.
