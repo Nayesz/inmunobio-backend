@@ -32,7 +32,9 @@ class EspacioFisicoID(Resource):
     def get(self,id_espacioFisico):
         if id_espacioFisico:
             try:
-                return CommonService.json(EspacioFisicoService.find_by_id(id_espacioFisico),EspacioFisicoSchema)
+                algo = CommonService.json(EspacioFisicoService.find_by_id(id_espacioFisico),EspacioFisicoSchema)
+                print(algo)
+                return algo
             except Exception as err:
                 return {'Error': err.args}, 400
         return {'Error': 'Debe enviarse el id del espacio físico.'},400

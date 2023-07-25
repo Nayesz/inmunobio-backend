@@ -12,7 +12,7 @@ class DistribuidoraSchema(Schema):
     id_distribuidora = fields.Integer(dump_only=True)
 
 class ModificarDistribuidora(DistribuidoraSchema):
-    id_distribuidora = fields.Integer(required=True,validate=Validacion.not_empty_int,error_messages={"required": {"message": "Debe indicarse id_distribuidora", "code": 400}}) 
+    id_distribuidora = fields.Integer(required=True,validate=Validacion.not_empty_or_zero_int,error_messages={"required": {"message": "Debe indicarse id_distribuidora", "code": 400}}) 
 
 class NuevaDistribuidoraSchema(DistribuidoraSchema):
     nombre = fields.String(required=True,validate=Validacion.not_empty_string,error_messages={"required": {"message": "Debe indicarse nombre de distribuidora", "code": 400}}) 

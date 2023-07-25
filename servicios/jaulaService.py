@@ -49,7 +49,10 @@ class JaulaService:
     @classmethod
     def validaModificacionJaula(cls,jaula):
         cls.find_by_id(jaula.id_jaula)
-        cls.verificarProyecto(jaula.id_proyecto)
+        # El 0 se usa para desasignar del proyecto.
+        if(jaula.id_proyecto != 0):
+            cls.verificarProyecto(jaula.id_proyecto)
+        
 
     @classmethod
     def actualizarJaula(cls, datos):
@@ -123,6 +126,7 @@ class JaulaService:
     @classmethod
     def agregarDatosExtraBlogJaula(cls,blog,jaula):
         from schemas.blogSchema import BlogSchemaExtendido
+        # blog.id_usuario no tiene el id del usuario, si no que tiene el usuario completo.
         dictBlog =  BlogSchemaExtendido().dump(blog)
         dictBlog['id_jaula'] = jaula.id_jaula
         dictBlog['codigoJaula'] = jaula.codigo
