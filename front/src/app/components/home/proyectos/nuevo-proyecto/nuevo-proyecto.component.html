@@ -13,71 +13,88 @@
                     <div class="primer-bloque">
                         <div class="fila">
                             <label for="nombre" class="form-label">Nombre de proyecto</label>
-                            <input type="text" class="form-control" id="nombre" formControlName='nombre' placeholder="Ingrese nombre de proyecto" [attr.disabled]='disabledForm ? true : null'>
+                            <input type="text" class="form-control" id="nombre" formControlName='nombre'
+                                placeholder="Ingrese nombre de proyecto" [attr.disabled]='disabledForm ? true : null'>
                             <div
                                 *ngIf="formProyecto.get('nombre').invalid && (formProyecto.get('nombre').dirty || formProyecto.get('nombre').touched)">
                                 <div *ngIf="formProyecto.get('nombre').errors.required">El nombre es requerido.</div>
-                                <div *ngIf="formProyecto.get('nombre').errors.maxLength">20 caracteres máximo.</div>
+                                <div *ngIf="formProyecto.get('nombre').errors.maxLength">30 caracteres máximo.</div>
                             </div>
-                        </div>
-                        <div class="codigoYpresupuesto">
-                            <div class="fila">
-                                <label for="codigoProyecto" class="form-label">Codigo de Proyecto</label>
-                                <input type="text" class="form-control" id="codigoProyecto" formControlName='codigoProyecto' placeholder="Ingrese codigo de proyecto" [attr.disabled]='disabledForm ? true : null'>
-                            </div>
-                            <div class="fila presupuesto">
-                                <label for="montoInicial" class="form-label">Presupuesto Inicial</label>
-                                <input type="number" class="form-control" id="montoInicial" formControlName='montoInicial' placeholder="Ingrese monto inicial de proyecto" [attr.disabled]='disabledForm ? true : null'>
-                            </div>
-                        </div>
-                        <div class="fila">
-                            <label for="director" class="form-label">Director de Proyecto</label>
-                            <input type="text" class="form-control" id="director" formControlName='nomDirP'  [readonly]="true" [attr.disabled]='disabledForm ? true : null'>
-
-                            <!-- <label for="director" class="form-label">Director de Proyecto</label>
-                            <select class="form-control"  id='director' aria-label="Default select example" formControlName="idDirectorProyecto" (change)="filtrarDirector()" [attr.disabled]='disabledForm ? true : null'> 
-                                <option selected hidden value="-1">Usted será el director/a de Proyecto</option>
-                                <option *ngFor='let usuario of directoresProyecto' value="{{usuario.id}}">{{usuario.nombre}}</option>
-                            </select> -->
                         </div>
                     </div>
-                
-                    <div class="imagen">
-                        <div class="text-center">
-                            <i class="bi bi-folder-plus" style="font-size: 8em;"></i>
+                    <div class="codigoYpresupuesto">
+                        <div class="fila">
+                            <label for="codigoProyecto" class="form-label">Codigo de Proyecto</label>
+                            <input type="text" class="form-control" id="codigoProyecto" formControlName='codigoProyecto'
+                                placeholder="Ingrese codigo de proyecto" [attr.disabled]='disabledForm ? true : null'>
+                            <div
+                                *ngIf="formProyecto.get('codigoProyecto').invalid && (formProyecto.get('codigoProyecto').dirty || formProyecto.get('codigoProyecto').touched)">
+                                <div *ngIf="formProyecto.get('codigoProyecto').errors.required">El codigo de proyecto es
+                                    requerido.</div>
+                                <div *ngIf="formProyecto.get('codigoProyecto').errors.maxLength">10 caracteres máximo.
+                                </div>
+                            </div>
                         </div>
+                        <div class="fila presupuesto">
+                            <label for="montoInicial" class="form-label">Presupuesto Inicial</label>
+                            <input type="number" class="form-control" id="montoInicial" formControlName='montoInicial'
+                                placeholder="Ingrese monto inicial de proyecto"
+                                [attr.disabled]='disabledForm ? true : null'>
+                        </div>
+                    </div>
+                    <div class="fila">
+                        <label for="director" class="form-label">Director de Proyecto</label>
+                        <input type="text" class="form-control" id="director" formControlName='nomDirP'
+                            [readonly]="true" [attr.disabled]='disabledForm ? true : null'>
                     </div>
                 </div>
-            <div class="mb-3">
-                <label for="descripcion" class="form-label">Descripcion</label>
-                <textarea class="form-control" id='descripcion' aria-label="With textarea" rows="6" formControlName='descripcion' placeholder="Ingrese descripcion de proyecto" [attr.disabled]='disabledForm ? true : null'></textarea>
-            </div>
-            <div class="mb-3">
-                <label for="descripcion" class="form-label">Usuarios Asignados</label>
-                <angular2-multiselect 
-                    [data]="itemList" 
-                    [(ngModel)]="selectedItems" 
-                    [settings]="settings"                 
-                    formControlName="usuarios"
-                    [attr.disabled]='disabledForm ? true : null'>
-                </angular2-multiselect>
+                <div class="imagen">
+                    <div class="text-center">
+                        <i class="bi bi-folder-plus" style="font-size: 8em;"></i>
+                    </div>
+                </div>
 
+                <div class="mb-3">
+                    <label for="descripcion" class="form-label">Descripcion</label>
+                    <textarea class="form-control" id='descripcion' aria-label="With textarea" rows="6"
+                        formControlName='descripcion' placeholder="Ingrese descripcion de proyecto"
+                        [attr.disabled]='disabledForm ? true : null'></textarea>
+                    <div
+                        *ngIf="formProyecto.get('descripcion').invalid && (formProyecto.get('descripcion').dirty || formProyecto.get('descripcion').touched)">
+                        <div *ngIf="formProyecto.get('descripcion').errors.required">La descripcion es requerida.</div>
+                        <div *ngIf="formProyecto.get('descripcion').errors.maxLength">1000 caracteres máximo.</div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="usuarios" class="form-label">Usuarios Asignados</label>
+                    <angular2-multiselect [data]="itemList" [(ngModel)]="selectedItems" [settings]="settings"
+                        formControlName="usuarios" [attr.disabled]='disabledForm ? true : null'>
+                    </angular2-multiselect>
+                    <div
+                        *ngIf="formProyecto.get('usuarios').invalid && (formProyecto.get('usuarios').dirty || formProyecto.get('usuarios').touched)">
+                        <div *ngIf="formProyecto.get('usuarios').errors.required">Debe seleccionar algun usuario.</div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary btn-lg"
+                        *ngIf="!formProyecto.invalid &&!disabledForm">Crear
+                        Proyecto</button>
+                    <button class="btn btn-primary btn-lg" type="button" disabled *ngIf='disabledForm'>
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Cargando...
+                    </button>
+                </div>
             </div>
-            <div class="text-center">
-                <button type="submit" class="btn btn-primary btn-lg" *ngIf="!formProyecto.invalid &&!disabledForm">Crear Proyecto</button>
-                <button class="btn btn-primary btn-lg" type="button" disabled *ngIf='disabledForm'>
-                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                    Cargando...
-                  </button>
-              </div>
-        </div>
         </form>
+
     </div>
-    <div class="d-flex justify-content-center" *ngIf='cargando'>
-        <div class="spinner-border text-primary" role="status">
-            <span class="visually-hidden">Loading...</span>
-        </div>
+
+</div>
+<div class="d-flex justify-content-center" *ngIf='cargando'>
+    <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
     </div>
 </div>
+
 
 <app-toast></app-toast>

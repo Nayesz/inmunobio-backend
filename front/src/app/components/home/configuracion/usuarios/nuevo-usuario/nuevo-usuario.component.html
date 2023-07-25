@@ -16,8 +16,7 @@
                             <input type="text" class="form-control" id="nombre" formControlName="nombre"
                                 placeholder="Ingrese el nombre del usuario"
                                 [attr.disabled]="disabledForm ? true : null">
-                            <div
-                                *ngIf="formUsuario.get('nombre').invalid && (formUsuario.get('nombre').dirty || formUsuario.get('nombre').touched)">
+                            <div *ngIf="formUsuario.get('nombre').invalid && (formUsuario.get('nombre').dirty || formUsuario.get('nombre').touched)">
                                 <div *ngIf="formUsuario.get('nombre').errors.required">El nombre es requerido.</div>
                                 <div *ngIf="formUsuario.get('nombre').errors.maxLength">20 caracteres máximo.</div>
                             </div>

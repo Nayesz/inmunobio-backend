@@ -78,7 +78,7 @@ export class NuevoProyectoComponent implements OnInit {
     };
 
     this.formProyecto = new FormGroup({
-      nombre: new FormControl('', [Validators.required, Validators.maxLength(20)]),
+      nombre: new FormControl('', [Validators.required, Validators.maxLength(30)]),
       codigoProyecto: new FormControl('', [Validators.required, Validators.maxLength(10)]),
       montoInicial: new FormControl(''),
       idDirectorProyecto: new FormControl(JSON.parse(localStorage.getItem('usuario')).id, [Validators.required]),

@@ -7,7 +7,7 @@
             </span>
             <input type="text" class="form-control " id="usuario" name='filterPost' placeholder="Buscar por nombre de proyecto" [(ngModel)]='filterPost'>
         </div>
-        <div>
+        <div *ngIf='esDirProyecto()'>
           <button class="btn btn-outline-primary agregar-proyecto my-2" routerLink='nuevo-proyecto'>+Agregar</button>
         </div>
     </div>

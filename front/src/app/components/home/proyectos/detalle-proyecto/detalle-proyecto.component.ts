@@ -38,7 +38,7 @@ export class DetalleProyectoComponent implements OnInit {
   blogs = [];
   cargando: boolean;
   fecHastaReal: Date;
-
+  usuario: any;
   constructor(
     private router: Router,
     private getService: GetService,
@@ -49,6 +49,7 @@ export class DetalleProyectoComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.usuario = JSON.parse(localStorage.getItem('usuario'));
     this.cargando = true;
     this.filterPostActive = -1;
     this.filterPostName = '';
@@ -148,5 +149,15 @@ export class DetalleProyectoComponent implements OnInit {
         } else if (this.tipo == 'Todos'){
         }
   }
+
+  esDirProyecto(){
+    for(let i = 0 ; i < this.usuario.permisos.length ; i++){
+      if (this.usuario.permisos[i].id_permiso == 4){
+        return true;
+      }else{
+        return false;
+      }
+    }
+}
 
 }

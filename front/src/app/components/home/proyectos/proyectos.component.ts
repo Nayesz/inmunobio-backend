@@ -12,16 +12,18 @@ export class ProyectosComponent implements OnInit {
   proyectos: Proyecto[] = [];
   filterPost: string;
   cargando: boolean;
+  usuario:any;
+
 
   constructor(
     private getService: GetService,
     public toastService: ToastServiceService) { }
 
   ngOnInit(): void {
+    this.usuario = JSON.parse(localStorage.getItem('usuario'));
     this.cargando = true;
-    const usuario = JSON.parse(localStorage.getItem('usuario'));
     this.filterPost = '';
-    this.getService.obtenerProyectoPorUsuario(usuario.id).subscribe(res => {
+    this.getService.obtenerProyectoPorUsuario(this.usuario.id).subscribe(res => {
       console.log(res);
       if (res){
         this.proyectos = res;
@@ -32,5 +34,15 @@ export class ProyectosComponent implements OnInit {
         this.cargando = false;
       }
     });
+  }
+
+  esDirProyecto(){
+      for(let i = 0 ; i < this.usuario.permisos.length ; i++){
+        if (this.usuario.permisos[i].id_permiso == 4){
+          return true;
+        }else{
+          return false;
+        }
+      }
   }
 }

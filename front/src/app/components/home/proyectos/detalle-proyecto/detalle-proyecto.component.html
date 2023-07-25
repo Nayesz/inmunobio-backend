@@ -6,7 +6,7 @@
   <div class="encabezado">
       <div class="titulo">
         <h2 class="">{{proyecto?.nombre}} - {{proyecto?.codigoProyecto}}</h2>
-        <div class="editar-finalizar" *ngIf='!proyecto?.finalizado'>
+        <div *ngIf='esDirProyecto() && !proyecto?.finalizado' class="editar-finalizar" >
           <button class="btn btn-outline-primary" style="cursor: pointer" routerLink='../editar-proyecto/{{proyecto?.id_proyecto}}'><i class="bi bi-pencil text-primary"></i> Editar</button>
           <button class="btn btn-outline-danger finalizar" (click)="open(finalizarProyecto)">Finalizar Proyecto</button>
         </div>
