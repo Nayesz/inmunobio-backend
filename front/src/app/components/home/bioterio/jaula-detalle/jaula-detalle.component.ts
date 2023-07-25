@@ -68,42 +68,31 @@ export class JaulaDetalleComponent implements OnInit, OnDestroy {
     this.usuario = JSON.parse(localStorage.getItem('usuario'));
     this.idJaula = parseInt(this.activatedRouter.snapshot.paramMap.get('id'), 10);
 
-    this.getService.obtenerJaulasPorId(this.idJaula).pipe(
+    this.subscription.add(this.getService.obtenerJaulasPorId(this.idJaula).pipe(
       switchMap(jaulaResultado => {
         this.jaula = jaulaResultado;
-        if (jaulaResultado.id_proyecto > 0) {
-          // Si jaula.id_proyecto es mayor a 0, llamamos a los otros dos servicios dentro de forkJoin
           return forkJoin([
             this.getService.obtenerAnimalesPorJaula(this.jaula.id_jaula),
-            this.getService.obtenerProyectosPorId(this.jaula.id_proyecto),
+            jaulaResultado.id_proyecto > 0 ? this.getService.obtenerProyectosPorId(this.jaula.id_proyecto) : [null],
             this.getService.obtenerProyectos(),
             this.getService.obtenerEspacioFisico(this.jaula.id_espacioFisico),
             this.postService.obtenerBlogJaula(this.blogSearchObject())
           ]);
-        } else {
-          // Si jaula.id_proyecto no es mayor a 0, simplemente devolvemos un array con null para los servicios que no se llamarán
-          return forkJoin([
-            this.getService.obtenerAnimalesPorJaula(this.jaula.id_jaula),
-            [null],
-            this.getService.obtenerProyectos(),
-            this.getService.obtenerEspacioFisico(this.jaula.id_espacioFisico),
-            this.postService.obtenerBlogJaula(this.blogSearchObject())
-          ]);
-        }
       })
     ).subscribe(
       ([animalesResultado, proyectoResultado, proyectosResultado, espacioFisicoResultado, blogResultado]) => {
         this.animales = animalesResultado;
-        this.miProyecto = proyectoResultado ? proyectoResultado[0] : null;
-        this.proyectos = proyectosResultado;
+        this.miProyecto = proyectoResultado;
+        this.proyectos = proyectosResultado.filter(proyecto => !proyecto.finalizado);
         this.espacioFisico = espacioFisicoResultado;
         this.blogs = blogResultado;
       },
       (error) => {
         //Acá se podría enviar al usuario a una página de error y que le muestre el mensaje de error.
-        this.toastService.show(error.error['Error'],{ classname: 'bg-danger text-light', delay: 2000 });
+        const errorMessages = error.error['Error'].map(msg => msg).join('\n')
+        this.toastService.show(errorMessages, { classname: 'bg-danger text-light', delay: 2000 });
       }
-    );
+    ));
   }
   
   open(content): void {
@@ -250,4 +239,3 @@ export class JaulaDetalleComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 }
-
