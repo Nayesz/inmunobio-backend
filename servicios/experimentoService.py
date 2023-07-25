@@ -39,11 +39,11 @@ class ExperimentoService:
 
     @classmethod
     def experimentoDisponible(cls, experimento):
-        return experimento.finalizado
+        return not experimento.finalizado
 
     @classmethod
     def todosLosExperimentosFinalizados(cls,id_proyecto):
-        return all(not cls.experimentoDisponible(experimento.id_experimento) for experimento in cls.find_by_proyecto(id_proyecto))
+        return all(not cls.experimentoDisponible(experimento) for experimento in cls.find_by_proyecto(id_proyecto))
 
     @classmethod
     def cerrarExperimento(cls, datos):

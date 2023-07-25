@@ -1,6 +1,7 @@
 from flask_restful import Resource
 from flask_jwt import jwt_required
 from flask import  request
+from resources.token import TokenDeAcceso
 from schemas.proyectoSchema import ProyectoExtendido
 from servicios.proyectoService import ProyectoService
 from servicios.commonService import CommonService
@@ -15,13 +16,11 @@ class Proyectos(Resource):
             return {'Error': err.args},400
 
 class NuevoProyecto(Resource):
-    # @jwt_required()
+    @TokenDeAcceso.token_nivel_de_acceso(TokenDeAcceso.BIO)
     def post(self):
         datos = request.get_json()
         if datos:
             try:
-                print("RECIBIMOS:")
-                print(datos)
                 ProyectoService.nuevoProyecto(datos)
                 return {'Status':'El proyecto fue dado de alta.'},200
             except Exception as err:
@@ -29,7 +28,7 @@ class NuevoProyecto(Resource):
         return {'Error': 'Deben suministrarse datos para el alta del proyecto.'},404
 
 class CerrarProyecto(Resource):
-    #@jwt_required()
+    @TokenDeAcceso.token_nivel_de_acceso(TokenDeAcceso.BIO)
     def put(self):
         datos = request.get_json()
         if datos:
@@ -51,7 +50,7 @@ class ProyectoID(Resource):
         return {'Error': 'Deben indicarse id del proyecto'}, 400
 
 class ModificarProyecto(Resource):
-    #@jwt_required()
+    @TokenDeAcceso.token_nivel_de_acceso(TokenDeAcceso.BIO)
     def put(self):
         datos = request.get_json()
         if datos:
