@@ -25,12 +25,12 @@ export class ConfiguracionComponent implements OnInit {
     for(let i = 0 ; i < this.usuario.permisos.length ; i++){
       if (this.usuario.permisos[i].id_permiso == 1){
         return true;
-      }else{
-        return false;
-      }
+      }  
+    }
+      return false;
     }
     
-  }
+  
 
 }
 

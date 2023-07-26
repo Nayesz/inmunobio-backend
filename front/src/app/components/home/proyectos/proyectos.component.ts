@@ -12,7 +12,7 @@ export class ProyectosComponent implements OnInit {
   proyectos: Proyecto[] = [];
   filterPost: string;
   cargando: boolean;
-  usuario:any;
+  usuario: any;
 
 
   constructor(
@@ -25,24 +25,24 @@ export class ProyectosComponent implements OnInit {
     this.filterPost = '';
     this.getService.obtenerProyectoPorUsuario(this.usuario.id).subscribe(res => {
       console.log(res);
-      if (res){
+      if (res) {
         this.proyectos = res;
         this.cargando = false;
       } else {
         this.proyectos = [];
-        this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
+        this.toastService.show('Hubo un error', { classname: 'bg-danger text-light', delay: 2000 });
         this.cargando = false;
       }
     });
   }
 
-  esDirProyecto(){
-      for(let i = 0 ; i < this.usuario.permisos.length ; i++){
-        if (this.usuario.permisos[i].id_permiso == 4){
-          return true;
-        }else{
-          return false;
-        }
+  esDirProyecto() {
+    for (let i = 0; i < this.usuario.permisos.length; i++) {
+      if (this.usuario.permisos[i].id_permiso == 4) {
+        return true;
       }
+    }
+    return false;
   }
+
 }

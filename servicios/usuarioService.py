@@ -11,9 +11,10 @@ class UsuarioService():
     @classmethod
     def modificarUsuario(cls, datos):
         usuario = cls.validarModificacion(datos)
+        usuario.permisos = cls.asignarRolDefault(datos)
         CommonService.updateAtributes(usuario , datos, ['permisos','password'])
         cls.modificacionPassword(usuario,datos['password'])
-        cls.asignarPermisos(usuario, datos['permisos'])
+        #cls.asignarPermisos(usuario, datos['permisos'])
         from db import db
         db.session.commit()
 

@@ -73,7 +73,7 @@ class ObtenerUsuariosProyecto(Resource):
         return {'Error': 'Deben indicarse id del proyecto'}, 400
 
 class ObtenerBlogsProyecto(Resource):
-    #@jwt_required()
+    @TokenDeAcceso.token_nivel_de_acceso(TokenDeAcceso.TEC)
     def post(self):
         datos = request.get_json()
         if datos:
