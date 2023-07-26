@@ -74,9 +74,7 @@ select{
     align-items: center;
     justify-content: space-around;
 }
-textarea{
-    width: 200% ;
-}
+
 .detalle-eliminar_jaula, .detalle-eliminar_animal{
     display: flex;
     justify-content: center;
@@ -94,6 +92,10 @@ textarea{
     display: flex;
     justify-content: center;
     margin-top: 2em;
+}
+
+.body-crear_blog-detalle {
+    flex-grow: 2;
 }
 
 @media screen and (max-width: 360px){
@@ -144,6 +146,7 @@ textarea{
     .body-crear_blog-detalle{
         width: 100%;
         margin-left: 1em;
+        flex-grow: 2;
     }
     .textarea_nuevoBlog{
         width: 90%;

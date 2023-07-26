@@ -23,6 +23,11 @@ class UsuarioSchema(Schema):
     id_grupoDeTrabajo =fields.Integer(default=0,missing = 0)
     esJefeDe = fields.Integer(default=0,missing = 0) #missing para serializacion , default para  deserializacion
 
+# Schema creado para los blogs
+class UsuarioBlogSchema(Schema):
+     id = fields.Integer()
+     nombre = fields.Str()
+
 
 class UsuarioNuevoSchema(UsuarioSchema):
     email = fields.Str( required=True,error_messages={"required": {"message": "Se necesita ingresar el mail", "code": 400}})

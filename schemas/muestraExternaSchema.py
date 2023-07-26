@@ -22,5 +22,5 @@ class MuestraExternaSchema(Schema):
 
 
 class MuestraExternaSchema(MuestraExternaSchema):
-    id_muestra = fields.Int(required=True, validate=Validacion.not_empty_int, error_messages={"required": {"message" : "Es necesario indicar el id de la muestra externa", "code": 400}})
-    id_proyecto = fields.Int(required=True, validate=Validacion.not_empty_int, error_messages={"required": {"message" : "Es necesario indicar el id del proyecto", "code": 400}})
+    id_muestra = fields.Int(required=True, validate=Validacion.not_empty_or_zero_int, error_messages={"required": {"message" : "Es necesario indicar el id de la muestra externa", "code": 400}})
+    id_proyecto = fields.Int(required=True, validate=Validacion.not_empty_or_zero_int, error_messages={"required": {"message" : "Es necesario indicar el id del proyecto", "code": 400}})

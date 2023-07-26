@@ -20,8 +20,10 @@ class BlogSchema(NuevoBlogSchema):
     tipo = fields.String()
 
 class BlogSchemaExtendido(BlogSchema):
-    from .usuarioSchema import UsuarioSchema
-    id_usuario = fields.Nested(UsuarioSchema)
+    # Se cambió el esquema por uno nuevo para no pasarle datos inecesarios. 
+    from .usuarioSchema import UsuarioBlogSchema
+    # id_usuario contiene {id_usuario:int, nombre:string}
+    id_usuario = fields.Nested(UsuarioBlogSchema)
 
 def tipoValidacion(data):
     if( data != "Jaula" and data != "Experimento"):

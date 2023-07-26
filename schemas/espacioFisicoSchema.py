@@ -12,7 +12,7 @@ class EspacioFisicoSchema(Schema):
     #tipo = dbMongo.StringField() #Revisar y preguntar /Taller, Bioterio, etc
 
 class ModificarEspacioFisico(EspacioFisicoSchema):
-    id_espacioFisico = fields.Integer(required=True,validate=Validacion.not_empty_int, error_messages={"required": {"message" : "Deben indicarse el id del espacio", "code": 400}})
+    id_espacioFisico = fields.Integer(required=True,validate=Validacion.not_empty_or_zero_int, error_messages={"required": {"message" : "Deben indicarse el id del espacio", "code": 400}})
     blogs = fields.Nested(BlogSchema,many=True)
 
 class NuevoEspacioFisicoSchema(Schema):
@@ -29,11 +29,11 @@ class EspacioFisicoBaseSchema(NuevoEspacioFisicoSchema):
     blogs = fields.Nested(BlogSchema,many=True)
 
 class NuevoBlogEspacioFisicoSchema(Schema):
-    id_espacioFisico = fields.Integer(required=True,validate=Validacion.not_empty_int, error_messages={"required": {"message" : "Deben indicarse el id del espacio", "code": 400}})
+    id_espacioFisico = fields.Integer(required=True,validate=Validacion.not_empty_or_zero_int, error_messages={"required": {"message" : "Deben indicarse el id del espacio", "code": 400}})
     blogs = fields.Nested(NuevoBlogSchema,required=True,error_messages={"required": {"message" : "Deben indicarse datos del blog de espacio físico.", "code": 400}})
 
 class BusquedaBlogEspacio(Schema):
     fechaDesde = fields.String(required=True,validate=Validacion.not_empty_string,error_messages={"required": {"message": "Debe indicarse  fecha-desde.", "code": 400}}) 
     fechaHasta = fields.String(required=True,validate=Validacion.not_empty_string,error_messages={"required": {"message": "Debe indicarse  fecha-hasta", "code": 400}}) 
-    id_espacioFisico = fields.Integer(required=True,validate=Validacion.not_empty_int,error_messages={"required": {"message": "Debe indicarse  id_espacioFisico", "code": 400}}) 
+    id_espacioFisico = fields.Integer(required=True,validate=Validacion.not_empty_or_zero_int,error_messages={"required": {"message": "Debe indicarse  id_espacioFisico", "code": 400}}) 
 

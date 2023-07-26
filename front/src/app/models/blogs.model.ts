@@ -1,3 +1,5 @@
+import { Usuario } from "./usuarios.model";
+
 
 export class BlogEspacio{
     id_espacioFisico: number;
@@ -32,7 +34,7 @@ export class BlogsJaula{
     fecha: any;
     id_blog: number;
     id_jaula: number;
-    id_usuario: number;
+    id_usuario: Usuario;
     tipo: string;
 }
 export class BlogBuscadoJaula{

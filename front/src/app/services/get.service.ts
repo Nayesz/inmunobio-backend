@@ -111,6 +111,7 @@ export class GetService {
   }
 
   obtenerProyectosPorId(id: number): Observable<any>{
+    console.log("Se ejecutó: obtenerProyectosPorId")
     return this.http.get<Proyecto>(this.API_URL + `proyecto/${id}`);
   }
 

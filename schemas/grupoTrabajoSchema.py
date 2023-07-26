@@ -4,8 +4,8 @@ from models.mongo.validacion import Validacion
 
 
 class jefeDeGrupoSchema(Schema):
-    id_grupoDeTrabajo = fields.Integer(required=True,validate=Validacion.not_empty_int,error_messages={"required": {"message": "Debe indicarse id de grupo", "code": 400}}) 
-    jefeDeGrupo = fields.Integer(required=True,validate=Validacion.not_empty_int,error_messages={"required": {"message": "Debe indicarse id jefe de grupo", "code": 400}}) 
+    id_grupoDeTrabajo = fields.Integer(required=True,validate=Validacion.not_empty_or_zero_int,error_messages={"required": {"message": "Debe indicarse id de grupo", "code": 400}}) 
+    jefeDeGrupo = fields.Integer(required=True,validate=Validacion.not_empty_or_zero_int,error_messages={"required": {"message": "Debe indicarse id jefe de grupo", "code": 400}}) 
   
 class GrupoDeTrabajoSchema(Schema):
     id_grupoDeTrabajo = fields.Integer()
@@ -20,7 +20,7 @@ class GrupoDeTrabajoSchema(Schema):
 
 class NuevoGrupoDeTrabajoSchema(GrupoDeTrabajoSchema):
     nombre = fields.Str(required=True,validate=Validacion.not_empty_string,error_messages={"required": {"message": "Debe indicarse nombre de grupo", "code": 400}}) 
-    jefeDeGrupo = fields.Integer(required=True,validate=Validacion.not_empty_int,error_messages={"required": {"message": "Debe indicarse Jefe de Grupo", "code": 400}}) 
+    jefeDeGrupo = fields.Integer(required=True,validate=Validacion.not_empty_or_zero_int,error_messages={"required": {"message": "Debe indicarse Jefe de Grupo", "code": 400}}) 
     
 class GrupoDeTrabajoDatosExtra(GrupoDeTrabajoSchema):
     from .usuarioSchema import UsuarioSchema
@@ -28,5 +28,5 @@ class GrupoDeTrabajoDatosExtra(GrupoDeTrabajoSchema):
     integrantes = fields.Nested(UsuarioSchema, many=True)
     
 class ModificarGrupoDeTrabajoSchema(NuevoGrupoDeTrabajoSchema):
-    id_grupoDeTrabajo = fields.Integer(required=True,validate=Validacion.not_empty_int,error_messages={"required": {"message": "Debe indicarse id de grupo", "code": 400}}) 
+    id_grupoDeTrabajo = fields.Integer(required=True,validate=Validacion.not_empty_or_zero_int,error_messages={"required": {"message": "Debe indicarse id de grupo", "code": 400}}) 
 
