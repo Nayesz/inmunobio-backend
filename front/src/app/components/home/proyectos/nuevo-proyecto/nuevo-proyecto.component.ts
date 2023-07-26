@@ -80,7 +80,7 @@ export class NuevoProyectoComponent implements OnInit {
     this.formProyecto = new FormGroup({
       nombre: new FormControl('', [Validators.required, Validators.maxLength(30)]),
       codigoProyecto: new FormControl('', [Validators.required, Validators.maxLength(10)]),
-      montoInicial: new FormControl(''),
+      montoInicial: new FormControl('', [Validators.required]),
       idDirectorProyecto: new FormControl(JSON.parse(localStorage.getItem('usuario')).id, [Validators.required]),
       descripcion: new FormControl('', [Validators.required, Validators.maxLength(1000)]),
       usuarios: new FormControl([], [Validators.required]),
@@ -119,7 +119,9 @@ export class NuevoProyectoComponent implements OnInit {
           }, 3000);
         }, err => {
           let mensaje = err.error.Error[0]
-          this.toastService.show('Problema al crear Proyecto' + mensaje , { classname: 'bg-danger text-light', delay: 2000 });
+          this.testLog(err)
+          this.testLog(mensaje)
+          this.toastService.show('Problema al crear Proyecto'  , { classname: 'bg-danger text-light', delay: 2000 });
           setTimeout(() => {
             this.toastService.removeAll()
           }, 3000);

@@ -6,6 +6,7 @@ from schemas.proyectoSchema import ProyectoExtendido
 from servicios.proyectoService import ProyectoService
 from servicios.commonService import CommonService
 from schemas.usuarioSchema import UsuarioSchema
+from marshmallow import ValidationError
 
 class Proyectos(Resource):
     #@jwt_required()

@@ -41,6 +41,11 @@
                                 <input type="number" class="form-control" id="montoInicial"
                                     formControlName='montoInicial' placeholder="Ingrese monto inicial de proyecto"
                                     [attr.disabled]='disabledForm ? true : null'>
+                                <div
+                                    *ngIf="formProyecto.get('montoInicial').invalid && (formProyecto.get('montoInicial').dirty || formProyecto.get('montoInicial').touched)">
+                                    <div *ngIf="formProyecto.get('montoInicial').errors.required">El monto inicial es
+                                        requerido.</div>
+                                </div>
                             </div>
                         </div>
                         <div class="fila">

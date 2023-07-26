@@ -53,18 +53,14 @@ class ProyectoService:
 
         #cls.validacionCierreProyecto(proyectoModelo)
 
-         
-  
-    #Agregar modificar Participantes
+        
     @classmethod
     def modificarProyecto(cls, datos):
-        print("a modificar proyecto llegó:")
-        print(datos)
         proyecto = ProyectoModificarSchema().load(datos)
         cls.validarProyecto(proyecto)
         if proyecto.descripcion.strip() != "":
             Proyecto.objects(id_proyecto = proyecto.id_proyecto).update(set__descripcion = proyecto.descripcion)
-        Proyecto.objects(id_proyecto = proyecto.id_proyecto).update(set__montoInicial = proyecto.montoInicial,set__participantes = proyecto.participantes,set__idDirectorProyecto=proyecto.idDirectorProyecto, set__nombre = proyecto.nombre)
+        Proyecto.objects(id_proyecto = proyecto.id_proyecto).update(set__montoInicial = proyecto.montoInicial,set__participantes = proyecto.participantes,set__idDirectorProyecto=proyecto.idDirectorProyecto, set__nombre = proyecto.nombre,set__codigoProyecto = proyecto.codigoProyecto)
 
     @classmethod
     def obtenerMiembrosProyecto(cls, id_proyecto):  
