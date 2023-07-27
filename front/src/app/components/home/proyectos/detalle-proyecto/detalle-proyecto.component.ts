@@ -9,6 +9,7 @@ import { GetService } from 'src/app/services/get.service';
 import { PostService } from 'src/app/services/post.service';
 import { ActivatedRoute } from '@angular/router';
 import { ToastServiceService } from 'src/app/services/toast-service.service';
+import { LogService } from 'src/app/services/log.service';
 
 
 @Component({
@@ -45,8 +46,14 @@ export class DetalleProyectoComponent implements OnInit {
     private postService: PostService,
     private activatedRouter: ActivatedRoute,
     private modalService: NgbModal,
-    public toastService: ToastServiceService
+    public toastService: ToastServiceService,
+    private logger: LogService
+
   ) {}
+
+  testLog(mensaje): void {
+    this.logger.log(mensaje);
+  }
 
   ngOnInit(): void {
     this.usuario = JSON.parse(localStorage.getItem('usuario'));
@@ -56,6 +63,7 @@ export class DetalleProyectoComponent implements OnInit {
     this.idProyecto = parseInt(this.activatedRouter.snapshot.paramMap.get('id'), 10);
     this.getService.obtenerProyectosPorId(this.idProyecto).subscribe(res => {
       if (res){
+
         this.proyecto = res;
         console.log(res)
         console.log(res.idDirectorProyecto.id)
@@ -77,17 +85,18 @@ export class DetalleProyectoComponent implements OnInit {
       }
     });
     
-    const dia = (this.fecHoy).getDate() + 1;
-    this.fecHasta = new Date(this.fecHoy.getFullYear(),this.fecHoy.getMonth(), dia)
+    this.fecHasta = new Date(this.fecHoy.getFullYear(),this.fecHoy.getMonth(),(this.fecHoy).getDate() + 1)
     this.fecHasta = this.fecHasta.toDateString();
     const blog : any = {
       id_proyecto: this.idProyecto,
       fechaDesde: 'Mon May 31 2021',
       fechaHasta: this.fecHasta
     }
-    console.log(blog)
+
     this.postService.obtenerBlogsProyecto(blog).subscribe(res =>{
       if (res){
+        this.testLog("blogs obtenidos: ")
+        this.testLog(res)
         this.blogs = res;
         this.cargando = false;
       } else {
@@ -126,7 +135,6 @@ export class DetalleProyectoComponent implements OnInit {
     }
     this.postService.obtenerBlogsProyecto(blog).subscribe(res =>{
       if (res){
-        console.log(res)
         this.blogs = res;
         this.cargando = false;
       } else {

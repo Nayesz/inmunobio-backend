@@ -18,6 +18,11 @@ class BlogService():
     def busquedaPorFecha(cls,blogs,fecDesde,fecHasta):
         fecDesde= cls.convertirFecha(fecDesde,0,0,0)
         fecHasta = cls.convertirFecha(fecHasta,23,59,0)
+        print("fecDesde")
+        print(fecDesde)
+        print("fecHasta")
+        print(fecHasta)
+
         cls.validarFechas(fecDesde, fecHasta)
         return cls.agregarDataUsuarios(list(filter(lambda blog: blog.fecha <= fecHasta and blog.fecha>=fecDesde , blogs)))
         

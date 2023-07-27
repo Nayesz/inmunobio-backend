@@ -16,9 +16,11 @@ TODO:
 
 8- ~~Error al editar usuarios: no muestra bien el error~~
 
-9- ~~Error al editar usuarios: password hasheada~~ -> ahora pide siempre blanquear clave
+9. ~~Error al editar usuarios: password hasheada~~ -> ahora pide siempre blanquear clave
 
-----
+10. Falta boton de agregar blog para proyecto dentro del proyecto. (todos los q pertenecen al proyecto pueden)
+
+---
 
 
 # Pasos para levantar el entorno con docker-compose:

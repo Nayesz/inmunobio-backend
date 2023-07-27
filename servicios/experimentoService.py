@@ -123,8 +123,10 @@ class ExperimentoService:
 
     @classmethod
     def obtenerBlogsExperimentoDeProyecto(cls,_id_proyecto,datos):
+        import itertools # para aplanar la lista
+
         experimentos = cls.find_by_id_proyecto(_id_proyecto)
-        return [x for x in list(map(lambda exp: cls.obtenerBlogs(exp,datos),experimentos)) if x]
+        return list(itertools.chain.from_iterable([x for x in list(map(lambda exp: cls.obtenerBlogs(exp,datos),experimentos)) if x]))
 
     @classmethod
     def obtenerBlogs(cls,experimento,datos):
