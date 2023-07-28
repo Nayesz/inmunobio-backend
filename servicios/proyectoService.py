@@ -78,13 +78,21 @@ class ProyectoService:
     def blogsProyecto(cls,id_proyecto,datos):
         from servicios.jaulaService import JaulaService
         blogsJaula = JaulaService.obtenerBlogsJaulaDeProyecto(id_proyecto,datos)
-        print("BLOG JAULA")
-        print(blogsJaula)
         from servicios.experimentoService import ExperimentoService
         blogsExperimento = ExperimentoService.obtenerBlogsExperimentoDeProyecto(id_proyecto,datos)
-        print("BLOG EXP")
-        print(blogsExperimento)
-        return blogsJaula+blogsExperimento    
+        return cls.formateoFechaEnBlogs(blogsJaula+blogsExperimento)
+    
+    @classmethod    
+    def formateoFecha(cls,fecha_str):
+        import datetime
+        fecha = datetime.datetime.strptime(fecha_str, '%Y-%m-%dT%H:%M:%S.%f')
+        return fecha.strftime('%Y-%m-%d %H:%M')
+    
+    @classmethod    
+    def formateoFechaEnBlogs(cls,dictBlogs):
+        for blog in dictBlogs:
+            blog['fecha'] = cls.formateoFecha(blog['fecha'])
+        return dictBlogs
 
     @classmethod
     def nuevoBlogsProyecto(cls,datos):

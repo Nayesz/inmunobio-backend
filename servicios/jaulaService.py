@@ -112,7 +112,18 @@ class JaulaService:
     def obtenerBlogsDeJaula(cls,datos):
         BusquedaBlogJaula().load(datos)
         jaula = cls.find_by_id(datos['id_jaula'])
-        return cls.obtenerBlogs(jaula,datos)
+        return cls.formateoFechaEnBlogs(cls.obtenerBlogs(jaula,datos))
+    @classmethod    
+    def formateoFecha(cls,fecha_str):
+        import datetime
+        fecha = datetime.datetime.strptime(fecha_str, '%Y-%m-%dT%H:%M:%S.%f')
+        return fecha.strftime('%Y-%m-%d %H:%M')
+    
+    @classmethod    
+    def formateoFechaEnBlogs(cls,dictBlogs):
+        for blog in dictBlogs:
+            blog['fecha'] = cls.formateoFecha(blog['fecha'])
+        return dictBlogs
 
     @classmethod
     def obtenerBlogs(cls,jaula,datos):

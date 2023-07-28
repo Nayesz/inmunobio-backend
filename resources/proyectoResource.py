@@ -78,11 +78,7 @@ class ObtenerBlogsProyecto(Resource):
         datos = request.get_json()
         if datos:
             try:
-                print("nos llego a blogs")
-                print(datos)
-                blogs =  ProyectoService.obtenerBlogsProyecto(datos)
-                print(blogs)
-                return blogs
+                return ProyectoService.obtenerBlogsProyecto(datos)
             except Exception as err:
                 return {'Error': err.args},400
         return {"Error" : "Deben indicarse datos para el blog"}, 400

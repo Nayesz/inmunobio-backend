@@ -106,8 +106,21 @@ class ExperimentoService:
     def obtenerBlogsEXperimentoPorID(cls,datos):
         BusquedaBlogExp().load(datos)
         experimento = cls.find_by_id(datos['id_experimento'])
-        return cls.obtenerBlogs(experimento,datos)
-        
+        return cls.formateoFechaEnBlogs(cls.obtenerBlogs(experimento,datos))
+    
+    @classmethod    
+    def formateoFecha(cls,fecha_str):
+        import datetime
+        fecha = datetime.datetime.strptime(fecha_str, '%Y-%m-%dT%H:%M:%S.%f')
+        return fecha.strftime('%Y-%m-%d %H:%M')
+    
+    @classmethod    
+    def formateoFechaEnBlogs(cls,dictBlogs):
+        for blog in dictBlogs:
+            blog['fecha'] = cls.formateoFecha(blog['fecha'])
+        return dictBlogs
+
+
     @classmethod
     def removerMuestraDeExperimento(cls, idExperimento, idMuestra):
         cls.validarRemoverMuestraExperimento(idExperimento, idMuestra)
@@ -124,7 +137,6 @@ class ExperimentoService:
     @classmethod
     def obtenerBlogsExperimentoDeProyecto(cls,_id_proyecto,datos):
         import itertools # para aplanar la lista
-
         experimentos = cls.find_by_id_proyecto(_id_proyecto)
         return list(itertools.chain.from_iterable([x for x in list(map(lambda exp: cls.obtenerBlogs(exp,datos),experimentos)) if x]))
 

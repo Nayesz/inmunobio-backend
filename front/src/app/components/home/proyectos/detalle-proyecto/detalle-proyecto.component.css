@@ -1,6 +1,10 @@
 .detalles{
   margin: 1.5em;
 }
+/* EDITED */
+.detalle-blog {
+  word-wrap: break-word;
+}
 .encabezado{
   margin-left: 3em;
   margin-bottom: 1em;
@@ -55,8 +59,15 @@
   padding: 0.7em;
 }
 /* BLOGS */
+/* EDITED */
+
+.blog{
+  width: 90%;
+  margin-left: 5px;
+}
+/* EDITED */
 .card-blog{
-  width: 95%;
+  width: 85%;
   margin: 1em;
   vertical-align: auto;
   align-items: center;
@@ -78,7 +89,7 @@
 .search-container-blog{
   width: 70%;
   height: auto;
-  margin: auto;
+  /*margin: auto;*/
   display: flex;
   justify-content: space-around;
 }
@@ -87,10 +98,8 @@
   display: flex;
   width: auto;
 }
-.blog{
-  width: 100%;
-  margin-left: 5px;
-}
+
+
 .barra-blogs{
   border: none;
   border-left: 2px solid #999;
@@ -144,4 +153,6 @@
     margin: 0px;
     width: 100%;
   }
+
+
 }
