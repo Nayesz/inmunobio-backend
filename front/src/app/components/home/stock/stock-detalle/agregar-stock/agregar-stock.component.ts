@@ -71,15 +71,9 @@ export class AgregarStockComponent implements OnInit, OnDestroy {
       seguimiento: new FormControl('',[Validators.required])
     });
     if (!isNaN(this.idProd)){
-      this.getService.obtenerStock(this.idEspacioFisico,idGrupoTrabajo).subscribe(res =>{
-        if(res){
-          this.stocks = res;
-          this.cargando = false;
-        } else{
-          this.stocks = [];
-          this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
-          this.cargando = false;
-        }
+      this.getService.obtenerStock(idGrupoTrabajo, this.idEspacioFisico).subscribe(res =>{
+        this.stocks = res;
+        this.cargando = false;
         console.log(res)
         this.producto = this.stocks.find(stock => (stock.id_producto = this.idProd) && (stock.id_productoEnStock == this.idProdEnStock))
         console.log(this.producto)
@@ -93,7 +87,11 @@ export class AgregarStockComponent implements OnInit, OnDestroy {
           detalleUbicacion: this.prodEspecifico.detalleUbicacion,
           fechaVencimiento: this.datepipe.transform(this.prodEspecifico.fechaVencimiento, 'yyyy-MM-dd')
         });
-      })
+      },
+      (error) => {
+        console.log("Era acáaaaaaaa")
+      }
+      )
       this.editar = true;
     }
     this.subscription.add( this.getService.obtenerProductos().subscribe(res => {

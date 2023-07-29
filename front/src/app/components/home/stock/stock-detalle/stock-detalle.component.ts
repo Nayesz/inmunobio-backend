@@ -62,19 +62,28 @@ export class StockDetalleComponent implements OnInit, OnDestroy {
     console.log(this.usuario)
     const idGrupoTrabajo = this.usuario.id_grupoDeTrabajo
     this.idEspacioFisico = parseInt(this.activatedRouter.snapshot.paramMap.get('idEspacio'), 10);
-    console.log(this.idEspacioFisico);
+    console.log("Espacio físico " + this.idEspacioFisico);
     //STOCK
-    this.subscription.add( this.getService.obtenerStock(this.idEspacioFisico,idGrupoTrabajo).subscribe(res => {
-      console.log(res)
-      if(res){
-        this.stocks = res;
-        this.cargando = false;
-      } else {
-        this.stocks = [];
-        this.cargando = false;
-      }
-       })
-    );
+    console.log("Id Grupo: " + idGrupoTrabajo)
+    console.log("Id espacio físico: " + this.idEspacioFisico)
+    if(idGrupoTrabajo > 0){
+      this.subscription.add(
+        this.getService.obtenerStock(idGrupoTrabajo, this.idEspacioFisico).subscribe(
+          (res) => {
+            console.log("Ingresó")
+            this.stocks = res;
+            this.cargando = false;
+          },
+          //TO-DO: Acá se captura el error, pero por alguna razón sigue apareciendo el 400 en la consola
+          (error) => {
+            console.log(`Error: ${error.error['Error']}`);
+            this.cargando = false;
+          }
+        )
+      );
+    }
+    
+
     this.subscription.add( this.getService.obtenerEspacioFisico(this.idEspacioFisico).subscribe(res => {
       if(res){
         this.espacioFisico = res; 
@@ -121,21 +130,19 @@ export class StockDetalleComponent implements OnInit, OnDestroy {
       console.log(res);
        })
     );
-    //HERRAMIENTAS 
+    //HERRAMIENTAS
+    console.log("se va a ejecutar obtenerHerramientas")
     this.subscription.add( this.getService.obtenerHerramientas().subscribe(res => {
-      if(res){
-        this.herramientasFiltradas =  res.filter(herramienta => {
-          return herramienta.id_espacioFisico == this.idEspacioFisico;
-        });
-        this.cargando = false;
-      } else{
-        this.herramientasFiltradas = [];
-        this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
-        this.cargando = false;
-      }
-      console.log(res)
-       })
-    );
+      console.log("Entró al subscribe de herramientas")
+      this.cargando = false;
+      this.herramientasFiltradas =  res.filter(herramienta => {
+        return herramienta.id_espacioFisico == this.idEspacioFisico;
+      })},
+       (error) => {
+        console.log("Error en herramientas: " + error.error['Error'])
+        this.cargando = false
+       }
+    ));
   }
 
   open(content, size): void {

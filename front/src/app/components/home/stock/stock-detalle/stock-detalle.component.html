@@ -147,7 +147,7 @@
             <div class="blog" >
               <h5 class="card-title card-header" *ngIf= "blog.tipo === 'herramienta'"> Blog N° {{blog.id_blog}} - Herramienta</h5>
               <h5 class="card-title card-header" *ngIf=" blog.tipo === 'espacioFisico' "> Blog N° {{blog.id_blog}} - Espacio Físico</h5>
-              <p class="mb-1"><i>  usuario :{{blog.id_usuario}}</i></p>
+              <p class="mb-1"><i>  usuario: {{blog.id_usuario.nombre}}</i></p>
               <p>{{blog.detalle}}</p>
             </div>
           </div>
@@ -157,7 +157,7 @@
             <div class="blog" >
               <h5 class="card-title card-header" *ngIf= "blog.tipo === 'herramienta'"> Blog N° {{blog.id_blog}} - Herramienta</h5>
               <h5 class="card-title card-header" *ngIf=" blog.tipo === 'espacioFisico' "> Blog N° {{blog.id_blog}} - Espacio Físico</h5>
-              <p class="mb-1"><i>  usuario :{{blog.id_usuario}}</i></p>
+              <p class="mb-1"><i>  usuario: {{blog.id_usuario.nombre}}</i></p>
               <p>{{blog.detalle}}</p>
             </div>
             <div class="fecha">
