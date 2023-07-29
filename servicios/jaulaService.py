@@ -101,7 +101,9 @@ class JaulaService:
     @classmethod
     def blogsDeTodasLasJaulas(cls,datos):
         BusquedaBlogsJaula().load(datos)
-        return cls.obtenerTodosLosBlogs(cls.obtenerJaulas(),datos)
+        sorted_json_list = sorted(cls.obtenerTodosLosBlogs(cls.obtenerJaulas(),datos), key=lambda item: item['fecha'], reverse=True)
+        return cls.formateoFechaEnBlogs(sorted_json_list) 
+         
 
     @classmethod
     def obtenerTodosLosBlogs(cls,jaulas,datos):
@@ -112,7 +114,9 @@ class JaulaService:
     def obtenerBlogsDeJaula(cls,datos):
         BusquedaBlogJaula().load(datos)
         jaula = cls.find_by_id(datos['id_jaula'])
-        return cls.formateoFechaEnBlogs(cls.obtenerBlogs(jaula,datos))
+        sorted_json_list = sorted(cls.obtenerBlogs(jaula,datos), key=lambda item: item['fecha'], reverse=True)
+        return cls.formateoFechaEnBlogs(sorted_json_list) 
+    
     @classmethod    
     def formateoFecha(cls,fecha_str):
         import datetime

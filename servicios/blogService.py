@@ -8,6 +8,17 @@ class BlogService():
     @classmethod
     def nuevoBlog(cls,datos):
         #falta validar usuario q crea
+        """         import pytz
+        from datetime import datetime
+        zona_horaria = pytz.timezone('America/Argentina/Buenos_Aires')
+
+        fecha_actual = datetime.now(zona_horaria)
+        from datetime import datetime
+        # Agregamos la fecha de llegada al backend
+        datos['fecha'] =datetime.now().strftime('%Y-%m-%dT%H:%M:%S.%f')
+        print("VAMOS A CREAR BLOG EXP CON ESTO") """
+        print(datos)
+
         return NuevoBlogSchema().load(datos)
         
     @classmethod

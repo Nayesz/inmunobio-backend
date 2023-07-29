@@ -35,7 +35,7 @@ export class DetalleExperimentosComponent implements OnInit {
   fecHasta:any;
   disabledForm: boolean;
   cargando:boolean;
-
+  usuario:any;
   itemList: any = [];
   selectedItems = [];
   settings:any;
@@ -48,6 +48,7 @@ export class DetalleExperimentosComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.usuario = JSON.parse(localStorage.getItem('usuario'))
     this.cargando = true;
     this.filterPost = '';
     this.filterPostMuestra = '';
@@ -83,7 +84,6 @@ export class DetalleExperimentosComponent implements OnInit {
     });
     
     this.getService.obtenerGruposExperimentalesPorExperimento(this.idExperimento).subscribe(res => {
-      // console.log(res);
       if (res){
         res === null ? this.gruposExperimentales = [] : this.gruposExperimentales = res;
         this.gruposExperimentales = this.gruposExperimentales.filter( grupo => grupo.habilitado)
@@ -97,7 +97,6 @@ export class DetalleExperimentosComponent implements OnInit {
 
     this.fechaDesde = new Date();
     this.fechaDesde.setDate(this.fechaDesde.getDate() - 3);
-    // this.fechaDesde = this.fechaDesde.toDateString();
     this.fechaHasta = new Date();
 
     this.postService.obtenerBlogExperimento({
@@ -157,8 +156,11 @@ export class DetalleExperimentosComponent implements OnInit {
 
     }, err => {
       this.toastService.show('Problema al crear Grupo Experimental' + err, { classname: 'bg-danger text-light', delay: 2000 });
-      console.log(err)
-      this.disabledForm = false;
+      setTimeout(() => {
+        this.toastService.removeAll()
+        this.modalService.dismissAll()
+        this.disabledForm = false;
+      }, 2000);
     });
   }
 
@@ -169,7 +171,7 @@ export class DetalleExperimentosComponent implements OnInit {
   crearBlog(): void{
     this.disabledForm = true;
     const Blog: any = {
-      id_usuario: 1,
+      id_usuario: this.usuario.id ,
       detalle: this.detalleBlog,
       tipo: 'Experimento'
     };
@@ -178,10 +180,8 @@ export class DetalleExperimentosComponent implements OnInit {
       id: this.idExperimento,
       blogs: Blog
     };
-    console.log(nuevoBlog)
     this.postService.crearBlogProyecto(nuevoBlog).subscribe(res => {
-      console.log(res)
-      if (res.Status === 'Se creó el blog de proyecto.'){
+      if (res){
         this.toastService.show('Blog creado', { classname: 'bg-success text-light', delay: 2000 });
           setTimeout(() => {
             this.toastService.removeAll()
@@ -192,15 +192,16 @@ export class DetalleExperimentosComponent implements OnInit {
           }, 2000);
       }
     }, err => {
-      console.log(err)
       this.toastService.show('Problema al crear el blog', { classname: 'bg-danger text-light', delay: 2000 });
+      setTimeout(() => {
+        this.toastService.removeAll()
+      }, 2000);
     });
   }
 
   filtrarBlogs(): void{
     this.fecDesde =  new Date(this.fecDesde.year,(this.fecDesde.month -1)  ,this.fecDesde.day)
     const fechaHasta = new Date(this.fecHasta.year,(this.fecHasta.month -1) ,this.fecHasta.day)
-    console.log(this.fecDesde, fechaHasta)
     const diaMas1 = (fechaHasta).getDate() + 2;
     this.fecHasta = new Date(fechaHasta.getFullYear(),fechaHasta.getMonth(), diaMas1)
     this.fecDesde = this.fecDesde.toDateString();
@@ -212,7 +213,6 @@ export class DetalleExperimentosComponent implements OnInit {
     }
     this.postService.obtenerBlogExperimento(blog).subscribe( res =>{
       this.blogs = res;
-      console.log(res)
     })
   }
   asociarMuestraExperimento(){
@@ -236,7 +236,6 @@ export class DetalleExperimentosComponent implements OnInit {
       id_experimento: this.idExperimento,
       muestrasExternas: todasLasMuestras
     }
-    console.log(datosMuestra)
     this.postService.agregarMuestraExternaExperimento(datosMuestra).subscribe(res =>{
       if (res.Status === 'Se agregaron las muestras al experimento.'){
         this.toastService.show('Muestras Asociadas', { classname: 'bg-success text-light', delay: 2000 });
@@ -249,8 +248,11 @@ export class DetalleExperimentosComponent implements OnInit {
           }, 2000);
       }
     }, err => {
-      console.log(err)
       this.toastService.show('Problema al asociar las muestras', { classname: 'bg-danger text-light', delay: 2000 });
+      setTimeout(() => {
+        this.toastService.removeAll()
+        this.modalService.dismissAll()
+      }, 2000);
     })
   }
 

@@ -35,7 +35,9 @@
             "participantes": [
                 1
             ],
-            "idDirectorProyecto": 4
+            "idDirectorProyecto": 4,
+            "fechaInicio": "2022-06-13T02:21:33.617000"
+
         }
     ],
     "espacioFisico": [
@@ -219,13 +221,13 @@
             "id_espacioFisico": 1,
             "blogs": [
                 {
-                    "fecha": "2023-07-26T15:15:00.000Z",
+                    "fecha": "2023-07-26T15:15:00.617000",
                     "detalle": "Mantenimiento de Pipeta Micropipetor - Limpieza y calibración",
                     "id_usuario": 1,
                     "tipo": "Mantenimiento"
                 },
                 {
-                    "fecha": "2023-07-25T10:30:00.000Z",
+                    "fecha": "2023-07-25T10:30:00.617000",
                     "detalle": "Mantenimiento de Pipeta Micropipetor - Reemplazo de puntas desgastadas",
                     "id_usuario": 4,
                     "tipo": "Mantenimiento"
@@ -238,13 +240,13 @@
             "id_espacioFisico": 2,
             "blogs": [
                 {
-                    "fecha": "2023-08-02T11:45:00.000Z",
+                    "fecha": "2023-07-02T11:45:00.617000",
                     "detalle": "Uso de la Centrífuga de Mesa para separación de muestras sanguíneas",
                     "id_usuario": 3,
                     "tipo": "Separación"
                 },
                 {
-                    "fecha": "2023-08-05T14:00:00.000Z",
+                    "fecha": "2023-07-05T14:00:00.617000",
                     "detalle": "Mantenimiento de la Centrífuga de Mesa - Limpieza y revisión de rotores",
                     "id_usuario": 5,
                     "tipo": "Mantenimiento"
@@ -262,13 +264,13 @@
             "id_espacioFisico": 1,
             "blogs": [
                 {
-                    "fecha": "2023-08-14T16:45:00.000Z",
+                    "fecha": "2023-07-14T16:45:00.617000",
                     "detalle": "Registro de pesaje de los animales en la jaula ",
                     "id_usuario": 2,
                     "tipo": "Jaula"
                 },
                 {
-                    "fecha": "2023-08-11T09:30:00.000Z",
+                    "fecha": "2023-07-11T09:30:00.617000",
                     "detalle": "Registro de observación del comportamiento de los roedores en la jaula",
                     "id_usuario": 4,
                     "tipo": "Jaula"
@@ -285,13 +287,13 @@
             "id_proyecto": 1,
             "blogs": [
                 {
-                    "fecha": "2023-08-10T08:00:00.000Z",
+                    "fecha": "2023-07-10T08:00:00.617000",
                     "detalle": "Registro de alimentación y limpieza de la jaula",
                     "id_usuario": 2,
                     "tipo": "Jaula"
                 },
                 {
-                    "fecha": "2023-08-11T09:30:00.000Z",
+                    "fecha": "2023-07-11T09:30:00.617000",
                     "detalle": "Registro de observación del comportamiento de los roedores en la jaula ",
                     "id_usuario": 4,
                     "tipo": "Jaula"

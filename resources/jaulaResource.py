@@ -1,12 +1,12 @@
 from flask_restful import Resource
 from flask_jwt import jwt_required
 from flask import request, jsonify
+from resources.token import TokenDeAcceso
 from servicios.jaulaService import JaulaService
 from schemas.jaulaSchema import  JaulaSchema
 from servicios.commonService import CommonService
 
 class Jaula(Resource):
-
     def post(self):
         datos = request.get_json()
         if datos:
@@ -57,6 +57,7 @@ class JaulasDelProyecto(Resource):
         return  {'Error':'Se deben enviar datos para la modificación de la jaula.'},400
 
 class BlogJaula(Resource):
+    @TokenDeAcceso.token_nivel_de_acceso(TokenDeAcceso.TEC)
     def post(self):
         datos = request.get_json()
         if datos:
@@ -68,10 +69,13 @@ class BlogJaula(Resource):
         return {"Error" : "Deben indicarse datos para el blog"}, 400
 
 class ObtenerBlogsJaula(Resource):
+    @TokenDeAcceso.token_nivel_de_acceso(TokenDeAcceso.TEC)
     def post(self):
         datos = request.get_json()
         if datos:
             try:
+                print("PARECE Q LE PINCHE PEGAN ACA")
+                print(datos)
                 return JaulaService.obtenerBlogsDeJaula(datos)       
             except Exception as err:
                 return {"Error": err.args}, 400

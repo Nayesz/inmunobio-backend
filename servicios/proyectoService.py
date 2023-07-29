@@ -80,7 +80,8 @@ class ProyectoService:
         blogsJaula = JaulaService.obtenerBlogsJaulaDeProyecto(id_proyecto,datos)
         from servicios.experimentoService import ExperimentoService
         blogsExperimento = ExperimentoService.obtenerBlogsExperimentoDeProyecto(id_proyecto,datos)
-        return cls.formateoFechaEnBlogs(blogsJaula+blogsExperimento)
+        sorted_json_list = sorted(blogsJaula+blogsExperimento, key=lambda item: item['fecha'], reverse=True)
+        return cls.formateoFechaEnBlogs(sorted_json_list) 
     
     @classmethod    
     def formateoFecha(cls,fecha_str):
@@ -97,6 +98,7 @@ class ProyectoService:
     @classmethod
     def nuevoBlogsProyecto(cls,datos):
         NuevoBlogProyectoSchema().load(datos)
+        print(datos)
         if cls.esBlogJaula(datos['blogs']): cls.crearBlogProyectoJaula(datos)
         else: cls.crearBlogProyectoExperimento(datos)
 

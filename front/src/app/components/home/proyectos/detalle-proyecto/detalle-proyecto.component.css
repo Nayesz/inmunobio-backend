@@ -59,15 +59,19 @@
   padding: 0.7em;
 }
 /* BLOGS */
-/* EDITED */
 
+.card-completa{
+  width: 95%;
+
+}
+/* EDITED */
 .blog{
   width: 90%;
   margin-left: 5px;
 }
 /* EDITED */
 .card-blog{
-  width: 85%;
+  width: 95%;
   margin: 1em;
   vertical-align: auto;
   align-items: center;
@@ -91,7 +95,7 @@
   height: auto;
   /*margin: auto;*/
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
 }
 .form-group{
   margin: 2px;

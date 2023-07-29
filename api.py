@@ -92,7 +92,6 @@ api.add_resource(ExperimentoMuestra, '/api/v1/experimento/<int:idExperimento>/mu
 api.add_resource(CerrarExperimento, '/api/v1/cerrarExperimento', endpoint='cerrar_experimento')
 api.add_resource(ExperimentoResource, '/api/v1/modificarExperimento', endpoint='modificar_experimento')
 api.add_resource(ExperimentoMuestra, '/api/v1/agregarMuestrasExternasAlExperimento', endpoint='agregar_muestras_externas_al_experimento')
-#api.add_resource(BlogExperimento, '/api/v1/nuevoBlogExperimento', endpoint='nuevo_blog_exp')
 api.add_resource(ObtenerBlogsExp, '/api/v1/blogExperimento', endpoint='obtener_blog_exp')
 api.add_resource(TodosLosExperimentos, '/api/v1/experimentos') #para testear
 
@@ -112,7 +111,6 @@ api.add_resource(JaulasDelProyecto, '/api/v1/proyecto/<int:idProyecto>/jaulasDel
 api.add_resource(JaulasDelProyecto, '/api/v1/asignarJaulaAProyecto', endpoint="asignar_jaula_a_proyecto")
 api.add_resource(BlogJaula, '/api/v1/proyecto/blogJaula')
 api.add_resource(ObtenerBlogsJaula, '/api/v1/proyecto/blogsJaula')
-#api.add_resource(BorrarBlogJaula, '/api/v1/proyecto/borrarBlogJaula/<int:id_jaula>/<int:id_blog>' )
 api.add_resource(Jaulas, '/api/v1/jaulas')
 api.add_resource(JaulaXId, '/api/v1/jaula/<int:id_jaula>', endpoint="jaula_por_id")
 api.add_resource(JaulasBlogs, '/api/v1/blogsJaulas')

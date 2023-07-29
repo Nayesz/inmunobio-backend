@@ -96,6 +96,8 @@ class ExperimentoService:
         experimento.blogs.append(BlogService.nuevoBlog(datosBlog))
         experimento.save()
 
+        
+
     @classmethod
     def expPerteneceAlProyecto(cls,id_proyecto,id_experimento):
         exp = cls.find_by_id(id_experimento)
@@ -106,7 +108,8 @@ class ExperimentoService:
     def obtenerBlogsEXperimentoPorID(cls,datos):
         BusquedaBlogExp().load(datos)
         experimento = cls.find_by_id(datos['id_experimento'])
-        return cls.formateoFechaEnBlogs(cls.obtenerBlogs(experimento,datos))
+        sorted_json_list = sorted(cls.obtenerBlogs(experimento,datos), key=lambda item: item['fecha'], reverse=True)
+        return cls.formateoFechaEnBlogs(sorted_json_list) 
     
     @classmethod    
     def formateoFecha(cls,fecha_str):
