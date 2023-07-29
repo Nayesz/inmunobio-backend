@@ -49,21 +49,21 @@
             "blogs": [
                 {
                     "fecha": "2021-07-13T02:21:33.617000",
-                    "detalle": "Se realizó una transfección transitoria de células SK-N-SH con un plásmido de expresión para sobreexpresar una proteína de interés. Las células se analizarán 48 horas después para estudiar el efecto de la sobreexpresión en la vía de señalización celular.",
+                    "detalle": "Se realizó una transfección transitoria de células SK-N-SH, nos quedamos sin reactivos, yo me encargo de comprar!",
                     "id_usuario": 1,
-                    "tipo": "Cultivo Celular para Línea Celular SK-N-SH"
+                    "tipo": "espacioFisico"
                 },
                 {
                     "fecha": "2021-07-15T02:21:33.617000",
                     "detalle": "Se trató una subcultura de células A549 con un agente quimioterapéutico para estudiar su efecto en la viabilidad celular. Se prepararon pocillos con y sin el agente quimioterapéutico para comparar el efecto durante 48 horas.",
                     "id_usuario": 1,
-                    "tipo": "Cultivo Celular para A549 (Células Epiteliales Pulmonares Humanas)"
+                    "tipo": "espacioFisico"
                 },
                 {
                     "fecha": "2021-07-16T02:21:33.617000",
-                    "detalle": "Las células HeLa se subcultivaron en una proporción de 1:4 cuando alcanzaron una confluencia del 80-90%. Se desechó el medio usado y se lavaron las células con PBS antes de añadir trypsin para desprender las células del frasco. Se suspendieron en medio fresco y se sembraron en nuevos frascos.",
+                    "detalle": "Las muestras de ayer se suspendieron en medio fresco y se sembraron en nuevos frascos.",
                     "id_usuario": 2,
-                    "tipo": "Cultivo Celular HeLa (Células Epiteliales Humanas)"
+                    "tipo": "espacioFisico"
                 }
             ]
         },
@@ -75,21 +75,21 @@
             "blogs": [
                 {
                     "fecha": "2021-07-13T02:21:33.617000",
-                    "detalle": " Se fijó una muestra de tejido de hígado de ratón en paraformaldehído al 4% durante 2 horas. Posteriormente, se lavó la muestra con tampón de cacodilato 0.1M y se deshidrató mediante una serie de etanol (30%, 50%, 70%, 90% y 100%). Finalmente, la muestra se incluyó en resina epon y se cortaron secciones ultrafinas utilizando un ultramicrótomo.",
+                    "detalle": "Se fijó una muestra de tejido de hígado de ratón en paraformaldehído al 4% durante 2 horas, alguien puede limpiar el area?",
                     "id_usuario": 2,
-                    "tipo": "Muestra de Tejido de Hígado de Ratón"
+                    "tipo": "espacioFisico"
                 },
                 {
                     "fecha": "2021-07-15T02:21:33.617000",
                     "detalle": "Se recolectó una muestra de agua contaminada del sitio de estudio y se filtró a través de un filtro de 0.22 μm para eliminar partículas grandes. Luego, se preparó una solución con un volumen conocido de la muestra filtrada para su análisis por espectroscopía de absorción atómica.",
                     "id_usuario": 2,
-                    "tipo": "Muestra de Agua Contaminada"
+                    "tipo": "espacioFisico"
                 },
                 {
                     "fecha": "2021-07-16T02:21:33.617000",
                     "detalle": "Se recolectaron células hepáticas cultivadas en placas de cultivo celular de 6 pocillos. Las células fueron lavadas con PBS y luego se les añadió un lisis celular para extraer el ARN total. Las muestras se alícuotaron en tubos Eppendorf y se almacenaron a -80°C para análisis posterior de expresión génica.",
                     "id_usuario": 3,
-                    "tipo": "Muestra de Cultivo Celular de Células Hepáticas"
+                    "tipo": "espacioFisico"
                 }
             ]
         },
@@ -103,19 +103,19 @@
                     "fecha": "2021-07-13T02:21:33.617000",
                     "detalle": "Se proporcionó a los ratones una dieta estándar de pellets de alimento para roedores, junto con agua fresca en botellas de bebedero. Se verificó que todas las jaulas tuvieran suficiente alimento y agua. Los ratones mostraron un comportamiento normal y activo durante la alimentación.",
                     "id_usuario": 4,
-                    "tipo": "Alimentación de ratones de laboratorio"
+                    "tipo": "espacioFisico"
                 },
                 {
                     "fecha": "2021-07-15T02:21:33.617000",
                     "detalle": "Se realizaron cambios de jaulas para mantener el ambiente limpio y saludable. Se transfirieron los ratones a nuevas jaulas con lecho de viruta y se desechó el material usado. Se observó que los ratones estaban en buen estado de salud y sin signos de enfermedad.",
                     "id_usuario": 1,
-                    "tipo": "Cambio de jaulas y limpieza de ratones de laboratorio"
+                    "tipo": "espacioFisico"
                 },
                 {
                     "fecha": "2021-07-16T02:21:33.617000",
                     "detalle": "Se verificó que los conejos estuvieran consumiendo su alimento adecuadamente. Se registraron las cantidades de heno y alimento concentrado proporcionado. Todos los conejos mostraron una buena ingesta de alimentos y presentaron un comportamiento tranquilo y saludable.",
                     "id_usuario": 2,
-                    "tipo": "Monitoreo de la alimentación de conejos"
+                    "tipo": "espacioFisico"
                 }
             ]
         },
@@ -129,19 +129,19 @@
                     "fecha": "2021-07-13T02:21:33.617000",
                     "detalle": " Se trató una subcultura de células HeLa con un inhibidor de la proteína X para analizar su efecto sobre la proliferación celular. Se prepararon placas de cultivo con y sin el inhibidor para comparar el crecimiento celular durante 72 horas.",
                     "id_usuario": 1,
-                    "tipo": "Cultivo celular: Línea celular HeLa"
+                    "tipo": "espacioFisico"
                 },
                 {
                     "fecha": "2021-07-15T02:21:33.617000",
                     "detalle": "Se mezclaron 5 ml de solución de beta-mercaptoetanol con 45 ml de buffer de lisis TRIzol. La mezcla se mantuvo en hielo durante la preparación y se alícuotó en tubos Eppendorf de 1.5 ml para facilitar su uso posterior en la extracción de ARN.",
                     "id_usuario": 2,
-                    "tipo": "Buffer de lisis para extracción de ARN (50 ml)"
+                    "tipo": "espacioFisico"
                 },
                 {
                     "fecha": "2021-07-16T02:21:33.617000",
                     "detalle": " Se disolvieron 60.57 g de Tris base en 400 ml de agua desionizada. Luego, se ajustó el pH a 7.5 con HCl concentrado y se completó el volumen final a 500 ml con agua desionizada.",
                     "id_usuario": 1,
-                    "tipo": "Buffer Tris-HCl 1M (500 ml)"
+                    "tipo": "espacioFisico"
                 }
             ]
         }
