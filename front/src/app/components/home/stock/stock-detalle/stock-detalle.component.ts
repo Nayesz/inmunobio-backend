@@ -11,6 +11,7 @@ import { EspacioFisico } from 'src/app/models/espacioFisico.model';
 import { Herramienta } from 'src/app/models/herramientas.model';
 import { ToastServiceService } from 'src/app/services/toast-service.service';
 import { Usuario } from 'src/app/models/usuarios.model';
+import { LogService } from 'src/app/services/log.service';
 
 @Component({
   selector: 'app-stock-detalle',
@@ -50,8 +51,13 @@ export class StockDetalleComponent implements OnInit, OnDestroy {
     private getService: GetService,
     private postService: PostService,
     private modalService: NgbModal,
+    private logger: LogService,
     public toastService: ToastServiceService
   ) { }
+
+  testLog(mensaje): void {
+    this.logger.log(mensaje);
+  }
 
   ngOnInit(): void {
     this.cargando = true;
@@ -95,7 +101,6 @@ export class StockDetalleComponent implements OnInit, OnDestroy {
         this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
         this.cargando = false;
       }
-      console.log(res);
        })
     );
     //BLOGS 
@@ -108,7 +113,6 @@ export class StockDetalleComponent implements OnInit, OnDestroy {
           fechaDesde: 'Mon May 31 2021',
           fechaHasta: this.fecHasta
         } 
-    console.log(blog)
     this.subscription.add(this.postService.obtenerBlogEspacioFisico(blog).subscribe(res =>{
       if(res){
         this.blogs = res;
@@ -142,14 +146,17 @@ export class StockDetalleComponent implements OnInit, OnDestroy {
     this.modalService.open(content, { centered: true, size: size });
   }
   Buscar(){
+    this.testLog("vamos a buscar blogs!")
     this.fecDesde =  new Date(this.fecDesde.year,(this.fecDesde.month -1)  ,this.fecDesde.day)
     const fechaHasta = new Date(this.fecHasta.year,(this.fecHasta.month -1) ,this.fecHasta.day)
-    console.log(this.fecDesde, fechaHasta)
+    this.testLog(this.fecDesde)
+    this.testLog(fechaHasta)
     const diaMas1 = (fechaHasta).getDate() + 2;
     this.fecHasta = new Date(fechaHasta.getFullYear(),fechaHasta.getMonth(), diaMas1)
     this.fecDesde = this.fecDesde.toDateString();
     this.fecHasta = this.fecHasta.toDateString();
     if(this.tipo == 'herramienta'){
+      this.testLog("de tipo herramienta!")
       const blog: BlogsBuscadosHerr ={
         id_herramienta: this.herramientaSeleccionada,
         fechaDesde: this.fecDesde,
@@ -157,17 +164,24 @@ export class StockDetalleComponent implements OnInit, OnDestroy {
       }
       this.subscription.add(this.postService.obtenerBlogHerramientas(blog).subscribe(res =>{
         if(res){
+          this.testLog("OBTUVIMOS RESP :)")
+          this.testLog(res)
           this.blogs = res;
           this.cargando = false;
         } else{
           this.blogs = [];
+          this.testLog("error...")
           this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
-          this.cargando = false;
+          setTimeout(() => {
+            this.toastService.removeAll()
+            this.cargando = false;
+          }, 2000);
         }
         console.log(res);
       })
       );
     } else {
+      this.testLog("de tipo esp fisico!")
       const blog : BlogsBuscadosEspFisico = {
         id_espacioFisico: this.idEspacioFisico,
         fechaDesde: this.fecDesde,
@@ -180,7 +194,10 @@ export class StockDetalleComponent implements OnInit, OnDestroy {
         } else{
           this.blogs = [];
           this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
-          this.cargando = false;
+          setTimeout(() => {
+            this.toastService.removeAll()
+            this.cargando = false;
+          }, 2000);
         }
         console.log(res);
        })
@@ -207,7 +224,6 @@ export class StockDetalleComponent implements OnInit, OnDestroy {
           this.ngOnInit()
         }, 1000);
       }
-      console.log(res); 
     }, err => {
       this.toastService.show('Problema al eliminar el stock' + err.error.Error, { classname: 'bg-danger text-light', delay: 2000 });
       console.log(err)

@@ -37,25 +37,25 @@
                 <div class="card-blog shadow rounded">
                   <div class="fecha">
                     <i class="bi bi-journals m-2"></i>
-                    <h6 class="card-title text-center">{{a.fecha | date: 'dd/MM/yy'}}</h6>
+                    <h6 class="card-title text-center">{{a.fecha}}hs.</h6>
                   </div>
                   <div class="blog" >
-                    <h5 class="card-title card-header"> Blog N° {{a.id_blog}} - Herramienta</h5>
-                    <p class="mb-1"><i>  usuario :{{a.id_usuario}}</i></p>
-                    <p>{{a.detalle}}</p>
+                    <h5 class="card-title card-header"> Blog N° {{i+1}} - Herramienta</h5>
+                    <p class="mb-1"><i>  Usuario: {{a.id_usuario.nombre}} </i></p>
+                    <p class="detalle-blog">{{a.detalle}}</p>
                   </div>
                 </div>
               </ng-container>
               <ng-container *ngIf = 'i%2!=0'>
                 <div class="card-blog shadow rounded">
                   <div class="blog" >
-                    <h5 class="card-title card-header"> Blog N° {{a.id_blog}} - Herramienta</h5>
-                    <p class="mb-1"><i>  usuario :{{a.id_usuario}}</i></p>
-                    <p>{{a.detalle}}</p>
+                    <h5 class="card-title card-header"> Blog N° {{i+1}} - Herramienta</h5>
+                    <p class="mb-1"><i>  Usuario: {{a.id_usuario.nombre}} </i></p>
+                    <p class="detalle-blog">{{a.detalle}}</p>
                   </div>
                   <div class="fecha">
                     <i class="bi bi-journals m-2"></i>
-                    <h6 class="card-title text-center">{{a.fecha | date: 'dd/MM/yy'}}</h6>
+                    <h6 class="card-title text-center">{{a.fecha}}hs.</h6>
                   </div>
                 </div>
               </ng-container>

@@ -50,7 +50,6 @@ class EspacioFisicoService():
         BusquedaBlogEspacio().load(datos)
         espacio = cls.find_by_id(datos['id_espacioFisico'])
         sorted_json_list = sorted(BlogService.busquedaPorFecha(espacio.blogs,datos['fechaDesde'],datos['fechaHasta']), key=lambda item: item['fecha'], reverse=True)
-        print("pudimos ordenar los blos")
         return cls.formateoFechaEnBlogs(sorted_json_list) 
 
     @classmethod    

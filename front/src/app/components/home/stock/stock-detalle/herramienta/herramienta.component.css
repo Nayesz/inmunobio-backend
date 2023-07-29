@@ -4,6 +4,10 @@
     width: 95%;
     justify-content: space-around;
 }
+/* EDITED */
+.detalle-blog {
+    word-wrap: break-word;
+  }
 .nueva-entrada, .filtro-blogs{
     width: 6.5em;
     height: 2.5em;

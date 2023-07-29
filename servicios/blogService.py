@@ -33,8 +33,12 @@ class BlogService():
         print(fecDesde)
         print("fecHasta")
         print(fecHasta)
-
         cls.validarFechas(fecDesde, fecHasta)
+        blogFiltrados = []
+        print("entramos a iterar blogs")
+        for blog in blogs:
+            print(blog.fecha)
+            print(blog.fecha <= fecHasta and blog.fecha>=fecDesde)
         return cls.agregarDataUsuarios(list(filter(lambda blog: blog.fecha <= fecHasta and blog.fecha>=fecDesde , blogs)))
         
     @classmethod
