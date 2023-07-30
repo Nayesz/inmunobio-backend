@@ -32,15 +32,17 @@ export class BioterioComponent implements OnInit, OnDestroy {
     this.cargando = true;
     this.filterPost = '';
     this.subscription.add(this.getService.obtenerJaulas().subscribe(res => {
-      console.log(res);
       if(res){
       this.jaulas = res;
       this.cargando = false;
       } else {
         this.jaulas = [];
         this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
-        this.cargando = false;
-      }
+        setTimeout(() => {
+          this.toastService.removeAll()
+          this.cargando = false;
+        }, 3000);
+            }
     }));
     const dia = (this.fecHoy).getDate() + 1;
     this.fecHasta = new Date(this.fecHoy.getFullYear(),this.fecHoy.getMonth(), dia)
@@ -56,7 +58,10 @@ export class BioterioComponent implements OnInit, OnDestroy {
       } else{
         this.blogs=[]
         this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
-        this.cargando = false;
+        setTimeout(() => {
+          this.toastService.removeAll()
+          this.cargando = false;
+        }, 3000);
       }
     }));
   }
@@ -73,15 +78,16 @@ export class BioterioComponent implements OnInit, OnDestroy {
       fechaDesde: this.fecDesde,
       fechaHasta: this.fecHasta
     }
-    console.log(blog)
     this.subscription.add( this.postService.obtenerTodosBlogsJaulas(blog).subscribe(res =>{
-      console.log(res)
       if(res){
         this.blogs = res;
       } else{
         this.blogs=[]
         this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
-        this.cargando = false;
+        setTimeout(() => {
+          this.toastService.removeAll()
+          this.cargando = false;
+        }, 3000);
       } }))
   }
 

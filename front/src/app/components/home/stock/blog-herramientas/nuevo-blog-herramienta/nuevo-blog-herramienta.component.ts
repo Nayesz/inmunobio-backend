@@ -45,7 +45,6 @@ export class NuevoBlogHerramientaComponent implements OnInit {
         this.mensajeAlert = 'Blog creado correctamente';
 
       }
-      console.log(res)
     }, err => {
       this.alert = true;
       this.estado = 'danger';

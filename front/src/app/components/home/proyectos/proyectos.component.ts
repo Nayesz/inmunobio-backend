@@ -24,14 +24,16 @@ export class ProyectosComponent implements OnInit {
     this.cargando = true;
     this.filterPost = '';
     this.getService.obtenerProyectoPorUsuario(this.usuario.id).subscribe(res => {
-      console.log(res);
       if (res) {
         this.proyectos = res;
         this.cargando = false;
       } else {
         this.proyectos = [];
         this.toastService.show('Hubo un error', { classname: 'bg-danger text-light', delay: 2000 });
-        this.cargando = false;
+        setTimeout(() => {
+          this.toastService.removeAll()
+          this.cargando = false;
+        }, 3000);
       }
     });
   }

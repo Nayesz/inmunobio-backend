@@ -1,6 +1,7 @@
 from flask_restful import Resource
 from flask_jwt import jwt_required
 from flask import request
+from resources.token import TokenDeAcceso
 from servicios.herramientaService import HerramientaService
 from schemas.herramientaSchema import HerramientaSchema
 from schemas.blogSchema import BlogSchemaExtendido

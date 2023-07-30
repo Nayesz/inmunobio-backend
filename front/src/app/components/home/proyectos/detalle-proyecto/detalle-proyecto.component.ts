@@ -63,25 +63,27 @@ export class DetalleProyectoComponent implements OnInit {
     this.idProyecto = parseInt(this.activatedRouter.snapshot.paramMap.get('id'), 10);
     this.getService.obtenerProyectosPorId(this.idProyecto).subscribe(res => {
       if (res){
-
         this.proyecto = res;
-        console.log(res)
-        console.log(res.idDirectorProyecto.id)
       } else {
         this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
-        this.cargando = false;
+        setTimeout(() => {
+          this.toastService.removeAll()
+          this.cargando = false;
+        }, 3000);
       }
       
     });
 
     this.getService.obtenerExperimentos(this.idProyecto).subscribe(res => {
       if (res){
-        console.log(res);
         this.experimentos = res;
         this.experimentoFiltro = res;
       } else {
         this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
-        this.cargando = false;
+        setTimeout(() => {
+          this.toastService.removeAll()
+          this.cargando = false;
+        }, 3000);
       }
     });
     
@@ -102,7 +104,10 @@ export class DetalleProyectoComponent implements OnInit {
       } else {
         this.blogs=[];
         this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
-        this.cargando = false;
+        setTimeout(() => {
+          this.toastService.removeAll()
+          this.cargando = false;
+        }, 3000);
       }
     })
   }
@@ -123,7 +128,6 @@ export class DetalleProyectoComponent implements OnInit {
   Buscar(){
     this.fecDesde =  new Date(this.fecDesde.year,(this.fecDesde.month -1)  ,this.fecDesde.day)
     const fechaHasta = new Date(this.fecHasta.year,(this.fecHasta.month -1) ,this.fecHasta.day)
-    console.log(this.fecDesde, fechaHasta)
     const diaMas1 = (fechaHasta).getDate() + 2;
     this.fecHasta = new Date(fechaHasta.getFullYear(),fechaHasta.getMonth(), diaMas1)
     this.fecDesde = this.fecDesde.toDateString();
@@ -140,22 +144,19 @@ export class DetalleProyectoComponent implements OnInit {
       } else {
         this.blogs = [];
         this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
-        this.cargando = false;
+        setTimeout(() => {
+          this.toastService.removeAll()
+          this.cargando = false;
+        }, 3000);
       }})
         if (this.tipo == 'Jaula'){
           var filtrados= this.blogs.filter(blog => blog.tipo === 'Jaula')
-          setTimeout(() => {
-            this.blogs=filtrados;
-            console.log(this.blogs)
-          }, 1000);
+          this.blogs=filtrados;
+          
         } else if (this.tipo == 'Experimento'){
           var filtrados= this.blogs.filter(blog => blog.tipo === 'Experimento')
-          setTimeout(() => {
-            this.blogs=filtrados;
-            console.log(this.blogs)
-          }, 1000);
-        } else if (this.tipo == 'Todos'){
-        }
+          this.blogs=filtrados;
+        } 
   }
 
   esDirProyecto() {
