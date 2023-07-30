@@ -39,6 +39,7 @@ export class FinalizarProyectoComponent implements OnInit {
         setTimeout(() => {
           this.disabledForm = false;
           this.cerrarModal();
+          this.volver();
           this.toastService.removeAll()
         }, 2000);
       }, err => {
@@ -52,6 +53,10 @@ export class FinalizarProyectoComponent implements OnInit {
 
   cerrarModal(): void {
     this.cerrar.emit();
+  }
+
+  volver(): void {
+    this.router.navigateByUrl('home/proyectos');
   }
 
 }

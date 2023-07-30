@@ -1,32 +1,57 @@
-
 <div class="">
     <div class="">
-        <form>
+        <form [formGroup]="formFinExp" (ngSubmit)="finalizarExperimento()">
             <div class="container">
                 <div class="conclusion">
-                    <div class="mb-3">
-                        <div>
-                            <label  class="form-label">Conclusion</label>
-                            <textarea class="form-control" name='conclusion' aria-label="With textarea" rows="5" placeholder="Ingrese la conclusión del experimento" [(ngModel)]="obj.conclusion" [attr.disabled]='disabledForm ? true : null'></textarea>
-                        </div>            
+                    <div class="form-img">
+                        <div class="form-fin-exp">
+                            <div>
+                                <label for="conclusion" class="form-label">Conclusion</label>
+                                <textarea type="text" class="form-control" aria-label="With textarea" rows="5"
+                                    id="conclusiones" formControlName='conclusiones'
+                                    placeholder="Ingrese la conclusión del experimento"
+                                    [attr.disabled]='disabledForm ? true : null'>
+                                </textarea>
+                                <div
+                                    *ngIf="formFinExp.get('conclusiones').invalid && (formFinExp.get('conclusiones').dirty || formFinExp.get('conclusiones').touched)">
+                                    <div *ngIf="formFinExp.get('conclusiones').errors.required">La conclusion es requerida.
+                                    </div>
+                                    <div *ngIf="formFinExp.get('conclusiones').errors.maxLength">3000 caracteres máximo.
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <label for="resultados" class="form-label">Resultados</label>
+                                <textarea type="text" class="form-control" aria-label="With textarea" rows="5"
+                                    id="resultados" formControlName='resultados'
+                                    placeholder="Ingrese los resultados del experimento"
+                                    [attr.disabled]='disabledForm ? true : null'>
+                                    </textarea>
+                                <div
+                                    *ngIf="formFinExp.get('resultados').invalid && (formFinExp.get('resultados').dirty || formFinExp.get('resultados').touched)">
+                                    <div *ngIf="formFinExp.get('resultados').errors.required">Los resultados son
+                                        requeridos.</div>
+                                    <div *ngIf="formFinExp.get('resultados').errors.maxLength">3000 caracteres máximo.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="imagen">
+                            <div class="text-center">
+                                <i class="bi bi-inboxes-fill" style="font-size: 8em;"></i>
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <label class="form-label">Resultados</label>
-                        <textarea class="form-control" name='conclusion' aria-label="With textarea" rows="5" placeholder="Ingrese los resultados del experimento" [(ngModel)]="obj.resultados" [attr.disabled]='disabledForm ? true : null'></textarea>   
+                    <div class="container-buttons">
+                        <div class="buttons">
+                            <button class="btn btn-secondary btn-lg " (click)='cerrarModal()'>Cancelar</button>
+                            <button class="btn btn-primary btn-lg" (click)='finalizarExperimento()'
+                            *ngIf="!formFinExp.invalid &&!disabledForm">Finalizar</button>
+                        </div>
                     </div>
-            </div>
-            <div class="imagen">
-                <div class="text-center">
-                    <i class="bi bi-inboxes-fill" style="font-size: 8em;"></i>
                 </div>
             </div>
-        </div>
-        <div class="container-buttons">
-            <div class="buttons">
-                    <button class="btn btn-secondary btn-lg " (click)='cerrarModal()'>Cancelar</button>
-                    <button class="btn btn-primary btn-lg" (click)='finalizarExperimento()' *ngIf='!disabledForm'>Finalizar</button>
-            </div>
-        </div>
+
         </form>
     </div>
 </div>
