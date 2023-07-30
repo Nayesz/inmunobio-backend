@@ -36,10 +36,7 @@ class ProyectoService:
     @classmethod
     def validacionCierreProyecto(cls,proyecto):
         from servicios.experimentoService import ExperimentoService
-        print("ENTRAMOS A CHEQUEAR VALIDACION")
         if Proyecto.objects(id_proyecto = proyecto.id_proyecto, finalizado = True): raise Exception(f"El proyecto ya se encuentra finalizado.")
-        print("SEGUNDA VALIDACION")
-
         if not ExperimentoService.todosLosExperimentosFinalizados(proyecto.id_proyecto): raise Exception(f"Hay experimentos activos que deben cerrarse antes de la baja del proyecto.")
     #falta sacar codigo de fuentes y cerrar grupos (:
     
@@ -47,10 +44,8 @@ class ProyectoService:
     def cerrarProyecto(cls, datos):
         proyectoModelo = ProyectoCerradoSchema().load(datos)
         #proyecto = cls.find_by_id(proyectoModelo.id_proyecto)
-        print(proyectoModelo.finalizado)
         cls.validacionCierreProyecto(proyectoModelo)
         Proyecto.objects(id_proyecto = proyectoModelo.id_proyecto).update(set__conclusion = proyectoModelo.conclusion,set__finalizado = True, set__fechaFinal = parser.parse(str(datetime.datetime.utcnow())))
-
         #cls.validacionCierreProyecto(proyectoModelo)
 
         

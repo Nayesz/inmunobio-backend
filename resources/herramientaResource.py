@@ -54,7 +54,6 @@ class CrearBlogHerramientas(Resource):
         datos = request.get_json()
         if datos:
             try:
-                print("queremos crear nuevo blog herramientas")
                 HerramientaService.nuevoBlogHerramienta(datos)
                 return {'Status':'Se creo el blog de herramienta'},200              
             except Exception as err:
@@ -66,10 +65,7 @@ class BlogHerramientaXId(Resource):
         datos = request.get_json()
         if datos:
             try:
-                print("NOS PIDIERON BLOG DE HERRAMIENTA CON DATOS")
-                print(datos)
                 return HerramientaService.blogHerramienta(datos)
-                return CommonService.jsonMany(blogs,BlogSchemaExtendido)     
             except Exception as err:
                 return {'Error': err.args},400    
         return {'Error': 'Parametros requeridos'},400  
@@ -78,7 +74,7 @@ class BorrarBlogHeramienta(Resource):
     def delete(self,id_herramienta,id_blog):
         if(id_herramienta and id_blog):
             try:
-                blogs = HerramientaService.borrarlogHerramienta(id_herramienta,id_blog)
+                HerramientaService.borrarlogHerramienta(id_herramienta,id_blog)
                 return {'Status':'Se borró blog de herramienta.'},200              
             except Exception as err:
                 return {'Error': err.args},400    

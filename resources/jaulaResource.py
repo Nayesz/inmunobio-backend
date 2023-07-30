@@ -74,8 +74,6 @@ class ObtenerBlogsJaula(Resource):
         datos = request.get_json()
         if datos:
             try:
-                print("PARECE Q LE PINCHE PEGAN ACA")
-                print(datos)
                 return JaulaService.obtenerBlogsDeJaula(datos)       
             except Exception as err:
                 return {"Error": err.args}, 400

@@ -89,7 +89,6 @@ class NuevoBlogProyecto(Resource):
         datos = request.get_json()
         if datos:
             try:
-                print("LLEGAMOS A CREAR UN BLOGH")
                 ProyectoService.nuevoBlogsProyecto(datos)
                 return {'Status':'Se creó el blog de proyecto.'}, 200
             except Exception as err:
