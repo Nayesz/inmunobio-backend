@@ -65,7 +65,9 @@ class ExperimentoService:
             resultados= experimento.resultados,
             metodologia = experimento.metodologia,
             objetivos = experimento.objetivos,
-            muestrasExternas = experimento.muestrasExternas
+            muestrasExternas = experimento.muestrasExternas,
+            codigo = experimento.codigo
+
         )
 
     def lasMuestrasSonDelMismoProyectoDelExperimento(self, experimento):

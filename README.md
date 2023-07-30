@@ -18,8 +18,11 @@ TODO:
 
 9. ~~Error al editar usuarios: password hasheada~~ -> ahora pide siempre blanquear clave
 
-10. ~~finalizar experimento -> hacer obligatorio el envio de ambos campos~~ 
+10. ~~finalizar experimento -> hacer obligatorio el envio de ambos campos~~
 
+11.  ~~Se limitó el cierre de exp solo a los dir del proyecto~~
+
+12. ~~ahora se puede editar el codigo de un exp~~
 ---
 
 

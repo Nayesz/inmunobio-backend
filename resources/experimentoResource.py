@@ -14,6 +14,7 @@ class Experimentos(Resource):
         return {"Error" : "Se debe indicar un id del proyecto válido."}, 400
 
 class ExperimentoResource(Resource):
+    @TokenDeAcceso.token_nivel_de_acceso(TokenDeAcceso.TEC)  
     def get(self, idExperimiento):
         if idExperimiento:
             try:
@@ -21,7 +22,8 @@ class ExperimentoResource(Resource):
             except Exception as err:
                 return {'Error': err.args}, 400
         return {"Error" : "Se debe indicar un id de experimento válido."}, 400
-
+    
+    @TokenDeAcceso.token_nivel_de_acceso(TokenDeAcceso.TEC)
     def post(self):
         datos = request.get_json()
         if datos:
@@ -31,7 +33,8 @@ class ExperimentoResource(Resource):
             except Exception as err:
                 return {'Error': err.args}, 400
         return {"Error" : "Se deben enviar datos para la creación del experimento."}, 400
-
+   
+    @TokenDeAcceso.token_nivel_de_acceso(TokenDeAcceso.TEC)
     def put(self):
         datos = request.get_json()
         if datos:
