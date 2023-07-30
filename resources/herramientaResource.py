@@ -51,6 +51,7 @@ class Herramientas(Resource):
         return CommonService.jsonMany(HerramientaService.obtenerHerramientas(),HerramientaSchema)
 
 class CrearBlogHerramientas(Resource):
+    @TokenDeAcceso.token_nivel_de_acceso(TokenDeAcceso.TEC)
     def post(self):
         datos = request.get_json()
         if datos:
@@ -62,6 +63,7 @@ class CrearBlogHerramientas(Resource):
         return {'Error': 'Deben suministrarse datos para la creacion del blog'},400 
 
 class BlogHerramientaXId(Resource):
+    @TokenDeAcceso.token_nivel_de_acceso(TokenDeAcceso.TEC)
     def post(self):
         datos = request.get_json()
         if datos:

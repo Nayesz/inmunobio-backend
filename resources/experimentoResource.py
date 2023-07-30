@@ -1,6 +1,7 @@
 from flask_restful import Resource
 from flask_jwt import jwt_required
 from flask import request
+from resources.token import TokenDeAcceso
 from servicios.experimentoService import ExperimentoService
 from servicios.commonService import CommonService
 from schemas.experimentoSchema import  ExperimentoSchema
@@ -76,6 +77,7 @@ class ExperimentoMuestra(Resource):
         return {'Error': 'Se debe enviar el id del experimento y el id de la muestra.'}, 400
         
 class BlogExperimento(Resource):
+    @TokenDeAcceso.token_nivel_de_acceso(TokenDeAcceso.TEC)
     def post(self):
         datos = request.get_json()
         if datos:
@@ -87,6 +89,7 @@ class BlogExperimento(Resource):
         return {"Status" : "Deben indicarse datos para la creación del blog"}, 400
 
 class ObtenerBlogsExp(Resource):
+    @TokenDeAcceso.token_nivel_de_acceso(TokenDeAcceso.TEC)
     def post(self):
         datos = request.get_json()
         if(datos):

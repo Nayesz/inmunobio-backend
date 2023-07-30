@@ -1,13 +1,13 @@
 from flask_restful import Resource
 from flask_jwt import jwt_required
 from flask import request
+from resources.token import TokenDeAcceso
 from servicios.espacioFisicoService import EspacioFisicoService
 from servicios.commonService import CommonService
 from schemas.espacioFisicoSchema import EspacioFisicoSchema
 from schemas.blogSchema import BlogSchemaExtendido
 
 class EspacioFisico(Resource):
-
     def post(self):
         datos = request.get_json()
         if(datos):
@@ -50,6 +50,7 @@ class EspacioFisicoID(Resource):
         return {'Error': 'Debe enviarse el id del espacio físico.'},400
 
 class CrearBlogEspacioFisico(Resource):
+    @TokenDeAcceso.token_nivel_de_acceso(TokenDeAcceso.TEC)
     def post(self):
         datos = request.get_json()
         if(datos):
