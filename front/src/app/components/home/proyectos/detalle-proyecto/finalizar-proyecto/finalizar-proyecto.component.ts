@@ -39,12 +39,10 @@ export class FinalizarProyectoComponent implements OnInit {
         setTimeout(() => {
           this.disabledForm = false;
           this.cerrarModal();
-        }, 2000);
-        setTimeout(() => {
           this.toastService.removeAll()
-        }, 3000);
+        }, 2000);
       }, err => {
-        this.toastService.show('Problema al finalizar Proyecto', { classname: 'bg-danger text-light', delay: 2000 });
+        this.toastService.show('Problema al finalizar Proyecto' + err.error.error, { classname: 'bg-danger text-light', delay: 2000 });
         setTimeout(() => {
           this.toastService.removeAll()
         }, 3000);

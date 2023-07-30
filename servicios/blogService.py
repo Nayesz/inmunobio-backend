@@ -1,22 +1,15 @@
 from marshmallow import ValidationError
-#from servicios.commonService import CommonService
 from schemas.blogSchema import BlogSchema,NuevoBlogSchema
 from datetime import datetime
+from servicios.commonService import CommonService
 
-def cambioUTC():
-    from datetime import datetime, timedelta
-    # Obtener la fecha y hora actual en formato UTC
-    fecha_utc = datetime.utcnow()
-    # Restar 3 horas a la fecha y hora actual
-    fecha_resta_tres_horas = fecha_utc - timedelta(hours=3)
-    # Imprimir la fecha y hora resultante en formato ISO 8601
-    return fecha_resta_tres_horas.isoformat()
+
 
 class BlogService():
     @classmethod
     def nuevoBlog(cls,datos):
         #falta validar usuario q crea
-        datos['fecha'] = cambioUTC()
+        datos['fecha'] = CommonService.cambioUTC()
         return NuevoBlogSchema().load(datos)
 
     @classmethod

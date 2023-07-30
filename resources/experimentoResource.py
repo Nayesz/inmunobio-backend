@@ -7,7 +7,6 @@ from servicios.commonService import CommonService
 from schemas.experimentoSchema import  ExperimentoSchema
 
 class Experimentos(Resource):
-
     #@jwt_required()
     def get(self, idProyecto):
         if idProyecto:
@@ -44,7 +43,6 @@ class ExperimentoResource(Resource):
         return {"Error" : "Se deben enviar datos para la actualización del experimento."}, 400
 
 class CerrarExperimento(Resource):
-
     def put(self):
         datos = request.get_json()
         if datos:
@@ -56,7 +54,6 @@ class CerrarExperimento(Resource):
         return {"Error" : "Se deben enviar datos para poder cerrar el experimento."}, 400
 
 class ExperimentoMuestra(Resource):
-
     def put(self):
         datos = request.get_json()
         if datos:

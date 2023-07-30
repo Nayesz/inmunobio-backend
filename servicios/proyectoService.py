@@ -43,7 +43,7 @@ class ProyectoService:
     @classmethod
     def cerrarProyecto(cls, datos):
         proyectoModelo = ProyectoCerradoSchema().load(datos)
-        #proyecto = cls.find_by_id(proyectoModelo.id_proyecto)
+        proyecto = cls.find_by_id(proyectoModelo.id_proyecto)
         cls.validacionCierreProyecto(proyectoModelo)
         Proyecto.objects(id_proyecto = proyectoModelo.id_proyecto).update(set__conclusion = proyectoModelo.conclusion,set__finalizado = True, set__fechaFinal = parser.parse(str(datetime.datetime.utcnow())))
         #cls.validacionCierreProyecto(proyectoModelo)

@@ -1,5 +1,6 @@
 from models.mongo.experimento import Experimento
 from schemas.experimentoSchema import BusquedaBlogExp,NuevoBlogExpSchema, ExperimentoSchema, ModificarExperimentoSchema, AltaExperimentoSchema, CerrarExperimentoSchema, AgregarMuestrasAlExperimentoSchema
+from servicios.commonService import CommonService
 from .validationService import Validacion
 from models.mongo.experimento import Experimento 
 from servicios.muestraService import MuestraService
@@ -29,8 +30,10 @@ class ExperimentoService:
 
     @classmethod
     def nuevoExperimento(cls, datos):
-        #falta validar q exista el proyecto
+        from servicios.proyectoService import ProyectoService
         experimento = AltaExperimentoSchema().load(datos)
+        ProyectoService.find_by_id(experimento.id_proyecto)
+        experimento.fechaInicio = CommonService.cambioUTC()
         experimento.save()
 
     @classmethod
@@ -49,7 +52,7 @@ class ExperimentoService:
     def cerrarExperimento(cls, datos):
         experimento = CerrarExperimentoSchema().load(datos)
         Experimento.objects(id_experimento=experimento.id_experimento).update(
-            fechaFin = parser.parse(str(datetime.datetime.utcnow())),
+            fechaFin =  CommonService.cambioUTC(),
             resultados = experimento.resultados,
             finalizado = True,
             conclusiones = experimento.conclusiones

@@ -31,7 +31,6 @@ export class NuevoExperimentoComponent implements OnInit {
     this.cargando = true;
     this.idProyecto = parseInt(this.activatedRouter.snapshot.paramMap.get('id'), 10);
     window.location.href.includes('editar') ? this.modo = 'EDITAR' : this.modo = 'CREAR';
-    console.log(this.modo)
     this.formExperimento = new FormGroup({
       codigo: new FormControl('', [Validators.required, Validators.maxLength(10)]),
       metodologia: new FormControl('', [Validators.required, Validators.maxLength(300)]),
@@ -49,7 +48,10 @@ export class NuevoExperimentoComponent implements OnInit {
           this.cargando = false;
         } else {
           this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
-          this.cargando = false;
+          setTimeout(() => {
+            this.toastService.removeAll()
+            this.cargando = false;
+          }, 2000);
         }
       });
     } else{
@@ -67,7 +69,6 @@ export class NuevoExperimentoComponent implements OnInit {
     };
     if (this.modo === 'CREAR'){
       this.postService.crearExperimento(experimento).subscribe(res => {
-        console.log(res)
         if (res.Status === 'Se creó el experimento.') {
           this.toastService.show('Experimento Creado', { classname: 'bg-success text-light', delay: 2000 });
           setTimeout(() => {
@@ -77,14 +78,16 @@ export class NuevoExperimentoComponent implements OnInit {
           }, 2000);
         }
       }, err => {
-        this.toastService.show('Problema al crear experimento' + err.error.error, { classname: 'bg-danger text-light', delay: 2000 });
-        console.log(err)
-        this.disabledForm = false;
+        this.toastService.show('Problema al crear experimento', { classname: 'bg-danger text-light', delay: 2000 });
+        setTimeout(() => {
+          this.toastService.removeAll()
+          this.disabledForm = false;
+        }, 2000);
+                
       });
     } else {
       experimento.id_experimento = this.idExperimento;
       this.postService.modificarExperimento(experimento).subscribe(res => {
-        console.log(res)
         if (res.Status === 'Se modificó el experimento.') {
           this.toastService.show('Experimento Editado', { classname: 'bg-success text-light', delay: 2000 });
           setTimeout(() => {
@@ -94,9 +97,11 @@ export class NuevoExperimentoComponent implements OnInit {
           }, 2000);
         }
       }, err => {
-        this.toastService.show('Problema al editar experimento' + err.error.error, { classname: 'bg-danger text-light', delay: 2000 });
-        console.log(err)
-        this.disabledForm = false;
+        this.toastService.show('Problema al editar experimento ' + err.error.error, { classname: 'bg-danger text-light', delay: 2000 });
+        setTimeout(() => {
+          this.toastService.removeAll()
+          this.disabledForm = false;
+        }, 2000);
       });
     }
   }
