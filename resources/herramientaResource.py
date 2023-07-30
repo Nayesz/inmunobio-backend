@@ -54,6 +54,7 @@ class CrearBlogHerramientas(Resource):
         datos = request.get_json()
         if datos:
             try:
+                print("queremos crear nuevo blog herramientas")
                 HerramientaService.nuevoBlogHerramienta(datos)
                 return {'Status':'Se creo el blog de herramienta'},200              
             except Exception as err:

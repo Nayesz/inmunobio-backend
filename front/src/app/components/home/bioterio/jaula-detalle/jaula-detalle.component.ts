@@ -24,7 +24,6 @@ export class JaulaDetalleComponent implements OnInit, OnDestroy {
   jaula: Jaula;
   espacioFisico: EspacioFisico;
 
-  // animales:Animal[];
   animales:Animal[];
   idAnimal_eliminar:number;
 
@@ -51,7 +50,7 @@ export class JaulaDetalleComponent implements OnInit, OnDestroy {
 
   blogSearchObject(){
     const diaHasta = (this.fecHoy).getDate() + 1;
-    const diaDesde = (this.fecHoy).getDate() - 8;
+    const diaDesde = (this.fecHoy).getDate() - 30;
     this.fecHasta = new Date(this.fecHoy.getFullYear(),this.fecHoy.getMonth(), diaHasta).toDateString()
     this.fecDesde = new Date(this.fecHoy.getFullYear(),this.fecHoy.getMonth(), diaDesde).toDateString()
     const blog : BlogBuscadoJaula = {

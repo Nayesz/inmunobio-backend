@@ -3,24 +3,22 @@ from marshmallow import ValidationError
 from schemas.blogSchema import BlogSchema,NuevoBlogSchema
 from datetime import datetime
 
+def cambioUTC():
+    from datetime import datetime, timedelta
+    # Obtener la fecha y hora actual en formato UTC
+    fecha_utc = datetime.utcnow()
+    # Restar 3 horas a la fecha y hora actual
+    fecha_resta_tres_horas = fecha_utc - timedelta(hours=3)
+    # Imprimir la fecha y hora resultante en formato ISO 8601
+    return fecha_resta_tres_horas.isoformat()
 
 class BlogService():
     @classmethod
     def nuevoBlog(cls,datos):
         #falta validar usuario q crea
-        """         import pytz
-        from datetime import datetime
-        zona_horaria = pytz.timezone('America/Argentina/Buenos_Aires')
-
-        fecha_actual = datetime.now(zona_horaria)
-        from datetime import datetime
-        # Agregamos la fecha de llegada al backend
-        datos['fecha'] =datetime.now().strftime('%Y-%m-%dT%H:%M:%S.%f')
-        print("VAMOS A CREAR BLOG EXP CON ESTO") """
-        print(datos)
-
+        datos['fecha'] = cambioUTC()
         return NuevoBlogSchema().load(datos)
-        
+
     @classmethod
     def convertirFecha(cls,fecha,hr,min,seg):
         return datetime.strptime(fecha, "%a %b %d %Y").replace(hour=hr, minute=min, second=seg, microsecond=0)
@@ -29,16 +27,7 @@ class BlogService():
     def busquedaPorFecha(cls,blogs,fecDesde,fecHasta):
         fecDesde= cls.convertirFecha(fecDesde,0,0,0)
         fecHasta = cls.convertirFecha(fecHasta,23,59,0)
-        print("fecDesde")
-        print(fecDesde)
-        print("fecHasta")
-        print(fecHasta)
         cls.validarFechas(fecDesde, fecHasta)
-        blogFiltrados = []
-        print("entramos a iterar blogs")
-        for blog in blogs:
-            print(blog.fecha)
-            print(blog.fecha <= fecHasta and blog.fecha>=fecDesde)
         return cls.agregarDataUsuarios(list(filter(lambda blog: blog.fecha <= fecHasta and blog.fecha>=fecDesde , blogs)))
         
     @classmethod

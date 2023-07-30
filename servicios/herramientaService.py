@@ -42,9 +42,8 @@ class HerramientaService:
     
     @classmethod
     def nuevoBlogHerramienta(cls,datos):
-        blogNuevo = NuevoBlogHerramientaSchema().load(datos)
-        herramienta =   cls.find_by_id(datos['id_herramienta'])
-        herramienta.blogs.append(blogNuevo['blogs'])
+        herramienta = cls.find_by_id(datos['id_herramienta'])
+        herramienta.blogs.append(BlogService.nuevoBlog(datos['blogs']))
         herramienta.save()
     
     @classmethod
