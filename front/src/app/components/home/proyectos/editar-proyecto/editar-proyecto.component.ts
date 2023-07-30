@@ -123,15 +123,12 @@ export class EditarProyectoComponent implements OnInit {
     if (!this.formProyecto.invalid){
       proyecto.id_proyecto = this.idProyecto;
       this.postService.modificarProyecto(proyecto).subscribe(res => {
-          console.log(res);
           this.toastService.show('Proyecto Editado', { classname: 'bg-success text-light', delay: 2000 });
           setTimeout(() => {
             this.toastService.removeAll()
-          }, 3000);
-          setTimeout(() => {
             this.disabledForm = false;
             this.volver();
-          }, 2000);
+          }, 3000);
         }, err => {
           let mensaje = err.error.Error[0]
           this.toastService.show('Problema al editar Proyecto: ' + mensaje, { classname: 'bg-danger text-light', delay: 2000 });

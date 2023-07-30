@@ -1,26 +1,17 @@
 from marshmallow import ValidationError
-#from servicios.commonService import CommonService
 from schemas.blogSchema import BlogSchema,NuevoBlogSchema
 from datetime import datetime
+from servicios.commonService import CommonService
+
 
 
 class BlogService():
     @classmethod
     def nuevoBlog(cls,datos):
         #falta validar usuario q crea
-        """         import pytz
-        from datetime import datetime
-        zona_horaria = pytz.timezone('America/Argentina/Buenos_Aires')
-
-        fecha_actual = datetime.now(zona_horaria)
-        from datetime import datetime
-        # Agregamos la fecha de llegada al backend
-        datos['fecha'] =datetime.now().strftime('%Y-%m-%dT%H:%M:%S.%f')
-        print("VAMOS A CREAR BLOG EXP CON ESTO") """
-        print(datos)
-
+        datos['fecha'] = CommonService.cambioUTC()
         return NuevoBlogSchema().load(datos)
-        
+
     @classmethod
     def convertirFecha(cls,fecha,hr,min,seg):
         return datetime.strptime(fecha, "%a %b %d %Y").replace(hour=hr, minute=min, second=seg, microsecond=0)
@@ -29,11 +20,6 @@ class BlogService():
     def busquedaPorFecha(cls,blogs,fecDesde,fecHasta):
         fecDesde= cls.convertirFecha(fecDesde,0,0,0)
         fecHasta = cls.convertirFecha(fecHasta,23,59,0)
-        print("fecDesde")
-        print(fecDesde)
-        print("fecHasta")
-        print(fecHasta)
-
         cls.validarFechas(fecDesde, fecHasta)
         return cls.agregarDataUsuarios(list(filter(lambda blog: blog.fecha <= fecHasta and blog.fecha>=fecDesde , blogs)))
         

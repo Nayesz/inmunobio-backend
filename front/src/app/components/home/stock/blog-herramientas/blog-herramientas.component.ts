@@ -40,22 +40,17 @@ export class BlogHerramientasComponent implements OnInit {
     this.idHerramienta = parseInt(this.activatedRouter.snapshot.paramMap.get('idHerramienta'), 10);
     this.getService.obtenerHerramienta(this.idHerramienta).subscribe(res => {
       this.herramienta = res;
-      console.log(res)
     })
     this.fecHoy = new Date(Date.now());
     const dia = (this.fecHoy).getDate() + 1;
-
     this.fecHasta = new Date(this.fecHoy.getFullYear(),this.fecHoy.getMonth(), dia)
-    console.log(this.fecHasta)
     this.fecHasta = this.fecHasta.toDateString();
     const blog : BlogsBuscadosHerr = {
           id_herramienta: this.idHerramienta,
           fechaDesde: 'Mon May 31 2021',
           fechaHasta: this.fecHasta
         } 
-    console.log(blog)
     this.subscription.add(this.postService.obtenerBlogHerramientas(blog).subscribe(res =>{
-      console.log(res);
       this.blogs = res; })
     );
 
@@ -67,19 +62,16 @@ export class BlogHerramientasComponent implements OnInit {
   Buscar(){
       this.fecDesde = new Date(this.formFecha.value.fecDesde);
       this.fecHastaReal= new Date(this.formFecha.value.fecHasta);
-      console.log(this.fecHastaReal)
       const diaMas1 = (this.fecHastaReal).getDate() + 2;
       this.fecHasta = new Date(this.fecHastaReal.getFullYear(),this.fecHastaReal.getMonth(), diaMas1)
       this.fecDesde = this.fecDesde.toDateString();
       this.fecHasta = this.fecHasta.toDateString();
-      console.log(this.fecHasta)
       const blog : BlogsBuscadosHerr = {
         id_herramienta: this.idHerramienta,
         fechaDesde: this.fecDesde,
         fechaHasta: this.fecHasta
       }
       this.subscription.add(this.postService.obtenerBlogHerramientas(blog).subscribe(res =>{
-        console.log(res);
         this.blogs = res; })
       );
       

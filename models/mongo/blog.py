@@ -3,7 +3,7 @@ from dateutil import parser
 import datetime
 
 class Blog(dbMongo.EmbeddedDocument):
-    fecha = dbMongo.DateTimeField(default=parser.parse(str(datetime.datetime.utcnow())))
+    fecha = dbMongo.DateTimeField()
     detalle = dbMongo.StringField()
     id_usuario = dbMongo.IntField()
     id_blog = dbMongo.SequenceField()

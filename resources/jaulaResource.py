@@ -41,6 +41,7 @@ class JaulasSinProyecto(Resource):
         return CommonService.jsonMany(JaulaService.jaulasSinAsignar(),JaulaSchema)
 
 class JaulasDelProyecto(Resource):
+    @TokenDeAcceso.token_nivel_de_acceso(TokenDeAcceso.TEC)
     def get(self, idProyecto):
         if(idProyecto):
             return CommonService.jsonMany(JaulaService.jaulasDelProyecto(idProyecto),JaulaSchema)
@@ -74,14 +75,13 @@ class ObtenerBlogsJaula(Resource):
         datos = request.get_json()
         if datos:
             try:
-                print("PARECE Q LE PINCHE PEGAN ACA")
-                print(datos)
                 return JaulaService.obtenerBlogsDeJaula(datos)       
             except Exception as err:
                 return {"Error": err.args}, 400
         return {"Error" : "Deben indicarse datos para el blog"}, 400
 
 class JaulasBlogs(Resource):
+    @TokenDeAcceso.token_nivel_de_acceso(TokenDeAcceso.TEC)
     def post(self):
         datos = request.get_json()
         if datos:
@@ -92,6 +92,7 @@ class JaulasBlogs(Resource):
         return {"Error" : "Deben indicarse datos para el blog"}, 400
 
 class Jaulas(Resource):
+    @TokenDeAcceso.token_nivel_de_acceso(TokenDeAcceso.TEC)
     def get(self):
         try:
             return jsonify(JaulaService.obtenerTodasLasJaulas())
@@ -99,6 +100,7 @@ class Jaulas(Resource):
             return {"Error": err.args}, 400
 
 class JaulaXId(Resource):
+    @TokenDeAcceso.token_nivel_de_acceso(TokenDeAcceso.TEC)
     def get(self, id_jaula):
         if id_jaula:
             try:

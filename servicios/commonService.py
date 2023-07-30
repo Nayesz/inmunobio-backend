@@ -67,3 +67,13 @@ class CommonService():
     @classmethod
     def asignaNombre(cls,valor,clave,objeto):
         objeto[clave] = valor
+
+    @classmethod
+    def cambioUTC(cls):
+        from datetime import datetime, timedelta
+        # Obtener la fecha y hora actual en formato UTC
+        fecha_utc = datetime.utcnow()
+        # Restar 3 horas a la fecha y hora actual
+        fecha_resta_tres_horas = fecha_utc - timedelta(hours=3)
+        # Imprimir la fecha y hora resultante en formato ISO 8601
+        return fecha_resta_tres_horas.isoformat()

@@ -42,16 +42,32 @@ class HerramientaService:
     
     @classmethod
     def nuevoBlogHerramienta(cls,datos):
-        blogNuevo = NuevoBlogHerramientaSchema().load(datos)
-        herramienta =   cls.find_by_id(datos['id_herramienta'])
-        herramienta.blogs.append(blogNuevo['blogs'])
+        herramienta = cls.find_by_id(datos['id_herramienta'])
+        herramienta.blogs.append(BlogService.nuevoBlog(datos['blogs']))
         herramienta.save()
-    
+
+    @classmethod    
+    def formateoFecha(cls,fecha_str):
+        import datetime
+        fecha = datetime.datetime.strptime(fecha_str, '%Y-%m-%dT%H:%M:%S.%f')
+        return fecha.strftime('%Y-%m-%d %H:%M')
+
+    @classmethod    
+    def formateoFechaEnBlogs(cls,blogs):
+        from schemas.blogSchema import BlogSchemaExtendido
+        dictBlogs = []
+        for blog in blogs:
+            dictBlog =  BlogSchemaExtendido().dump(blog)
+            dictBlog['fecha'] = cls.formateoFecha(dictBlog['fecha'])
+            dictBlogs.append(dictBlog)
+        return dictBlogs 
+       
     @classmethod
     def blogHerramienta(cls,datos):
         BusquedaBlogHerramienta().load(datos)
         herramienta =  cls.find_by_id(datos['id_herramienta'])
-        return BlogService.busquedaPorFecha(herramienta.blogs,datos['fechaDesde'],datos['fechaHasta'])
+        sorted_json_list = sorted(BlogService.busquedaPorFecha(herramienta.blogs,datos['fechaDesde'],datos['fechaHasta']), key=lambda item: item['fecha'], reverse=True)
+        return cls.formateoFechaEnBlogs(sorted_json_list) 
 
     @classmethod
     def borrarlogHerramienta(cls,_id_herramienta,_id_blog):

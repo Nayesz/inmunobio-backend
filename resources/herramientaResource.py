@@ -1,6 +1,7 @@
 from flask_restful import Resource
 from flask_jwt import jwt_required
 from flask import request
+from resources.token import TokenDeAcceso
 from servicios.herramientaService import HerramientaService
 from schemas.herramientaSchema import HerramientaSchema
 from schemas.blogSchema import BlogSchemaExtendido
@@ -50,6 +51,7 @@ class Herramientas(Resource):
         return CommonService.jsonMany(HerramientaService.obtenerHerramientas(),HerramientaSchema)
 
 class CrearBlogHerramientas(Resource):
+    @TokenDeAcceso.token_nivel_de_acceso(TokenDeAcceso.TEC)
     def post(self):
         datos = request.get_json()
         if datos:
@@ -61,12 +63,12 @@ class CrearBlogHerramientas(Resource):
         return {'Error': 'Deben suministrarse datos para la creacion del blog'},400 
 
 class BlogHerramientaXId(Resource):
+    @TokenDeAcceso.token_nivel_de_acceso(TokenDeAcceso.TEC)
     def post(self):
         datos = request.get_json()
         if datos:
             try:
-                blogs = HerramientaService.blogHerramienta(datos)
-                return CommonService.jsonMany(blogs,BlogSchemaExtendido)     
+                return HerramientaService.blogHerramienta(datos)
             except Exception as err:
                 return {'Error': err.args},400    
         return {'Error': 'Parametros requeridos'},400  
@@ -75,7 +77,7 @@ class BorrarBlogHeramienta(Resource):
     def delete(self,id_herramienta,id_blog):
         if(id_herramienta and id_blog):
             try:
-                blogs = HerramientaService.borrarlogHerramienta(id_herramienta,id_blog)
+                HerramientaService.borrarlogHerramienta(id_herramienta,id_blog)
                 return {'Status':'Se borró blog de herramienta.'},200              
             except Exception as err:
                 return {'Error': err.args},400    

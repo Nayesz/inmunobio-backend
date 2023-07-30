@@ -1,3 +1,5 @@
+
+
 .container{
     display: flex;
     justify-content: space-around;
@@ -6,11 +8,23 @@ textarea{
     width: 30em;
 }
 .conclusion{
-    display: block;
+    display: flex;
+    flex-direction: column;
 }
+.form-img{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+.form-fin-exp{
+    flex-direction: column;
+}
+
 .imagen{
     justify-content: space-around;
-    margin-top: 5em;
+    margin-left: 5rem;
+
 }
 .buttons{
     /* d-flex flex-row justify-content-center mt-3 */
