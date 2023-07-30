@@ -49,7 +49,26 @@ class EspacioFisicoService():
     def obtenerBlogs(cls,datos):
         BusquedaBlogEspacio().load(datos)
         espacio = cls.find_by_id(datos['id_espacioFisico'])
-        return BlogService.busquedaPorFecha(espacio.blogs,datos['fechaDesde'],datos['fechaHasta'])
+        sorted_json_list = sorted(BlogService.busquedaPorFecha(espacio.blogs,datos['fechaDesde'],datos['fechaHasta']), key=lambda item: item['fecha'], reverse=True)
+        print("pudimos ordenar los blos")
+        return cls.formateoFechaEnBlogs(sorted_json_list) 
+
+    @classmethod    
+    def formateoFecha(cls,fecha_str):
+        import datetime
+        fecha = datetime.datetime.strptime(fecha_str, '%Y-%m-%dT%H:%M:%S.%f')
+        return fecha.strftime('%Y-%m-%d %H:%M')
+    
+    @classmethod    
+    def formateoFechaEnBlogs(cls,blogs):
+        from schemas.blogSchema import BlogSchemaExtendido
+        dictBlogs = []
+        for blog in blogs:
+            dictBlog =  BlogSchemaExtendido().dump(blog)
+            print(dictBlog)
+            dictBlog['fecha'] = cls.formateoFecha(dictBlog['fecha'])
+            dictBlogs.append(dictBlog)
+        return dictBlogs         
 
     @classmethod
     def BorrarBlogEspacioFisico(cls,_id_espacioFisico,_id_blog):
@@ -60,4 +79,3 @@ class EspacioFisicoService():
             raise Exception(f"No se encontró ningun blog con el id: {_id_blog}")
         raise Exception(f"No existe espacio fisico con id {_id_espacioFisico}")
  
-

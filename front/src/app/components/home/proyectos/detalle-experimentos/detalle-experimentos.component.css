@@ -68,6 +68,12 @@
 }
 
 /* BLOGS */
+/* EDITED */
+.detalle-blog {
+  word-wrap: break-word;
+}
+
+
 .card-blog{
     width: 95%;
     margin: 1em;
@@ -91,7 +97,7 @@
   .search-container-blog{
     width: 70%;
     height: auto;
-    margin: auto;
+    /*margin: auto;*/
     display: flex;
     justify-content: space-around;
   }
@@ -101,7 +107,7 @@
     width: auto;
   }
   .blog{
-    width: 100%;
+    width: 90%;
     margin-left: 5px;
   }
   .barra-blogs{

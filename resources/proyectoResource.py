@@ -84,11 +84,12 @@ class ObtenerBlogsProyecto(Resource):
         return {"Error" : "Deben indicarse datos para el blog"}, 400
 
 class NuevoBlogProyecto(Resource):
-    #@jwt_required()
+    @TokenDeAcceso.token_nivel_de_acceso(TokenDeAcceso.TEC)
     def post(self):
         datos = request.get_json()
         if datos:
             try:
+                print("LLEGAMOS A CREAR UN BLOGH")
                 ProyectoService.nuevoBlogsProyecto(datos)
                 return {'Status':'Se creó el blog de proyecto.'}, 200
             except Exception as err:

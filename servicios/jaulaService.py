@@ -101,22 +101,39 @@ class JaulaService:
     @classmethod
     def blogsDeTodasLasJaulas(cls,datos):
         BusquedaBlogsJaula().load(datos)
-        return cls.obtenerTodosLosBlogs(cls.obtenerJaulas(),datos)
+        sorted_json_list = sorted(cls.obtenerTodosLosBlogs(cls.obtenerJaulas(),datos), key=lambda item: item['fecha'], reverse=True)
+        return cls.formateoFechaEnBlogs(sorted_json_list) 
+         
 
     @classmethod
     def obtenerTodosLosBlogs(cls,jaulas,datos):
-        return [x for x in list(map(lambda jaula: cls.obtenerBlogs(jaula,datos),jaulas)) if x ]
+        import itertools # para aplanar la lista
+        return  list(itertools.chain.from_iterable([x for x in list(map(lambda jaula: cls.obtenerBlogs(jaula,datos),jaulas)) if x ]))
 
     @classmethod
     def obtenerBlogsDeJaula(cls,datos):
         BusquedaBlogJaula().load(datos)
         jaula = cls.find_by_id(datos['id_jaula'])
-        return cls.obtenerBlogs(jaula,datos)
+        sorted_json_list = sorted(cls.obtenerBlogs(jaula,datos), key=lambda item: item['fecha'], reverse=True)
+        return cls.formateoFechaEnBlogs(sorted_json_list) 
+    
+    @classmethod    
+    def formateoFecha(cls,fecha_str):
+        import datetime
+        fecha = datetime.datetime.strptime(fecha_str, '%Y-%m-%dT%H:%M:%S.%f')
+        return fecha.strftime('%Y-%m-%d %H:%M')
+    
+    @classmethod    
+    def formateoFechaEnBlogs(cls,dictBlogs):
+        for blog in dictBlogs:
+            blog['fecha'] = cls.formateoFecha(blog['fecha'])
+        return dictBlogs
 
     @classmethod
     def obtenerBlogs(cls,jaula,datos):
         from servicios.blogService import BlogService
         blogs = BlogService.busquedaPorFecha(jaula.blogs,datos['fechaDesde'],datos['fechaHasta'])
+        print(blogs)
         return cls.deserializarBlogsJaulas(blogs,jaula) 
 
     @classmethod

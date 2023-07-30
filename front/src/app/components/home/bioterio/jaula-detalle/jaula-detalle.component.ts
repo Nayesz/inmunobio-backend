@@ -89,8 +89,8 @@ export class JaulaDetalleComponent implements OnInit, OnDestroy {
       },
       (error) => {
         //Acá se podría enviar al usuario a una página de error y que le muestre el mensaje de error.
-        const errorMessages = error.error['Error'].map(msg => msg).join('\n')
-        this.toastService.show(errorMessages, { classname: 'bg-danger text-light', delay: 2000 });
+        //const errorMessages = error.error['Error'].map(msg => msg).join('\n')
+        this.toastService.show(error.error['Error'], { classname: 'bg-danger text-light', delay: 2000 });
       }
     ));
   }
@@ -107,7 +107,7 @@ export class JaulaDetalleComponent implements OnInit, OnDestroy {
     }
     this.subscription.add(this.postService.asignarJaulaProyecto(datos).subscribe(res => {
       console.log(res)
-      if (res.status === 'Se asignó la jaula al proyecto.'){
+      if (res){
         this.toastService.show('Jaula asociada', { classname: 'bg-success text-light', delay: 2000 });
         setTimeout(() => {
           this.toastService.removeAll()
@@ -196,8 +196,7 @@ export class JaulaDetalleComponent implements OnInit, OnDestroy {
       }
       console.log(res)
     }, err => {
-      this.toastService.show('Problema al crear el blog' + err.error.Error, { classname: 'bg-danger text-light', delay: 2000 });
-      console.log(err)
+      this.toastService.show('Problema al crear el blog: ' + err.error.Error, { classname: 'bg-danger text-light', delay: 2000 });
       setTimeout(() => {
         this.toastService.removeAll()
         this.modalService.dismissAll()

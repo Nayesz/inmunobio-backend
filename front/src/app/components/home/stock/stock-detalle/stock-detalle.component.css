@@ -5,6 +5,10 @@
     margin: auto;
     justify-content: space-around;
 }
+/* EDITED */
+.detalle-blog {
+    word-wrap: break-word;
+  }
 .button-agregarstock,.button-nuevaHerramienta{
     margin-left: 1em;
     width: 140px;

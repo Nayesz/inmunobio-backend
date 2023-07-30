@@ -75,7 +75,8 @@ class ObtenerBlogsEspFisico(Resource):
         datos = request.get_json()
         if(datos):
             try:
-                return CommonService.jsonMany(EspacioFisicoService.obtenerBlogs(datos),BlogSchemaExtendido)
+                return EspacioFisicoService.obtenerBlogs(datos)
+                ##return CommonService.jsonMany(EspacioFisicoService.obtenerBlogs(datos),BlogSchemaExtendido)
             except Exception as err:
                 return {'Error': err.args}, 400           
         return {'Error': 'Deben enviarse los datos para obtener el blog de espacio físico.'},400

@@ -22,6 +22,11 @@ dbMongo.init_app(app)
 
 Migrate(app, db, compare_type=True)
 
+############################ timezone config
+
+app.config['TIMEZONE'] = 'America/Argentina/Buenos_Aires' 
+print("CONFIGURAMOS TIMEZONE")
+print(app.config['TIMEZONE'])
 nojwt = JWT(app, authenticate, identity) 
 
 cors = CORS(app)

@@ -8,6 +8,9 @@ export class ToastServiceService {
 
   show(textOrTpl: string | TemplateRef<any>, options: any = {}) {
     this.toasts.push({ textOrTpl, ...options });
+    setTimeout(() => {
+      this.removeAll();
+    }, 2000);
   }
 
   remove(toast) {
