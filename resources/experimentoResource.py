@@ -29,7 +29,7 @@ class ExperimentoResource(Resource):
         if datos:
             try:
                 ExperimentoService.nuevoExperimento(datos)
-                return {"Status":"Se creó el experimento."}, 201
+                return {"Status":"Se creó el experimento."}, 200
             except Exception as err:
                 return {'Error': err.args}, 400
         return {"Error" : "Se deben enviar datos para la creación del experimento."}, 400
@@ -40,7 +40,7 @@ class ExperimentoResource(Resource):
         if datos:
             try:
                 ExperimentoService.modificarExperimento(datos)
-                return {"Status":"Se modificó el experimento."}, 201
+                return {"Status":"Se modificó el experimento."}, 200
             except Exception as err:
                 return {'error': err.args}, 400
         return {"Error" : "Se deben enviar datos para la actualización del experimento."}, 400

@@ -70,7 +70,10 @@ export class DetalleExperimentosComponent implements OnInit {
         this.proyecto = res;
       } else {
         this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
-        this.cargando = false;
+        setTimeout(() => {
+          this.toastService.removeAll()
+          this.cargando = false;
+        }, 2000);
       }
     });
     this.getService.obtenerExperimentoPorId(this.idExperimento).subscribe(res => {
@@ -78,20 +81,24 @@ export class DetalleExperimentosComponent implements OnInit {
         this.experimento = res;  
       } else {
         this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
-        this.cargando = false;
+        setTimeout(() => {
+          this.toastService.removeAll()
+          this.cargando = false;
+        }, 2000);
       }
-      console.log(res);
     });
     
     this.getService.obtenerGruposExperimentalesPorExperimento(this.idExperimento).subscribe(res => {
       if (res){
         res === null ? this.gruposExperimentales = [] : this.gruposExperimentales = res;
         this.gruposExperimentales = this.gruposExperimentales.filter( grupo => grupo.habilitado)
-        console.log(this.gruposExperimentales)
         this.cargando = false;
       } else {
         this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
-        this.cargando = false;
+        setTimeout(() => {
+          this.toastService.removeAll()
+          this.cargando = false;
+        }, 2000);
       }
     });
 
@@ -109,21 +116,25 @@ export class DetalleExperimentosComponent implements OnInit {
       } else {
         this.blogs = [];
         this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
-        this.cargando = false;
+        setTimeout(() => {
+          this.toastService.removeAll()
+          this.cargando = false;
+        }, 2000);
       }
-      // console.log(res);
       
     });
     setTimeout(() => {
       this.getService.obtenerMuestrasxProyecto(this.idProyecto).subscribe(res =>{
-        console.log(res)
         if(res){
           const muestrasAsociadas = this.experimento.muestrasExternas.map(a => a.id_muestra)
           this.itemList = res.filter( b => { return !muestrasAsociadas.includes(b.id_muestra)})
           this.cargando = false;
         } else {
           this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
-          this.cargando = false;
+          setTimeout(() => {
+            this.toastService.removeAll()
+            this.cargando = false;
+          }, 2000);
         }
       })
     }, 500);
