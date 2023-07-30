@@ -66,7 +66,9 @@ class BlogHerramientaXId(Resource):
         datos = request.get_json()
         if datos:
             try:
-                blogs = HerramientaService.blogHerramienta(datos)
+                print("NOS PIDIERON BLOG DE HERRAMIENTA CON DATOS")
+                print(datos)
+                return HerramientaService.blogHerramienta(datos)
                 return CommonService.jsonMany(blogs,BlogSchemaExtendido)     
             except Exception as err:
                 return {'Error': err.args},400    

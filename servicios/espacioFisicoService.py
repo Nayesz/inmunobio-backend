@@ -64,7 +64,6 @@ class EspacioFisicoService():
         dictBlogs = []
         for blog in blogs:
             dictBlog =  BlogSchemaExtendido().dump(blog)
-            print(dictBlog)
             dictBlog['fecha'] = cls.formateoFecha(dictBlog['fecha'])
             dictBlogs.append(dictBlog)
         return dictBlogs         

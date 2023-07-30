@@ -95,9 +95,7 @@ class ExperimentoService:
         if not experimento : raise Exception(f"No existe experimento asociado con id {id_experimento}")
         experimento.blogs.append(BlogService.nuevoBlog(datosBlog))
         experimento.save()
-
         
-
     @classmethod
     def expPerteneceAlProyecto(cls,id_proyecto,id_experimento):
         exp = cls.find_by_id(id_experimento)
