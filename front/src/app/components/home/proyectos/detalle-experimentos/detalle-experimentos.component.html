@@ -6,8 +6,8 @@
     <div class="titulo">
       <h2 class="">Experimento - {{experimento?.codigo}}</h2>
       <div class="editar-finalizar" *ngIf='!experimento?.finalizado'>
-        <button class="btn btn-outline-primary" style="cursor: pointer" routerLink='../../editar-experimento/{{idExperimento}}'><i class="bi bi-pencil text-primary"></i> Editar</button>
-        <button class="btn btn-outline-danger finalizar" (click)="open(finalizarExperimento,true)">Finalizar Experimento</button>
+        <button *ngIf='!experimento?.finalizado ' class="btn btn-outline-primary" style="cursor: pointer" routerLink='../../editar-experimento/{{idExperimento}}'><i class="bi bi-pencil text-primary"></i> Editar</button>
+        <button *ngIf='!experimento?.finalizado && esDirProyecto()' class="btn btn-outline-danger finalizar" (click)="open(finalizarExperimento,true)">Finalizar Experimento</button>
       </div>
     </div>
     <span class="text-danger" *ngIf='experimento?.finalizado'>Experimento cerrado</span>

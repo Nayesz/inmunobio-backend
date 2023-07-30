@@ -256,4 +256,13 @@ export class DetalleExperimentosComponent implements OnInit {
     })
   }
 
+
+  esDirProyecto() {
+    for (let i = 0; i < this.usuario.permisos.length; i++) {
+      if (this.usuario.permisos[i].id_permiso == 4) {
+        return true;
+      }
+    }
+    return false;
+  }
 }
