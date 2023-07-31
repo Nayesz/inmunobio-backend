@@ -65,7 +65,7 @@ export class NuevoEspacioComponent implements OnInit {
     const espacioFisico = this.formEspacio.value;
     if (this.modo === 'CREAR'){
       this.postService.crearEspacio(espacioFisico).subscribe(res => {
-        if (res.Status === 'ok'){
+        if (res.Status){
           this.toastService.show('Espacio Creado', { classname: 'bg-success text-light', delay: 2000 });
           setTimeout(() => { 
             this.volver()
@@ -73,8 +73,13 @@ export class NuevoEspacioComponent implements OnInit {
           }, 2000);
         }
       }, err => {
-        this.toastService.show('Error al crear el espacio físico' + err, { classname: 'bg-danger text-light', delay: 2000 });
-        this.disabledForm = false;
+        let mensaje = err.error.Error[0];
+        this.toastService.show('Error al crear el espacio físico ' + mensaje, { classname: 'bg-danger text-light', delay: 2000 });
+        setTimeout(() => { 
+          this.disabledForm = false;
+          this.toastService.removeAll()
+        }, 2000);
+        
       });
     } else {
       espacioFisico.id_espacioFisico = this.espacio.id_espacioFisico;
@@ -88,7 +93,10 @@ export class NuevoEspacioComponent implements OnInit {
         }
       }, err => {
         this.toastService.show('Error al editar la información' + err, { classname: 'bg-danger text-light', delay: 2000 });
-        this.disabledForm = false;
+        setTimeout(() => { 
+          this.disabledForm = false;
+          this.toastService.removeAll()
+        }, 2000);
       });
     }
   }

@@ -44,6 +44,11 @@ TODO:
 21. Nueva Muestra dentro de grupo exp no valida nada!!
 
 22. asociar muestra externa trae muestras del mismo exp
+
+23. ver que onda contenedores, falta validar y ademas aparecen dos botones
+
+24. ver como quedo la descripcions de jaula
+
 ---
 
 

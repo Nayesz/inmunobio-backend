@@ -67,7 +67,7 @@ export class NuevaHerramientaComponent implements OnInit, OnDestroy {
       herramienta.id_espacioFisico  = this.idEspacioFisico;
       herramienta.id_herramienta = this.idHerramienta;
       this.subscription.add( this.postService.editarHerramienta(herramienta).subscribe(res => {
-        if (res.Status === 'Se modifico la herramienta'){
+        if (res.Status){
           this.toastService.show('Información editada', { classname: 'bg-success text-light', delay: 2000 });
           setTimeout(() => {
             this.toastService.removeAll()
@@ -75,10 +75,8 @@ export class NuevaHerramientaComponent implements OnInit, OnDestroy {
             this.router.navigate(['/home/stock/'+ this.idEspacioFisico]);
           }, 1000);
         }
-        console.log(res);
       }, err => {
         this.toastService.show( 'Problema al editar la información '+err.error.Error, { classname: 'bg-danger text-light', delay: 2000 });
-        console.log(err)
         setTimeout(() => {
           this.toastService.removeAll()
           this.disabledForm = false;
@@ -87,7 +85,7 @@ export class NuevaHerramientaComponent implements OnInit, OnDestroy {
       }));
     } else {
       this.subscription.add( this.postService.crearHerramienta(herramienta).subscribe(res => {
-        if (res.Status === 'Se creo la nueva herramienta'){
+        if (res.Status){
           this.toastService.show('Herramienta creada', { classname: 'bg-success text-light', delay: 2000 });
           setTimeout(() => {
             this.toastService.removeAll()
@@ -95,7 +93,6 @@ export class NuevaHerramientaComponent implements OnInit, OnDestroy {
             this.router.navigate(['/home/stock/'+ this.idEspacioFisico]);
           }, 2000);
         }
-        console.log(res);
       }, err => {
         this.toastService.show('Problema al crear la herramienta '+ err.error.Error, { classname: 'bg-danger text-light', delay: 2000 });
         setTimeout(() => {

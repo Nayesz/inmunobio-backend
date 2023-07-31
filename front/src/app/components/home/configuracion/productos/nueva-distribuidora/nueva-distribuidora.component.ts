@@ -81,10 +81,12 @@ export class NuevaDistribuidoraComponent implements OnInit {
             this.router.navigateByUrl('home/configuracion/distribuidoras');
           }, 2000);
         }
-        console.log(res);
       }, err => {
         this.toastService.show('Error al crear' + err, { classname: 'bg-danger text-light', delay: 2000 });
-        this.disabledForm = false;
+        setTimeout(() => {
+          this.toastService.removeAll(),
+          this.disabledForm = false;
+        }, 2000);
       });
     } else {
       distribuidora.id_distribuidora = this.distribuidora.id_distribuidora;
@@ -96,10 +98,12 @@ export class NuevaDistribuidoraComponent implements OnInit {
             this.router.navigateByUrl('home/configuracion/distribuidoras');
           }, 2000);
         }
-        console.log(res);
       }, err => {
-        this.toastService.show('Error al editar' + err, { classname: 'bg-danger text-light', delay: 2000 });
-        this.disabledForm = false;
+        this.toastService.show('Error al editar ' + err.error.Error[0], { classname: 'bg-danger text-light', delay: 2000 });
+        setTimeout(() => {
+          this.toastService.removeAll()
+          this.disabledForm = false;
+        }, 2000);
       });
     }
   }

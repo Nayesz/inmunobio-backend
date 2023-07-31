@@ -65,6 +65,10 @@ export class PostService {
     return this.http.put<any>(this.API_URL + 'nuevoJefeDeGrupo', grupoTrabajo);
   }
 
+  nuevoBlogProyecto(nuevoBlog: any): Observable<any> {
+    return this.http.post<any>(this.API_URL + 'crearblogProyecto', nuevoBlog);
+  }
+
   eliminarGrupoTrabajo(grupoTrabajo: number): Observable<any>{
     return this.http.delete<any>(this.API_URL + 'grupoDeTrabajo');
   }

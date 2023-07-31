@@ -30,22 +30,27 @@ export class EspacioFisicoComponent implements OnInit {
       } else {
         this.espaciosFisicos = [];
         this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
-        this.cargando = false;
-      }
-      console.log(res)
+          setTimeout(() => {
+            this.cargando = false;
+            this.toastService.removeAll()
+          }, 2000);
+        }
     });
   }
 
   eliminar(espacio: any): void{
     this.postService.eliminarEspacioFisico(espacio.id_espacioFisico).subscribe(res => {
-      // console.log(res)
       if (res.Status){
         this.toastService.show('Distribuidora Eliminada', { classname: 'bg-danger text-light', delay: 2000 });
         setTimeout(() => {
           this.toastService.removeAll()
         }, 2000);
+      } else {
+        this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
+        setTimeout(() => {
+          this.toastService.removeAll()
+        }, 2000);
       }
-      // console.log(res);
     });
   }
 

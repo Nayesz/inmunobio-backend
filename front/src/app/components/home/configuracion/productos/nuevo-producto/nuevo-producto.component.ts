@@ -118,8 +118,8 @@ export class NuevoProductoComponent implements OnInit {
     } else {
       producto.id_producto = this.producto.id_producto;
       this.postService.editarProducto(producto).subscribe(res => {
-        console.log(res);
-        if (res.Status === 'ok'){
+        
+        if (res.Status){
           this.toastService.show('Producto Editado', { classname: 'bg-success text-light', delay: 2000 });
           setTimeout(() => {
             this.toastService.removeAll()
@@ -128,7 +128,10 @@ export class NuevoProductoComponent implements OnInit {
         }
       }, err => {
         this.toastService.show('Error al editar' + err, { classname: 'bg-danger text-light', delay: 2000 });
-        this.disabledForm = false;
+        setTimeout(() => {
+          this.toastService.removeAll()
+          this.disabledForm = false;
+        }, 2000);
       });
     }
   }

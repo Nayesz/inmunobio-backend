@@ -59,12 +59,11 @@ export class NuevoBlogEspacioComponent implements OnInit {
       blogs: blog
     }
     this.postService.crearBlogEspacio(nuevoBlog).subscribe(res => {
-      if (res.Status === 'ok'){
+      if (res.Status){
         this.alert = true;
         this.estado = 'success';
         this.mensajeAlert = 'Blog creado correctamente';
       }
-      console.log(res)
     }, err => {
       this.alert = true;
       this.estado = 'danger';
@@ -83,13 +82,12 @@ export class NuevoBlogEspacioComponent implements OnInit {
       blogs: blog
     }
     this.postService.crearBlogHerramienta(nuevoBlog).subscribe(res => {
-      if (res.Status === 'ok'){
+      if (res.Status){
         this.alert = true;
         this.estado = 'success';
         this.mensajeAlert = 'Blog creado correctamente';
 
       }
-      console.log(res)
     }, err => {
       this.alert = true;
       this.estado = 'danger';

@@ -50,7 +50,6 @@ class AnimalesDeLaJaula(Resource):
             try:
                 AnimalService().asignarJaulaAAnimales(datos)
                 return {'Status': 'Se asignaron los animales a la jaula.'}, 200
-                    #return ({'Status': 'Se asignaron los animales a la jaula.'}, 200) if len(errores) == 0 else ({"Status": errores}, 400)
             except Exception as err:
                 return {'Error' : err.args}, 400
         return {'Error' : "Se deben enviar un array de animales."}, 400

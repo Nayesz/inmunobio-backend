@@ -69,7 +69,7 @@ export class NuevoExperimentoComponent implements OnInit {
     };
     if (this.modo === 'CREAR'){
       this.postService.crearExperimento(experimento).subscribe(res => {
-        if (res.Status === 'Se creó el experimento.') {
+        if (res.Status) {
           this.toastService.show('Experimento Creado', { classname: 'bg-success text-light', delay: 2000 });
           setTimeout(() => {
             this.toastService.removeAll()
@@ -88,7 +88,7 @@ export class NuevoExperimentoComponent implements OnInit {
     } else {
       experimento.id_experimento = this.idExperimento;
       this.postService.modificarExperimento(experimento).subscribe(res => {
-        if (res.Status === 'Se modificó el experimento.') {
+        if (res.Status) {
           this.toastService.show('Experimento Editado', { classname: 'bg-success text-light', delay: 2000 });
           setTimeout(() => {
             this.toastService.removeAll()

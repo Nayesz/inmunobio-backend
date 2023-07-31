@@ -22,7 +22,7 @@ class Jaula(Resource):
         if datos:
             try:
                 JaulaService.actualizarJaula(datos)
-                return {"status": "Jaula modificada"}, 200
+                return {"Status": "Jaula modificada"}, 200
             except Exception as err:
                 return {"Error": err.args}, 400
         return  {'Error':'Se deben enviar datos para la modificion de la jaula.'},400
@@ -52,7 +52,7 @@ class JaulasDelProyecto(Resource):
         if datos:
             try:
                 JaulaService.actualizarProyectoDeLaJaula(datos)
-                return {"status" : "Se asignó la jaula al proyecto."}, 200
+                return {"Status" : "Se asignó la jaula al proyecto."}, 200
             except Exception as err:
                 return {"Error": err.args}, 400
         return  {'Error':'Se deben enviar datos para la modificación de la jaula.'},400

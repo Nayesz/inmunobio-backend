@@ -127,7 +127,7 @@ export class JaulaDetalleComponent implements OnInit, OnDestroy {
   eliminarJaula(){
     this.disabledForm = true;
   this.subscription.add(this.postService.eliminarJaula(this.idJaula).subscribe(res =>{
-      if (res.Status === 'Se dió de baja la jaula.'){
+      if (res.Status){
         this.toastService.show('Jaula eliminada', { classname: 'bg-success text-light', delay: 2000 });
         setTimeout(() => {
           this.toastService.removeAll()
@@ -136,10 +136,9 @@ export class JaulaDetalleComponent implements OnInit, OnDestroy {
           this.router.navigate(['/home/bioterio']);
         }, 1000);
       }
-      console.log(res)
     }, err => {
-      this.toastService.show( err.error.Error, { classname: 'bg-danger text-light', delay: 2000 });
-      console.log(err)
+      let mensaje = err.error.Error[0];
+      this.toastService.show( 'Error: '+ mensaje, { classname: 'bg-danger text-light', delay: 2000 });
       setTimeout(() => {
         this.modalService.dismissAll()
         this.toastService.removeAll()
@@ -166,9 +165,12 @@ export class JaulaDetalleComponent implements OnInit, OnDestroy {
         } else{
           this.blogs=[];
           this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
-          this.cargando = false;
+          setTimeout(() => {
+            this.toastService.removeAll()
+            this.cargando = false;
+          }, 4000);
         }
-          console.log(res) }))
+          }))
     }, 1000);
   }
 
@@ -184,7 +186,7 @@ export class JaulaDetalleComponent implements OnInit, OnDestroy {
       blogs: Blog
     }
     this.subscription.add( this.postService.nuevoBlogJaula(nuevoBlog).subscribe(res => {
-      if (res.Status === 'Se creó el blog de jaula.'){
+      if (res.Status){
         this.toastService.show('Blog creado', { classname: 'bg-success text-light', delay: 2000 });
         setTimeout(() => {
           this.toastService.removeAll()
@@ -193,9 +195,9 @@ export class JaulaDetalleComponent implements OnInit, OnDestroy {
           this.ngOnInit()
         }, 2000);
       }
-      console.log(res)
     }, err => {
-      this.toastService.show('Problema al crear el blog: ' + err.error.Error, { classname: 'bg-danger text-light', delay: 2000 });
+      let mensaje = err.error.Error[0];
+      this.toastService.show('Problema al crear el blog: ' + mensaje, { classname: 'bg-danger text-light', delay: 2000 });
       setTimeout(() => {
         this.toastService.removeAll()
         this.modalService.dismissAll()
@@ -207,8 +209,8 @@ export class JaulaDetalleComponent implements OnInit, OnDestroy {
   eliminarAnimal(){
     this.disabledForm = true;
     this.subscription.add(this.postService.eliminarAnimal(this.idAnimal_eliminar).subscribe(res =>{
-      if (res.Status === "Se dio de baja el animal con id "+ this.idAnimal_eliminar){
-        this.toastService.show('Animal eliminado', { classname: 'bg-success text-light', delay: 2000 });
+      if (res.Status){
+        this.toastService.show("Se dio de baja el animal con id "+ this.idAnimal_eliminar, { classname: 'bg-success text-light', delay: 2000 });
         setTimeout(() => {
           this.animales = [];
           this.toastService.removeAll()
@@ -217,10 +219,9 @@ export class JaulaDetalleComponent implements OnInit, OnDestroy {
           this.ngOnInit()
         }, 1500);
       }
-      console.log(res)
     }, err => {
-      this.toastService.show('Problema al eliminar el animal ' + err.error.Error, { classname: 'bg-danger text-light', delay: 2000 });
-      console.log(err)
+      let mensaje = err.error.Error[0];
+      this.toastService.show('Problema al eliminar el animal: ' + mensaje, { classname: 'bg-danger text-light', delay: 2000 });
       setTimeout(() => {
         this.toastService.removeAll()
         this.modalService.dismissAll()

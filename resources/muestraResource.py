@@ -61,6 +61,14 @@ class MuestraProyecto(Resource):
                 return {'Error': err.args}, 400
         return {'Error' : "Se deben enviar un id de proyecto válido."}, 400
 
+class CandidatosMuestraExterna(Resource):
+    def get(self, idProyecto,idExperimento):
+        if idProyecto:
+            try:
+                return CommonService.jsonMany(MuestraService().findCandidatosMuestras(idProyecto,idExperimento),MuestraSchema)
+            except Exception as err:
+                return {'Error': err.args}, 400
+        return {'Error' : "Se deben enviar un id de proyecto válido."}, 400
 class MuestraExperimento(Resource):
     def put(self):
         datos = request.get_json()

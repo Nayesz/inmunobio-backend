@@ -48,7 +48,7 @@
                                         <p class="mb-0">{{fuente.sexo}}</p>
                                     </div>
                                 </div>
-                                <p class="ver-muestras">Ver Muestras</p>
+                                <p class="ver-muestras">Click para ver Muestras</p>
                             </div>
                       </div>
                   </div>
@@ -95,7 +95,7 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-primary boton" (click)='crearMuestra()'*ngIf='!disabledForm'>Agregar</button>
+        <button class="btn btn-primary boton" (click)='crearMuestra()' *ngIf='!disabledForm' [disabled]="!formMuestra.valid">Agregar</button>
         <button class="btn btn-primary btn-lg boton" type="button" disabled *ngIf='disabledForm'>
           <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
           Cargando...
@@ -140,7 +140,7 @@
         </div>
     </div>
     <div class="modal-footer" *ngIf="animalesProyecto?.length > 0">
-        <button class="btn btn-primary boton" (click)='crearFuenteAnimal()' *ngIf='!disabledForm' [attr.disabled]='disabledForm ? true : null' >Agregar</button>
+        <button class="btn btn-primary boton" (click)='crearFuenteAnimal()' *ngIf='!disabledForm' [disabled]="!formFuenteExperimentalAnimal.valid" [attr.disabled]='disabledForm ? true : null' >Agregar</button>
         <button class="btn btn-primary btn-lg boton" type="button" disabled *ngIf='disabledForm'>
           <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
           Cargando...
@@ -170,7 +170,7 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-primary boton" (click)='crearFuenteOtro()' *ngIf='!disabledForm'>Agregar</button>
+        <button class="btn btn-primary boton" (click)='crearFuenteOtro()'  [disabled]="!formFuenteExperimentalOtro.valid" *ngIf='!disabledForm'>Agregar</button>
         <button class="btn btn-primary btn-lg boton" type="button" disabled *ngIf='disabledForm'>
           <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
           Cargando...

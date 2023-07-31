@@ -75,7 +75,7 @@ export class HerramientaComponent implements OnInit {
     }
     console.log(nuevoBlog)
     this.subscription.add(this.postService.crearBlogHerramienta(nuevoBlog).subscribe(res => {
-      if (res.Status === 'Se creo el blog de herramienta'){
+      if (res.Status){
         this.toastService.show('Blog creado', { classname: 'bg-success text-light', delay: 2000 });
         setTimeout(() => {
           this.detalleBlog = ''
@@ -87,8 +87,7 @@ export class HerramientaComponent implements OnInit {
       }
       console.log(res)
     }, err => {
-      this.toastService.show( 'Problema al crear el blog '+err.error.Error, { classname: 'bg-danger text-light', delay: 2000 });
-      console.log(err)
+      this.toastService.show( 'Problema al crear el blog '+err.error.Error[0], { classname: 'bg-danger text-light', delay: 2000 });
       setTimeout(() => {
         this.toastService.removeAll()
         this.disabledForm = false;

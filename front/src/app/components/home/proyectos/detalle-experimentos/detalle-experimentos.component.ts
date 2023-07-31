@@ -124,7 +124,7 @@ export class DetalleExperimentosComponent implements OnInit {
       
     });
     setTimeout(() => {
-      this.getService.obtenerMuestrasxProyecto(this.idProyecto).subscribe(res =>{
+      this.getService.obtenerMuestrasCandidatasExt(this.idProyecto,this.idExperimento).subscribe(res =>{
         if(res){
           const muestrasAsociadas = this.experimento.muestrasExternas.map(a => a.id_muestra)
           this.itemList = res.filter( b => { return !muestrasAsociadas.includes(b.id_muestra)})
@@ -248,8 +248,8 @@ export class DetalleExperimentosComponent implements OnInit {
       muestrasExternas: todasLasMuestras
     }
     this.postService.agregarMuestraExternaExperimento(datosMuestra).subscribe(res =>{
-      if (res.Status === 'Se agregaron las muestras al experimento.'){
-        this.toastService.show('Muestras Asociadas', { classname: 'bg-success text-light', delay: 2000 });
+      if (res.Status){
+        this.toastService.show('Se agregaron las muestras al experimento.', { classname: 'bg-success text-light', delay: 2000 });
           setTimeout(() => {
             this.toastService.removeAll()
             this.modalService.dismissAll()
