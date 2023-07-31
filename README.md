@@ -38,6 +38,10 @@ TODO:
 
 19. ~~Deshabilitar toda accion de un proyecto cerrado, solo habilitar la vista~~
 
+
+20. Ficha Técnica de un contenedor es necesario enviar , devuelve errpor
+
+21. Nueva Muestra dentro de grupo exp no valida nada!!
 ---
 
 
