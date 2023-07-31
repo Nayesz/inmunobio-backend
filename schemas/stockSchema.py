@@ -30,6 +30,7 @@ class busquedaStocksSchema(Schema):
 class ModificarProducto(Schema):
     id_productoEnStock = fields.Integer(required=True,validate=Validacion.not_empty_or_zero_int , error_messages={"required": {"message" : "Debe indicarse id_productoEnStock", "code": 400}})
     producto = fields.Nested(ProductoEnStockSchema)
+    seguimiento = fields.Boolean(required=True, error_messages={"required": {"message" : "Debe indicarse segumiento del producto en stock.", "code": 400}})
 
 class ConsumirStockSchema(busquedaStocksSchema):
     unidad = fields.Integer(required=True, validate=Validacion.not_empty_or_zero_int ,error_messages={"required": {"message" : "Deben indicarse unidades", "code": 400}})

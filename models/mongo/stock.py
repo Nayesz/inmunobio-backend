@@ -10,5 +10,17 @@ class Stock(dbMongo.Document):
     producto = dbMongo.ListField(dbMongo.EmbeddedDocumentField('ProductosEnStock'))
     seguimiento = dbMongo.BooleanField()
 
+    def __str__(self):
+        return f"""
+        id_productoEnStock = {self.id_productoEnStock}
+        nombre = {self.nombre}
+        id_producto = {self.id_producto}
+        id_espacioFisico = {self.id_espacioFisico}
+        id_grupoDeTrabajo = {self.id_grupoDeTrabajo}
+        producto = {self.producto}
+        seguimiento = {self.seguimiento}
+        """
+
+
   
 

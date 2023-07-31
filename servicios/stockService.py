@@ -1,3 +1,4 @@
+import json
 from marshmallow import EXCLUDE
 from models.mongo.stock import Stock
 from schemas.stockSchema import NuevoStockSchema,ModificarProducto,ConsumirStockSchema,StockSchema
@@ -118,8 +119,11 @@ class StockService():
     def modificarProductoEnStock(cls,datos):
         ModificarProducto().load(datos)
         stock= cls.BusquedaStockPorId(datos['id_productoEnStock'])
+        stock.seguimiento = datos['seguimiento']
         producto = cls.obtenerProductosEspecificos(datos['producto']['id_productos'],stock.producto)
+        print(f"Producto antes {producto}")
         CommonService.updateAtributes(producto,datos['producto'],'unidad')
+        print(f"Producto Después {producto}")
         stock.save()
 
     @classmethod
