@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { GetService } from 'src/app/services/get.service';
 import { PostService } from 'src/app/services/post.service';
 import { Producto } from 'src/app/models/producto.model'
@@ -36,7 +36,7 @@ export class AgregarStockComponent implements OnInit, OnDestroy {
   prodEspecifico:any;
   editar = false;
   cargando: boolean;
-  disabledForm: boolean;
+  disabledForm: boolean = false;
  
   constructor(
     private router: Router,
@@ -46,155 +46,198 @@ export class AgregarStockComponent implements OnInit, OnDestroy {
     public datepipe: DatePipe,
     public toastService: ToastServiceService
   ) { }
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
+
   ngOnInit(): void {
     this.cargando = true;
     this.usuario = JSON.parse(localStorage.getItem('usuario'));
-    console.log(this.usuario)
     this.idEspacioFisico = parseInt(this.activatedRouter.snapshot.paramMap.get('idEspacio'), 10);
     this.idProd = parseInt(this.activatedRouter.snapshot.paramMap.get('idProducto'), 10);
+    console.log("idProd " + this.idProd)
     this.idProdEnStock = parseInt(this.activatedRouter.snapshot.paramMap.get('idProductoEnStock'), 10);
     this.idUbicacion = parseInt(this.activatedRouter.snapshot.paramMap.get('idUbicacion'), 10);
-    console.log(this.idProd)
-    console.log(this.idUbicacion)
     const idGrupoTrabajo = this.usuario.id_grupoDeTrabajo
-    console.log(idGrupoTrabajo)
-    this.formStock = new FormGroup({
-      producto: new FormControl('0', [Validators.required, Validators.maxLength(30)]),
-      lote: new FormControl('', [Validators.maxLength(50)]),
-      unidad: new FormControl('', [Validators.required, Validators.maxLength(50)]),
-      contenedor: new FormControl('0', [Validators.maxLength(30)]),
-      detalleUbicacion: new FormControl('', [Validators.maxLength(50)]),
-      fechaVencimiento: new FormControl('', [Validators.maxLength(11)]),
-      seguimiento: new FormControl('',[Validators.required])
-    });
-    if (!isNaN(this.idProd)){
-      this.getService.obtenerStock(this.idEspacioFisico,idGrupoTrabajo).subscribe(res =>{
-        if(res){
-          this.stocks = res;
-          this.cargando = false;
-        } else{
-          this.stocks = [];
-          this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
-          this.cargando = false;
-        }
-        console.log(res)
-        this.producto = this.stocks.find(stock => (stock.id_producto = this.idProd) && (stock.id_productoEnStock == this.idProdEnStock))
-        console.log(this.producto)
-        this.prodEspecifico = this.producto.producto[this.idUbicacion]
 
-        this.formStock.patchValue({
-          producto: this.producto.id_producto,
-          lote: this.prodEspecifico.lote,
-          unidad: this.prodEspecifico.unidad,
-          contenedor: this.prodEspecifico.codigoContenedor,
-          detalleUbicacion: this.prodEspecifico.detalleUbicacion,
-          fechaVencimiento: this.datepipe.transform(this.prodEspecifico.fechaVencimiento, 'yyyy-MM-dd')
-        });
-      })
+    if(this.esUnaModificacionDeStockDelProducto()){
+      this.getStock(idGrupoTrabajo)
       this.editar = true;
     }
-    this.subscription.add( this.getService.obtenerProductos().subscribe(res => {
-      if(res){
-        console.log(res);
-        this.productos = res;
-      } else{
-        this.productos = [];
-        this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
-        this.cargando = false;
-      }
-      console.log(res)
-    }));
-    this.subscription.add( this.getService.obtenerContenedores().subscribe(res => {
-      if(res){
-        console.log(res);
-        this.contenedores = res.filter( contenedor => contenedor.id_espacioFisico == this.idEspacioFisico);
-      } else{
-        this.contenedores = [];
-        this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
-        this.cargando = false;
-      }
-      console.log(res)
-    }));
+
+    this.getProducto()
+    this.getContenedores()
+
+    this.inicializarForm()
     this.cargando = false;
-    
   }
 
-  agregarStock(): void{
-    this.disabledForm = true;
-    let estado = false;
-    const checkbox = document.getElementById('seguimiento') as HTMLInputElement ;
-    const estaTrue = checkbox.checked;
-    if (estaTrue){
-        estado = true;
-    }
-    var fecha = this.formStock.value.fechaVencimiento;
-    const productoEnStock : any = {
-      lote: this.formStock.value.lote,
-      unidad: this.formStock.value.unidad,
-      codigoContenedor: this.formStock.value.contenedor,
-      detalleUbicacion: this.formStock.value.detalleUbicacion,
-      fechaVencimiento: this.datepipe.transform( fecha,'yyyy-MM-ddT23:01:10.288Z')
-    }
-    const stock : Stock = {
-      id_grupoDeTrabajo : 1 ,
-      id_espacioFisico : this.idEspacioFisico ,
-      id_producto: this.formStock.value.producto,
-      producto: productoEnStock,
-      seguimiento: estado
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
+  inicializarForm(): void{
+    this.formStock = new FormGroup({
+      producto: new FormControl('0', [Validators.required]),
+      lote: new FormControl('', [Validators.maxLength(50)]),
+      unidad: new FormControl('', [Validators.required, Validators.pattern(/^[0-9][0-9]*$/), Validators.min(1)]),
+      contenedor: new FormControl('0', [Validators.maxLength(30)]),
+      detalleUbicacion: new FormControl('', [Validators.maxLength(50)]),
+      fechaVencimiento: new FormControl('', [ this.validateFechaVencimiento(), Validators.required]),
+      seguimiento: new FormControl(false)
+    });
+  }
+
+  validateFechaVencimiento(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const value = control.value;
+      if (value === null || value === undefined || value === '') {
+        return null; 
+      }
+
+      const fechaVencimiento = new Date(value);
+      const hoy = new Date();
+
+      if (fechaVencimiento <= hoy) {
+        return { fechaInvalida: true };
+      }
+
+      return null;
     };
-    console.log(stock)
-    if (!isNaN(this.idProd)){
-      const prod : ProductoEdic = {
+  }
+
+  actualizarForm(): void{
+    this.formStock.patchValue({
+      producto: this.producto.id_producto,
+      lote: this.prodEspecifico.lote,
+      unidad: this.prodEspecifico.unidad,
+      contenedor: this.prodEspecifico.codigoContenedor,
+      detalleUbicacion: this.prodEspecifico.detalleUbicacion,
+      fechaVencimiento: this.datepipe.transform(this.prodEspecifico.fechaVencimiento, 'yyyy-MM-dd')
+    });
+  }
+
+  esUnaModificacionDeStockDelProducto = (): boolean => {return !isNaN(this.idProd)}
+
+  getStock(idGrupoTrabajo : number) : void {
+    console.log(idGrupoTrabajo, this.idEspacioFisico)
+    this.getService.obtenerStock(idGrupoTrabajo, this.idEspacioFisico)
+    .subscribe
+    (
+      (res) => {
+        this.stocks = res;
+        console.log(res)
+        this.cargando = false;
+        this.producto = this.stocks.find(stock => (stock.id_producto = this.idProd) && (stock.id_productoEnStock == this.idProdEnStock))
+        this.prodEspecifico = this.producto.producto[this.idUbicacion]
+        this.actualizarForm()
+      },
+      (error) => {
+        const errorRecived = error.error['Error'];
+        this.toastService.show(errorRecived,{ classname: 'bg-danger text-light', delay: 2000 });
+      }
+    )
+  }
+
+  getProducto() : void {
+    this.subscription.add(this.getService.obtenerProductos()
+      .subscribe
+      (
+        (res) => {
+          this.productos = res;
+        },
+        (error) => {
+          this.productos = [];
+          const errorRecived = error.error['Error'];
+          this.toastService.show(errorRecived,{ classname: 'bg-danger text-light', delay: 2000 });
+          this.cargando = false;
+        }
+      )
+    );
+  }
+
+  getContenedores() : void {
+    this.subscription.add(this.getService.obtenerContenedores()
+      .subscribe
+      (
+        (res) => {
+          this.contenedores = res.filter( contenedor => contenedor.id_espacioFisico == this.idEspacioFisico);
+        },
+        (error) => {
+          this.contenedores = [];
+          const errorRecived = error.error['Error'];
+          this.toastService.show(errorRecived,{ classname: 'bg-danger text-light', delay: 2000 });
+          this.cargando = false;
+        }
+      )
+    );
+  }
+
+  agregarStock() : void {
+    this.disabledForm = true;
+    if (this.esUnaModificacionDeStockDelProducto()){
+      this.editarProductoDelStock()
+    }
+    else {
+      this.agregarNuevoProductoAlStock()
+    }
+  }
+
+  editarProductoDelStock() : void {
+    const edicion : StockEdicion = {
+      id_productoEnStock: this.producto.id_productoEnStock,
+      producto: {
         codigoContenedor: this.formStock.value.contenedor,
         detalleUbicacion : this.formStock.value.detalleUbicacion,
         unidad : 0,
         id_productos : this.prodEspecifico.id_productos
       }
-      const edicion : StockEdicion = {
-        id_productoEnStock: this.producto.id_productoEnStock,
-        producto: prod
-      }
-    this.postService.editarStock(edicion).subscribe(res => {
-      if (res.Status === 'Se modifico el stock'){
-        this.toastService.show('Información editada ', { classname: 'bg-success text-light', delay: 2000 });
-        setTimeout(() => {
-          this.toastService.removeAll()
-          this.disabledForm = false;
-          this.router.navigate(['/home/stock/'+ this.idEspacioFisico]);
-        }, 2000);
-      }
-      console.log(res);
-    }, err => {
-      this.toastService.show('Problema al editar la información '+ err.error.Error, { classname: 'bg-danger text-light', delay: 2000 });
-      console.log(err)
-      setTimeout(() => {
-        this.toastService.removeAll()
-        this.disabledForm = false;
-      }, 3000);
-    });
-    } else {
-        this.postService.agregarStock(stock).subscribe(res => {
-          if (res.Status === 'Se creo el producto en stock.'){
-            this.toastService.show('Producto en stock agregado correctamente ', { classname: 'bg-success text-light', delay: 2000 });
-            setTimeout(() => {
-              this.toastService.removeAll()
-              this.disabledForm = false;
-              this.router.navigate(['/home/stock/'+ this.idEspacioFisico]);
-            }, 2000);
-          }
-          console.log(res);
-        }, err => {
-          this.toastService.show( 'Problema al agregar producto en stock '+err.error.Error, { classname: 'bg-danger text-light', delay: 2000 });
-          console.log(err)
-          setTimeout(() => {
-            this.toastService.removeAll()
-            this.disabledForm = false;
-          }, 3000);
-        });
     }
+    
+    this.subscription.add(this.postService.editarStock(edicion)
+      .subscribe(
+        (res) => {
+          this.toastService.show('Información editada ', { classname: 'bg-success text-light', delay: 2000 });
+        }, 
+        (error) => {
+          this.toastService.show('Problema al editar la información '+ error.error['Error'], { classname: 'bg-danger text-light', delay: 2000 });
+        }
+      )
+    );
+
   }
+
+  agregarNuevoProductoAlStock() : void {
+    const fecha = this.formStock.value.fechaVencimiento;
+
+    const stock : Stock = {
+      id_grupoDeTrabajo : 1 ,
+      id_espacioFisico : this.idEspacioFisico ,
+      id_producto: this.formStock.value.producto,
+      seguimiento: this.getEstadoCheckbox(),
+      producto: {
+        lote: this.formStock.value.lote,
+        unidad: this.formStock.value.unidad,
+        codigoContenedor: this.formStock.value.contenedor,
+        detalleUbicacion: this.formStock.value.detalleUbicacion,
+        fechaVencimiento: this.datepipe.transform(fecha, 'yyyy-MM-ddT23:01:10.288Z'),
+        nombreContenedor: this.formStock.value.nombreContenedor
+      }
+    };
+    
+    this.subscription.add(this.postService.agregarStock(stock)
+      .subscribe(
+        (res) => {
+          this.toastService.show('Producto en stock agregado correctamente ', { classname: 'bg-success text-light', delay: 2000 });
+        }, 
+        (error) => {
+          const errorRecived = error.error['Error'];
+          this.toastService.show('Problema al agregar producto en stock.\r\nError: ' + errorRecived, { classname: 'bg-danger text-light', delay: 2000 });
+        }
+      )
+    );
+  }
+
+  getEstadoCheckbox() {
+    return this.formStock.get('seguimiento').value;
+  }
+
 }
 
