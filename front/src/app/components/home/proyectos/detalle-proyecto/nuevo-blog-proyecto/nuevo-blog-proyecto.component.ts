@@ -51,10 +51,8 @@ export class NuevoBlogProyectoComponent implements OnInit {
       id: this.formBlog.value.id,
       blogs: Blog
     }
-    console.log(nuevoBlog)
     this.postService.nuevoBlogProyecto(nuevoBlog).subscribe(res =>{
-      console.log(res)
-      if (res.Status === 'ok'){
+      if (res.Status){
         this.alert = true;
         this.estado = 'success';
         this.mensajeAlert = 'Blog creado correctamente';

@@ -39,7 +39,7 @@ export class NuevoBlogHerramientaComponent implements OnInit {
       blogs: blog
     }
     this.postService.crearBlogHerramienta(nuevoBlog).subscribe(res => {
-      if (res.Status === 'ok'){
+      if (res.Status){
         this.alert = true;
         this.estado = 'success';
         this.mensajeAlert = 'Blog creado correctamente';

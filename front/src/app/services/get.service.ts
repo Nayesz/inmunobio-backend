@@ -175,4 +175,8 @@ export class GetService {
   obtenerMuestrasxProyecto(idProyecto:number):Observable<any>{
     return this.http.get<any>(this.API_URL + 'proyecto/'+ idProyecto +'/muestras');
   }
+  obtenerMuestrasCandidatasExt(idProyecto:number,idExperimento:number):Observable<any>{
+    return this.http.get<any>(this.API_URL + 'proyecto/'+ idProyecto +'/muestrasExternas/'+ idExperimento);
+  }
+
 }

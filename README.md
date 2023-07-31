@@ -18,7 +18,36 @@ TODO:
 
 9. ~~Error al editar usuarios: password hasheada~~ -> ahora pide siempre blanquear clave
 
-10. Falta boton de agregar blog para proyecto dentro del proyecto. (todos los q pertenecen al proyecto pueden)
+10. ~~finalizar experimento -> hacer obligatorio el envio de ambos campos~~
+
+11.  ~~Se limitó el cierre de exp solo a los dir del proyecto~~
+
+12. ~~ahora se puede editar el codigo de un exp~~
+
+13. ~~grupo exp se crea y se elimina , sacar particion~~
+
+14. ver validacion de campos al crear muestra ya q si no hay contenedor te deja crear igual
+
+15. creacion de contenedores incluir en jsom
+
+16. Crear Grupo Experimental -> form no valida nada
+
+17. sacar de borrar animales el cartelito de preguntar para eliminar usuarios
+
+18. ~~Datos de nuevo Animal -> form no valida nada~~
+
+19. ~~Deshabilitar toda accion de un proyecto cerrado, solo habilitar la vista~~
+
+
+20. Ficha Técnica de un contenedor es necesario enviar , devuelve errpor
+
+21. Nueva Muestra dentro de grupo exp no valida nada!!
+
+22. asociar muestra externa trae muestras del mismo exp
+
+23. ver que onda contenedores, falta validar y ademas aparecen dos botones
+
+24. ver como quedo la descripcions de jaula
 
 ---
 

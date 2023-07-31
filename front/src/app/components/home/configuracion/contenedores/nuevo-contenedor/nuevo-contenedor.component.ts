@@ -128,9 +128,9 @@ export class NuevoContenedorComponent implements OnInit {
             this.toastService.removeAll()
           }, 2000);
         }
-        // console.log(res);
       }, err => {
-        this.toastService.show('Problema al crear contenedor' + err.error.error, { classname: 'bg-danger text-light', delay: 2000 });
+        let mensaje = err.error.Error[0];
+        this.toastService.show('Problema al crear contenedor ' + mensaje, { classname: 'bg-danger text-light', delay: 2000 });
         this.disabledForm = true;
       });
     } else {
@@ -143,10 +143,12 @@ export class NuevoContenedorComponent implements OnInit {
             this.toastService.removeAll() 
           }, 2000);
         }
-        console.log(res);
       }, err => {
         this.toastService.show('Problema al editar contenedor' + err.error.error, { classname: 'bg-danger text-light', delay: 2000 });
-        this.disabledForm = true;
+        setTimeout(() => { 
+          this.disabledForm = true;
+          this.toastService.removeAll() 
+        }, 2000);
       });
     }
   }

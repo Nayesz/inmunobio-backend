@@ -49,10 +49,8 @@ export class AsociarProyectoJaulaComponent implements OnInit {
       id_proyecto : parseInt(this.formProyecto.value.id_proyecto),
       nombre_proyecto: this.proyecto.nombre
     }
-    console.log(datos)
     this.subscription.add(this.postService.asignarJaulaProyecto(datos).subscribe(res => {
-      console.log(res)
-      if (res.status === 'Se asignó la jaula al proyecto'){
+      if (res.Status){
         this.alert = true;
         this.estado = 'success';
         this.mensajeAlert = 'Jaula asociada correctamente';

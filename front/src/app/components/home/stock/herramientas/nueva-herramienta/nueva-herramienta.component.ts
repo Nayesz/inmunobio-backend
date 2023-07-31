@@ -58,12 +58,11 @@ export class NuevaHerramientaComponent implements OnInit {
       herramienta.id_espacioFisico  = this.idEspacioFisico;
       herramienta.id_herramienta = this.idHerramienta;
       this.postService.editarHerramienta(herramienta).subscribe(res => {
-        if (res.Status === 'ok'){
+        if (res.Status){
           this.alert = true;
           this.estado = 'success';
           this.mensajeAlert = 'La información fue editada correctamente';
         }
-        console.log(res);
       }, err => {
         this.alert = true;
         this.estado = 'danger';
@@ -71,12 +70,11 @@ export class NuevaHerramientaComponent implements OnInit {
       });
     } else {
       this.postService.crearHerramienta(herramienta).subscribe(res => {
-        if (res.Status === 'ok'){
+        if (res.Status){
           this.alert = true;
           this.estado = 'success';
           this.mensajeAlert = 'Herramienta creada correctamente';
         }
-        console.log(res);
       }, err => {
         this.alert = true;
         this.estado = 'danger';

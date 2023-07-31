@@ -259,7 +259,7 @@
             "rack": 1,
             "codigo": "J001",
             "estante": 2,
-            "tipo": "Vidrio",
+            "tipo": "Plástico",
             "capacidad": 5,
             "id_espacioFisico": 1,
             "blogs": [
@@ -281,7 +281,7 @@
             "rack": 2,
             "codigo": "J002",
             "estante": 1,
-            "tipo": "plastico",
+            "tipo": "Plástico",
             "capacidad": 5,
             "id_espacioFisico": 2,
             "id_proyecto": 1,

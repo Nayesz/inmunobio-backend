@@ -46,7 +46,10 @@ export class UsuariosComponent implements OnInit {
         this.cargando = false;
       } else {
         this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
-        this.cargando = false;
+        setTimeout(() => {
+          this.toastService.removeAll(),
+          this.cargando = false;
+        }, 2000);
       }
     });
   }
@@ -59,7 +62,12 @@ export class UsuariosComponent implements OnInit {
           this.toastService.removeAll()
         }, 2000);
         this.obtenerUsuarios();
-        
+      } else {
+        this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
+        setTimeout(() => {
+          this.toastService.removeAll(),
+          this.cargando = false;
+        }, 2000);
       }
     });
   }

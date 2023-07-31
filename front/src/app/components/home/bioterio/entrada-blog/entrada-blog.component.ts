@@ -39,19 +39,16 @@ export class EntradaBlogComponent implements OnInit {
       id_jaula: this.idJaula,
       blogs: blog
     }
-    console.log(nuevoBlog)
     this.postService.nuevoBlogJaula(nuevoBlog).subscribe(res => {
-      if (res.Status === 'Ok'){
+      if (res.Status){
         this.alert = true;
         this.estado = 'success';
         this.mensajeAlert = 'Blog creado correctamente';
       }
-      console.log(res)
     }, err => {
       this.alert = true;
       this.estado = 'danger';
       this.mensajeAlert = JSON.stringify(err);
-      console.log(err)
     });
   }
 

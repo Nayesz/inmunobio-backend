@@ -10,7 +10,6 @@ class GrupoExperimental(dbMongo.Document):
     tipo = dbMongo.StringField()
     fuentesExperimentales = dbMongo.ListField(dbMongo.EmbeddedDocumentField(FuenteExperimentalPropia))
     muestras = dbMongo.ListField(dbMongo.EmbeddedDocumentField(MuestraPropia)) #Guardar muestra propias (copia)
-    parent = dbMongo.IntField(default = 0)
     habilitado = dbMongo.BooleanField(default = True)
 
     

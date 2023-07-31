@@ -37,10 +37,13 @@
       <label  class="form-label">Tipo</label>
         <div class="input-group mb-3">
             <select class="form-select form-control" aria-label=".form-select-lg example" formControlName='tipo' [attr.disabled]='disabledForm ? true : null'>
-              <option value="0" disabled>Seleccione el tipo de jaula</option>
-              <option value="Transparente">Transparente</option>
-              <option value="Truncadas">Truncadas</option>
-              <option value="Largas">Largas</option>
+              <option value="" disabled selected>Seleccione el tipo de jaula</option>
+              <option value="Plástico">Plástico</option>
+              <option value="Acero inoxidable">Acero inoxidable</option>
+              <option value="Alambre">Alambre</option>
+              <option value="Vidrio">Vidrio</option>
+              <option value="Polimetacrilato de metilo">Polimetacrilato de metilo</option>
+              <option value="Desechables">Desechables</option>
             </select>
         </div>
     </div>
@@ -48,12 +51,13 @@
       <label  class="form-label">Espacio Fisico</label>
         <div class="input-group mb-3">
             <select class="form-select form-control" aria-label=".form-select-lg example" formControlName='id_espacioFisico' [attr.disabled]='disabledForm ? true : null'>
-              <option value="0" disabled>Seleccione el espacio físico de la jaula</option>
+              <option value="" disabled selected>Seleccione el espacio físico de la jaula</option>
               <option *ngFor='let espacios of espaciosFisicos' value="{{espacios.id_espacioFisico}}">{{espacios.nombre}}</option>
             </select>
         </div>
     </div>
     <div class="text-center">
+      <div *ngIf='!formJaula.valid'><p class="text-danger"> (!) Deben completarse todos los campos.</p></div>
       <button type="submit" class="btn btn-primary btn-lg" [disabled]="!formJaula.valid" *ngIf='!disabledForm'>Guardar</button>
       <button class="btn btn-primary btn-lg" type="button" disabled *ngIf='disabledForm'>
         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>

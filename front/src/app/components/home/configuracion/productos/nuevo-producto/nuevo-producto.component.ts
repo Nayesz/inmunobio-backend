@@ -105,13 +105,20 @@ export class NuevoProductoComponent implements OnInit {
     } else {
       producto.id_producto = this.producto.id_producto;
       this.postService.editarProducto(producto).subscribe(res => {
-        this.toastService.show('Producto Editado', { classname: 'bg-success text-light', delay: 2000 });
-        setTimeout(() => {
-          this.toastService.removeAll()
-          this.router.navigateByUrl('home/configuracion/productos');
-        }, 1000);
+        if (res.Status){
+          this.toastService.show('Producto Editado', { classname: 'bg-success text-light', delay: 2000 });
+          setTimeout(() => {
+            this.toastService.removeAll()
+            this.router.navigateByUrl('home/configuracion/productos');
+          }, 2000);
+        }
       }, err => {
         this.toastService.show('Error al editar' + err, { classname: 'bg-danger text-light', delay: 2000 });
+        setTimeout(() => {
+          this.toastService.removeAll()
+          this.disabledForm = false;
+        }, 2000);
+
       });
     }
   }

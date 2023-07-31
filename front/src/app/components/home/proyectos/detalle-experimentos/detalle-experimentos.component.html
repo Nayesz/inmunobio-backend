@@ -7,7 +7,7 @@
       <h2 class="">Experimento - {{experimento?.codigo}}</h2>
       <div class="editar-finalizar" *ngIf='!experimento?.finalizado'>
         <button class="btn btn-outline-primary" style="cursor: pointer" routerLink='../../editar-experimento/{{idExperimento}}'><i class="bi bi-pencil text-primary"></i> Editar</button>
-        <button class="btn btn-outline-danger finalizar" (click)="open(finalizarExperimento,true)">Finalizar Experimento</button>
+        <button *ngIf='esDirProyecto()' class="btn btn-outline-danger finalizar" (click)="open(finalizarExperimento,true)">Finalizar Experimento</button>
       </div>
     </div>
     <span class="text-danger" *ngIf='experimento?.finalizado'>Experimento cerrado</span>
@@ -37,7 +37,7 @@
                     <div class="barra"></div>
                     <div class="">
                       <h4 class="text-secondary text-staatliches mb-0">Fecha de Finalizacion</h4>
-                      <p class="mb-0 {{proyecto?.fechaFinal ? 'text-danger' : ''}}">{{experimento?.fechaFinal ? (experimento?.fechaFinal | date) : 'Sin finalizar'}}</p>
+                      <p class="mb-0 {{proyecto?.fechaFin ? 'text-danger' : ''}}">{{experimento?.fechaFin ? (experimento?.fechaFin | date) : 'Sin finalizar'}}</p>
                     </div>
                   </div>
                   <div class="barra"></div>
@@ -51,7 +51,7 @@
               <div class="grupos-experimentales">
                 <div class="d-flex align-items-center mb-3 mt-3">
                   <h4 class="text-secondary text-staatliches mb-0">Grupos Experimentales</h4>
-                  <div class="ml-4">
+                  <div *ngIf='!experimento?.finalizado' class="ml-4">
                     <button class="btn btn-outline-primary" style="cursor: pointer" (click)="open(GrupoExperimental,true)">+Nuevo</button>
                   </div>
                 </div>
@@ -107,7 +107,7 @@
                   </span>
                   <input type="text" class="form-control " id="usuario" name='filterPostMuestra' placeholder="Buscar por codigo de muestra" [(ngModel)]='filterPostMuestra'>
               </div>
-              <div>
+              <div *ngIf='!experimento?.finalizado'>
                 <button class="btn btn-outline-primary btn-asociar_muestra " (click)='open(AsociarMuestra,false)'>Asociar Muestra</button>
               </div>
             </div>
@@ -140,7 +140,7 @@
             <a ngbNavLink>Blog</a>
             <ng-template ngbNavContent>
               <div class="busqueda">
-                <div class="form-group my-2">
+                <div *ngIf='!experimento?.finalizado' class="form-group my-2">
                   <button class="btn btn-outline-success boton" (click)="open(blog,true)">Nueva Entrada</button>
                 </div>
                 <div class="barra-blogs m-2" ></div>
@@ -175,30 +175,18 @@
                           <h6 class="card-title text-center">{{a.fecha}}hs.</h6>
                         </div>
                         <div class="blog" >
-<<<<<<< HEAD
-                          <h5 class="card-title card-header">Experimento {{a.codigoExperimento}} - Blog N° {{a.id_blog}}</h5>
-                          <p class="mb-1"><i>usuario: {{a.id_usuario.nombre}}</i></p>
-                          <p>{{a.detalle}}</p>
-=======
                           <h5 class="card-title card-header">Blog N°{{i+1}} - Experimento {{a.codigoExperimento}}</h5>
                           <p class="mb-1"><i> Usuario: {{a.id_usuario.nombre}}</i></p>
                           <p class="detalle-blog">{{a.detalle}}</p>
->>>>>>> 3cf9ba62d324357a0d50a1458249cde5ffa0279b
                         </div>
                       </div>
                     </ng-container>
                     <ng-container *ngIf = 'i%2!=0'>
                       <div class="card-blog shadow rounded">
                         <div class="blog" >
-<<<<<<< HEAD
-                          <h5 class="card-title card-header">Experimento {{a.codigoExperimento}} - Blog N° {{a.id_blog}}</h5>
-                          <p class="mb-1"><i>usuario: {{a.id_usuario.nombre}}</i></p>
-                          <p>{{a.detalle}}</p>
-=======
                           <h5 class="card-title card-header">Blog N°{{i+1}} - Experimento {{a.codigoExperimento}}</h5>
                           <p class="mb-1"><i> Usuario: {{a.id_usuario.nombre}}</i></p>
                           <p class="detalle-blog">{{a.detalle}}</p>
->>>>>>> 3cf9ba62d324357a0d50a1458249cde5ffa0279b
                         </div>
                         <div class="fecha">
                           <i class="bi bi-journals m-2"></i>

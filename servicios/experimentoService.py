@@ -12,10 +12,13 @@ class ExperimentoService:
     @classmethod
     def find_by_id(cls, idExperimento):
         return  Experimento.objects.filter(id_experimento=idExperimento,finalizado=False).first()
+    @classmethod
+    def find_by_id_all(cls, idExperimento):
+        return  Experimento.objects.filter(id_experimento=idExperimento).first()
     
     @classmethod
     def experimentoPorId(cls,idExperimento):
-        experimento = ExperimentoSchema().dump(cls.find_by_id(idExperimento))
+        experimento = ExperimentoSchema().dump(cls.find_by_id_all(idExperimento))
         from servicios.muestraService import MuestraService
         MuestraService.muestrasDelExperimentoDatosExtra(experimento['muestrasExternas'])
         return experimento
@@ -57,7 +60,7 @@ class ExperimentoService:
             finalizado = True,
             conclusiones = experimento.conclusiones
         )
-    
+
     @classmethod
     def modificarExperimento(cls, datos):
         experimento = ModificarExperimentoSchema().load(datos)
@@ -65,7 +68,9 @@ class ExperimentoService:
             resultados= experimento.resultados,
             metodologia = experimento.metodologia,
             objetivos = experimento.objetivos,
-            muestrasExternas = experimento.muestrasExternas
+            muestrasExternas = experimento.muestrasExternas,
+            codigo = experimento.codigo
+
         )
 
     def lasMuestrasSonDelMismoProyectoDelExperimento(self, experimento):
@@ -108,7 +113,9 @@ class ExperimentoService:
     @classmethod
     def obtenerBlogsEXperimentoPorID(cls,datos):
         BusquedaBlogExp().load(datos)
-        experimento = cls.find_by_id(datos['id_experimento'])
+        experimento = cls.find_by_id_all(datos['id_experimento'])
+        print("NUESTRO EXP ES")
+        print(experimento)
         sorted_json_list = sorted(cls.obtenerBlogs(experimento,datos), key=lambda item: item['fecha'], reverse=True)
         return cls.formateoFechaEnBlogs(sorted_json_list) 
     

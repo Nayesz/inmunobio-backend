@@ -127,7 +127,7 @@ export class DividirGrupoComponent implements OnInit {
   }
   dividirGrupo(){
     this.disabledForm = true;
-    this.postService.dividirGrupoExperimental(this.nuevosGrupos).subscribe(res =>{
+    /* this.postService.dividirGrupoExperimental(this.nuevosGrupos).subscribe(res =>{
       console.log(res)
 
       if (res.Status){
@@ -144,8 +144,8 @@ export class DividirGrupoComponent implements OnInit {
       setTimeout(() => {
         this.toastService.removeAll()
         this.disabledForm = false;
-      }, 3000);
+      }, 3000); 
 
-    })
+    })*/
   }
 }

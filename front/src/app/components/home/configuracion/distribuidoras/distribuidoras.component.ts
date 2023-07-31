@@ -36,22 +36,28 @@ export class DistribuidorasComponent implements OnInit, OnDestroy {
           this.cargando = false;
         } else {
           this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
-          this.cargando = false;
-        }
-        console.log(res);
+          setTimeout(() => {
+            this.cargando = false;
+            this.toastService.removeAll()
+          }, 2000);        }
       })
     );
   }
 
   eliminar(distribuidora: Distribuidora): void{
     this.postService.eliminarDistribuidora(distribuidora.id_distribuidora).subscribe(res =>{
-      if (res.Status === 'ok'){
+      if (res.Status){
         this.toastService.show('Distribuidora Eliminada', { classname: 'bg-danger text-light', delay: 2000 });
         setTimeout(() => {
           this.toastService.removeAll()
         }, 2000);
+      } else {
+        this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
+        setTimeout(() => {
+          this.cargando = false;
+          this.toastService.removeAll()
+        }, 2000);
       }
-      // console.log(res);
     });
   }
 

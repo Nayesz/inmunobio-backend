@@ -1,5 +1,5 @@
 from models.mongo.grupoExperimental import GrupoExperimental
-from schemas.grupoExperimentalSchema import GrupoDeTipoOtro,DividirGrupoExperimentalOtroSchema,GrupoExperimentalSchema, AltaGrupoExperimentalSchema, DividirGrupoExperimentalSchema,AgregarFuentesAlGrupoExperimentalSchema
+from schemas.grupoExperimentalSchema import GrupoDeTipoOtro,GrupoExperimentalSchema, AltaGrupoExperimentalSchema,AgregarFuentesAlGrupoExperimentalSchema
 from models.mongo.fuenteExperimental import FuenteExperimental
 
 class GrupoExperimentalService:
@@ -14,7 +14,6 @@ class GrupoExperimentalService:
     def obtenerGrupoPorId(cls,id):
         grupo = cls.find_by_id(id)
         return cls.deserializarSegunTipo(grupo)
-
 
     @classmethod
     def gruposExperimentalesDelExperimento(cls, _id_experimento):
@@ -48,24 +47,6 @@ class GrupoExperimentalService:
             codigoGrupoExperimental = fuenteExperimental.codigoGrupoExperimental
         )
     
-    @classmethod
-    def dividirGrupoExperimental(cls, datos):
-        gruposExperimentales = cls.schemaGrupoSegunTipo(datos)
-        cls.elGrupoExperimentalPadreEstaHabilitado(gruposExperimentales)        
-        for grupo in gruposExperimentales:
-            grupo.save()
-            cls.reasignarCodigoGrupoExperimentalAFuentesExperimentales(grupo,grupo.codigo)
-        GrupoExperimental.objects(id_grupoExperimental = gruposExperimentales[0].parent).update(habilitado = False)  
-    
-    @classmethod
-    def schemaGrupoSegunTipo(cls,datos):
-        if datos[0]['tipo'] == 'Animal': return  DividirGrupoExperimentalSchema().load(datos, many=True) 
-        return DividirGrupoExperimentalOtroSchema().load(datos, many=True)
-
-    def elGrupoExperimentalPadreEstaHabilitado(gruposExperimentales):
-        for grupo in gruposExperimentales:
-            if GrupoExperimental.objects(id_grupoExperimental = grupo.parent, habilitado = True).first() is None:
-                raise Exception("El grupo experimental padre debe existir y estar habilitado")
 
     @classmethod
     def reasignarCodigoGrupoExperimentalAFuentesExperimentales(cls,grupo,codigo):
@@ -76,7 +57,6 @@ class GrupoExperimentalService:
     def desasignarCodigoAFuente(cls,grupo,_codigo):
         for fuente in grupo.fuentesExperimentales:
             FuenteExperimental.objects(id_fuenteExperimental = fuente.id_fuenteExperimental).update(codigo = _codigo,descripcion=_codigo)
-
     @classmethod
     def borrarFuenteOtros(cls,grupo):
         FuenteExperimental.objects(codigoGrupoExperimental = grupo.codigo).delete()

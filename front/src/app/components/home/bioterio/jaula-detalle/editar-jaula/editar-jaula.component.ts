@@ -36,35 +36,36 @@ export class EditarJaulaComponent implements OnInit, OnDestroy {
     this.idJaula = parseInt(this.activatedRouter.snapshot.paramMap.get('id'), 10);
     if (!isNaN(this.idJaula)){
       this.subscription.add( this.getService.obtenerJaulasPorId(this.idJaula).subscribe(res =>{
-        console.log(res)
         if(res){
-          console.log(res);
           this.jaula = res;
           this.cargando = false;
         } else{
           this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
-          this.cargando = false;
+          setTimeout(() => {
+            this.cargando = false;
+            this.toastService.removeAll()
+          }, 2000);
         }
       }));
     }
     this.subscription.add( this.getService.obtenerEspaciosFisicos().subscribe(res => {
       if(res){
-        console.log(res);
         this.espaciosFisicos = res;
         this.cargando = false;
       } else{
         this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
-        this.cargando = false;
-      }
-      console.log(res);
+        setTimeout(() => {
+          this.cargando = false;
+          this.toastService.removeAll()
+        }, 2000);      }
     }));
     this.formJaula = new FormGroup({
       codigo: new FormControl('', [Validators.required, Validators.maxLength(50)]),
       rack: new FormControl('', [Validators.required, Validators.maxLength(50)]),
       estante: new FormControl('', [Validators.required, Validators.maxLength(50)]),
       capacidad: new FormControl('', [Validators.required, Validators.maxLength(100)]),
-      tipo: new FormControl('0', [Validators.maxLength(100)]),
-      id_espacioFisico: new FormControl('0', [Validators.required, Validators.maxLength(100)])
+      tipo: new FormControl('', [Validators.required, Validators.maxLength(100)]),
+      id_espacioFisico: new FormControl('', [Validators.required, Validators.maxLength(100)])
     });
     setTimeout(() => {
       if (!isNaN(this.idJaula)){
@@ -93,8 +94,7 @@ export class EditarJaulaComponent implements OnInit, OnDestroy {
     if (!isNaN(this.idJaula)){
       jaula.id_jaula = this.idJaula
       this.subscription.add( this.postService.editarJaula(jaula).subscribe(res => {
-        console.log(res);
-        if (res.status === 'Jaula modificada'){
+        if (res.Status){
           this.toastService.show('Informacion editada', { classname: 'bg-success text-light', delay: 2000 });
           setTimeout(() => {
             this.toastService.removeAll()
@@ -103,13 +103,16 @@ export class EditarJaulaComponent implements OnInit, OnDestroy {
           }, 1500);
         }
       }, err => {
-        this.toastService.show('Problema al editar la información' + err.error.error, { classname: 'bg-danger text-light', delay: 2000 });
-        this.disabledForm = false;
+        let mensaje = err.error.Error[0];
+        this.toastService.show('Problema al editar la información: ' + mensaje, { classname: 'bg-danger text-light', delay: 2000 });
+        setTimeout(() => {
+          this.disabledForm = false;
+          this.toastService.removeAll()
+        }, 2000);
       }));
     } else {
       this.subscription.add( this.postService.crearJaula(jaula).subscribe(res => {
-        console.log(res);
-        if (res.Status === 'Jaula creada.'){
+        if (res.Status){
           this.toastService.show('Jaula creada', { classname: 'bg-success text-light', delay: 2000 });
           setTimeout(() => {
             this.toastService.removeAll()
@@ -118,9 +121,12 @@ export class EditarJaulaComponent implements OnInit, OnDestroy {
           }, 2000);
         }
       }, err => {
-        this.toastService.show('Problema al crear la jaula' + err.error.error, { classname: 'bg-danger text-light', delay: 2000 });
-        this.disabledForm = false;
-      }));
+        let mensaje = err.error.Error[0];
+        this.toastService.show('Problema al crear la jaula ' + mensaje, { classname: 'bg-danger text-light', delay: 2000 });
+        setTimeout(() => {
+          this.disabledForm = false;
+          this.toastService.removeAll()
+        }, 2000);      }));
     }
   }
   

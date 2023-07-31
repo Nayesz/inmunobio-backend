@@ -54,6 +54,11 @@ export class GrupotrabajoComponent implements OnInit {
         setTimeout(() => {
           this.toastService.removeAll()
         }, 2000);
+      }else{
+        this.toastService.show('Ocurrio un error', { classname: 'bg-danger text-light', delay: 2000 });
+        setTimeout(() => { 
+          this.toastService.removeAll() 
+        }, 2000);
       }
       
     })

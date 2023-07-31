@@ -7,6 +7,7 @@ import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { ToastServiceService } from 'src/app/services/toast-service.service';
 import { Fuente } from 'src/app/models/fuente.model'
 import { VirtualTimeScheduler } from 'rxjs';
+import { LogService } from 'src/app/services/log.service';
 
 @Component({
   selector: 'app-grupo-experimental',
@@ -39,15 +40,21 @@ export class GrupoExperimentalComponent implements OnInit {
   disabledForm: boolean;
   filterPost:string;
   cargando:boolean;
-
+  experimento:any;
+  
   constructor(
     private router: Router,
     private activatedRouter: ActivatedRoute,
     private postService: PostService,
     private getService: GetService,
     private modalService: NgbModal,
-    public toastService: ToastServiceService
+    public toastService: ToastServiceService,
+    private logger: LogService,
+
   ) { }
+  testLog(mensaje): void {
+    this.logger.log(mensaje);
+  }
 
   ngOnInit(): void {
     this.editar=false;
@@ -56,15 +63,29 @@ export class GrupoExperimentalComponent implements OnInit {
     this.idGrupo = parseInt(this.activatedRouter.snapshot.paramMap.get('idGrupo'), 10);
     this.idExperimento = parseInt(this.activatedRouter.snapshot.paramMap.get('idExperimento'), 10);
     this.idProyecto = parseInt(this.activatedRouter.snapshot.paramMap.get('id'), 10);
+    this.getService.obtenerExperimentoPorId(this.idExperimento).subscribe(res => {
+      if (res){
+        this.experimento = res;  
+      } else {
+        this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
+        setTimeout(() => {
+          this.toastService.removeAll()
+          this.cargando = false;
+        }, 2000);
+      }
+    });
     this.getService.obtenerGruposExperimentalesPorId(this.idGrupo).subscribe(res => {
       if (res){
         this.grupoExperimental = res;  
         this.cargando = false;
       } else {
         this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
-        this.cargando = false;
+        setTimeout(() => {
+          this.toastService.removeAll()
+          this.cargando = false;
+        }, 2000);
+        
       }
-      console.log(res);
     });
     this.getService.obtenerContenedoresPorProyecto(this.idProyecto).subscribe(res => {
       if (res){
@@ -73,24 +94,26 @@ export class GrupoExperimentalComponent implements OnInit {
       } else {
         this.contenedores = [];
         this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
-        this.cargando = false;
-      }
-      console.log(res);
+        setTimeout(() => {
+          this.toastService.removeAll()
+          this.cargando = false;
+        }, 2000);
+     }
     })
     this.formFuenteExperimentalAnimal = new FormGroup({
-      tipo: new FormControl(''),
-      codigo: new FormControl('',Validators.required),
+      tipo: new FormControl('', [Validators.required]),
+      codigo: new FormControl('', [Validators.required, Validators.maxLength(10)]),
       animal: new FormControl('0',Validators.required)
     });
     this.formFuenteExperimentalOtro = new FormGroup({
-      tipo: new FormControl(''),
-      codigo: new FormControl(''),
-      descripcion: new FormControl('')
+      tipo: new FormControl('', [Validators.required]),
+      codigo: new FormControl('', [Validators.required, Validators.maxLength(10)]),
+      descripcion: new FormControl('', [Validators.required, Validators.maxLength(150)]),
     });
     this.formMuestra = new FormGroup({
-      codigo: new FormControl(''),
-      contenedor: new FormControl("0",Validators.required),
-      descripcion: new FormControl('')
+      codigo: new FormControl('', [Validators.required, Validators.maxLength(10)]),
+      contenedor: new FormControl("",[Validators.required]),
+      descripcion: new FormControl('', [Validators.required, Validators.maxLength(150)])
     });
     this.getService.obtenerAnimalesPorProyectos(this.idProyecto).subscribe(res => {
       if (res){
@@ -98,9 +121,11 @@ export class GrupoExperimentalComponent implements OnInit {
         this.cargando = false;
       } else {
         this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
-        this.cargando = false;
+        setTimeout(() => {
+          this.toastService.removeAll()
+          this.cargando = false;
+        }, 2000);
       }
-      console.log(res);
     });
   }
 
@@ -116,6 +141,11 @@ export class GrupoExperimentalComponent implements OnInit {
           this.animal = res;
         } else {
           this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
+          setTimeout(() => {
+            this.toastService.removeAll()
+            this.cargando = false;
+          }, 2000);
+          
         }    
       })
       setTimeout(() => {
@@ -136,13 +166,10 @@ export class GrupoExperimentalComponent implements OnInit {
         id_experimento: this.idExperimento,
         tipo: this.grupoExperimental.tipo,
         codigo: this.grupoExperimental.codigo,
-        parent:0,
         fuentesExperimentales : [this.fuente]
       }
-      console.log(fuenteExperimental)
       this.postService.crearFuenteExperimental(fuenteExperimental).subscribe(res => {
-        console.log(res)
-        if (res.Status === 'Se crearon las fuentes experimentales') {
+        if (res.Status) {
           this.toastService.show('Fuente Experimental creada', { classname: 'bg-success text-light', delay: 2000 });
           setTimeout(() => {
             this.toastService.removeAll()
@@ -152,17 +179,13 @@ export class GrupoExperimentalComponent implements OnInit {
           }, 2000);
         }
       }, err => {
-        if(err.error.Error == "Los animales ya están en uso."){
-          this.toastService.show('Error - el animal ya está en uso', { classname: 'bg-danger text-light', delay: 2000 });
+          let mensaje = err.error.Error[0]
+          this.toastService.show('Error: '+ mensaje, { classname: 'bg-danger text-light', delay: 2000 });
           this.disabledForm = false;
           setTimeout(() => {
             this.toastService.removeAll()
           }, 3000);
-        } else{
-          this.toastService.show('Error '+ err.error.Error, { classname: 'bg-danger text-light', delay: 2000 });
-          console.log(err)
-          this.disabledForm = false;
-        }
+        
       })
     }, 1000);
   }
@@ -179,12 +202,10 @@ export class GrupoExperimentalComponent implements OnInit {
         id_experimento: this.idExperimento,
         tipo: this.grupoExperimental.tipo,
         codigo: this.grupoExperimental.codigo,
-        parent:0,
         fuentesExperimentales : [this.fuenteOtro]
       }
       this.postService.crearFuenteExperimental(fuenteExperimental).subscribe(res => {
-        console.log(res)
-        if (res.Status === 'Se crearon las fuentes experimentales') {
+        if (res.Status) {
           this.toastService.show('Fuente Experimental creada', { classname: 'bg-success text-light', delay: 2000 });
           setTimeout(() => {
             this.toastService.removeAll()
@@ -194,9 +215,12 @@ export class GrupoExperimentalComponent implements OnInit {
           }, 2000);
         }
       }, err => {
-        this.toastService.show('Problema al crear la fuente experimental' + err.error.error, { classname: 'bg-danger text-light', delay: 2000 });
-        console.log(err)
-        this.disabledForm = false;
+        let mensaje = err.error.Error[0]
+        this.toastService.show('Problema al crear la fuente experimental ' + mensaje, { classname: 'bg-danger text-light', delay: 2000 });
+        setTimeout(() => {
+          this.toastService.removeAll()
+          this.disabledForm = false;
+        }, 2000);        
       })
   }
   crearMuestra(): void{
@@ -211,11 +235,11 @@ export class GrupoExperimentalComponent implements OnInit {
       id_contenedor : parseInt(this.formMuestra.value.contenedor),
       id_fuenteExperimental: this.idFuente
     }
-    console.log([obj])
     if(this.editar){
       obj.id_muestra = this.muestra;
       this.postService.editarMuestra(obj).subscribe(res =>{
-        if (res.Status === 'Se modificó la muestra'){
+        this.testLog(res)
+        if (res.Status){
           this.toastService.show('Muestra editada', { classname: 'bg-success text-light', delay: 2000 });
           setTimeout(() => {
             this.toastService.removeAll()
@@ -224,15 +248,19 @@ export class GrupoExperimentalComponent implements OnInit {
             this.ngOnInit()
           }, 2000);
         }
-        console.log(res);
       }, err => {
-        this.toastService.show('Problema editar la muestra ' + err.error.error, { classname: 'bg-danger text-light', delay: 2000 });
-        console.log(err)
-        this.disabledForm = false;
+        let mensaje = err.error.Error[0]
+        this.toastService.show('Problema editar la muestra ' + mensaje, { classname: 'bg-danger text-light', delay: 2000 });
+        setTimeout(() => {
+          this.toastService.removeAll()
+          this.disabledForm = false;
+        }, 2000);
+        
       })
     } else {
       this.postService.crearMuestra([obj]).subscribe(res => {
-        if (res.Status === 'Muestra creada'){
+        this.testLog(res)
+        if (res.Status){
           this.toastService.show('Muestra creada', { classname: 'bg-success text-light', delay: 2000 });
           setTimeout(() => {
             this.toastService.removeAll()
@@ -241,31 +269,30 @@ export class GrupoExperimentalComponent implements OnInit {
             this.ngOnInit()
           }, 2000);
         }
-        console.log(res);
       }, err => {
-        this.toastService.show('Problema crear la muestra ' + err.error.error, { classname: 'bg-danger text-light', delay: 2000 });
-        console.log(err)
-        this.disabledForm = false;
+        let mensaje = err.error.Error[0]
+        this.toastService.show('Problema crear la muestra ' + mensaje, { classname: 'bg-danger text-light', delay: 2000 });
+        setTimeout(() => {
+          this.toastService.removeAll()
+          this.disabledForm = false;
+        }, 2000);
+       
       })
     } 
   }
 
   fuenteExpDetalle(idFuente, content){
     this.open(content)
-    console.log(idFuente)
     this.idFuente = idFuente;
     this.getService.obtenerMuestrasPorIdFuente(idFuente).subscribe( res =>{
       this.muestrasFiltradas = res.filter(muestra => muestra.habilitada)
-      console.log(res)
     })
     this.getService.obtenerFuenteExperimental(this.idFuente).subscribe(res =>{
-      console.log(res)
       this.datosFuente = res;
     })
   }
 
   muestraModal(content,muestra){
-    console.log(muestra)
     this.muestra = muestra.id_muestra;
     this.formMuestra.patchValue({
       codigo: muestra.codigo,
@@ -286,9 +313,8 @@ export class GrupoExperimentalComponent implements OnInit {
   eliminarMuestra(){
     this.disabledForm = true;
     this.postService.eliminarMuestra(this.muestra.id_muestra).subscribe(res =>{
-      console.log(res)
-      if(res.Status == 'Se dio de baja la muestra con id '+ this.muestra.id_muestra){
-        this.toastService.show('Muestra eliminada', { classname: 'bg-success text-light', delay: 2000 });
+      if(res.Status){
+        this.toastService.show('Se dio de baja la muestra con id '+ this.muestra.id_muestra, { classname: 'bg-success text-light', delay: 2000 });
         setTimeout(() => {
           this.toastService.removeAll()
           this.modalService.dismissAll()
@@ -297,16 +323,19 @@ export class GrupoExperimentalComponent implements OnInit {
         }, 2000);
       }
     }, err => {
-      this.toastService.show('Problema al eliminar la muestra ' + err.error.error, { classname: 'bg-danger text-light', delay: 2000 });
-      console.log(err)
-      this.disabledForm = false;
+      let mensaje = err.error.Error[0]
+      this.toastService.show('Problema al eliminar la muestra ' + mensaje, { classname: 'bg-danger text-light', delay: 2000 });
+      setTimeout(() => {
+        this.toastService.removeAll()
+        this.disabledForm = false;
+      }, 2000);
+      
     })
   }
   eliminarGrupoExperimental(){
     this.disabledForm = true;
     this.postService.eliminarGrupoExperimental(this.idGrupo).subscribe(res =>{
-      console.log(res)
-      if(res.Status == 'Se borró el grupo experimental y sus subgrupos.'){
+      if( res.Status){
         this.toastService.show('Grupo Experimenal eliminado', { classname: 'bg-success text-light', delay: 2000 });
         setTimeout(() => {
           this.toastService.removeAll()
@@ -316,9 +345,12 @@ export class GrupoExperimentalComponent implements OnInit {
         }, 2000);
       }
     }, err => {
-      this.toastService.show('Problema al eliminar el Grupo ' + err.error.error, { classname: 'bg-danger text-light', delay: 2000 });
-      console.log(err)
-      this.disabledForm = false;
+      let mensaje = err.error.Error[0];
+      this.toastService.show('Problema al eliminar el Grupo ' + mensaje, { classname: 'bg-danger text-light', delay: 2000 });
+      setTimeout(() => {
+        this.toastService.removeAll()
+        this.disabledForm = false;
+      }, 2000);
     })
   }
 

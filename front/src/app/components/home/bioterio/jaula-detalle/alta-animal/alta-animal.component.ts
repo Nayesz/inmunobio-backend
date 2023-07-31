@@ -37,9 +37,8 @@ export class AltaAnimalComponent implements OnInit, OnDestroy {
     this.disabledForm = true;
     const animal = this.formAnimal.value;
     animal.id_jaula = this.idJaula;
-    console.log(animal)
     this.subscription.add( this.postService.crearAnimal(animal).subscribe(res => {
-      if (res.Status === 'Se creó el nuevo animal.'){
+      if (res.Status){
         this.toastService.show('Animal creado', { classname: 'bg-success text-light', delay: 2000 });
         setTimeout(() => {
           this.toastService.removeAll()
@@ -47,11 +46,13 @@ export class AltaAnimalComponent implements OnInit, OnDestroy {
           this.router.navigate(['/home/bioterio/'+ this.idJaula]);
         }, 2000);
       }
-      console.log(res)
     }, err => {
-      this.toastService.show('Problema crear el animal ' + err.error.error, { classname: 'bg-danger text-light', delay: 2000 });
-      console.log(err)
-      this.disabledForm = false;
+      let mensaje = err.error.Error[0];
+      this.toastService.show('Problema crear el animal ' + mensaje, { classname: 'bg-danger text-light', delay: 2000 });
+      setTimeout(() => {
+        this.toastService.removeAll()
+        this.disabledForm = false;
+      }, 2000);
     }));
   }
   ngOnDestroy(): void {

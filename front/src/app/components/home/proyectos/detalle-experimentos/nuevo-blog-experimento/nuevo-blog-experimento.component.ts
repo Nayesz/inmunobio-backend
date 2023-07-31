@@ -39,19 +39,16 @@ export class NuevoBlogExperimentoComponent implements OnInit {
       id: this.idExperimento,
       blogs: blog
     }
-    console.log(nuevoBlog)
     this.postService.nuevoBlogProyecto(nuevoBlog).subscribe(res => {
-      if (res.Status === 'ok'){
+      if (res.Status){
         this.alert = true;
         this.estado = 'success';
         this.mensajeAlert = 'Blog creado correctamente';
       }
-      console.log(res)
     }, err => {
       this.alert = true;
       this.estado = 'danger';
       this.mensajeAlert = JSON.stringify(err);
-      console.log(err)
     });
   }
 }

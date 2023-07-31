@@ -60,13 +60,19 @@ export class ContenedoresComponent implements OnInit {
 
   eliminar(id: number): void {
     this.postService.eliminarContenedor(id).subscribe(res =>{
-      if (res.Status === 'Ok'){
+      if (res.Status){
         this.toastService.show('Contenedor Eliminado', { classname: 'bg-danger text-light', delay: 2000 });
         setTimeout(() => {
           this.toastService.removeAll()
         }, 2000);
+      }else {
+        this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
+        setTimeout(() => {
+          this.toastService.removeAll()
+          this.cargando = false;
+        }, 2000);
+        
       }
-      // console.log(res);
     });
   }
 }

@@ -43,7 +43,8 @@ export class FinalizarProyectoComponent implements OnInit {
           this.toastService.removeAll()
         }, 2000);
       }, err => {
-        this.toastService.show('Problema al finalizar Proyecto' + err.error.error, { classname: 'bg-danger text-light', delay: 2000 });
+        let mensaje = err.error.Error[0];
+        this.toastService.show('Problema al finalizar Proyecto: ' + mensaje, { classname: 'bg-danger text-light', delay: 2000 });
         setTimeout(() => {
           this.toastService.removeAll()
         }, 3000);

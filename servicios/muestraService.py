@@ -15,11 +15,11 @@ class MuestraService:
     def find_by_id(cls, idMuestra):
         return Muestra.objects.filter(id_muestra=idMuestra).first()
 
-    # @classmethod
-    # def find_all_by_experimento(cls, idExperimento):
-    #     muestras = Muestra.objects.filter(id_experimento=idExperimento).all()
-    #     return MuestraSchema.dump(muestras, many=True)
-    
+    @classmethod
+    def findCandidatosMuestras(cls, idProyecto,idExperimento):
+        return Muestra.objects(id_proyecto=idProyecto, habilitada = True,  id_experimento__ne=idExperimento ).all()
+
+
     @classmethod
     def find_all_by_grupoExperimental(cls, idGrupoExperimental):
         return Muestra.objects(id_grupoExperimental=idGrupoExperimental, habilitada = True).all()

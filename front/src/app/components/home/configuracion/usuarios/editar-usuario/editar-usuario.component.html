@@ -28,7 +28,6 @@
                             <input type="tel" class="form-control" id="telefono" formControlName="telefono"
                                 placeholder="Ingrese el teléfono del usuario"
                                 [attr.disabled]="disabledForm ? true : null">
-                            <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
                             <div
                                 *ngIf="formUsuario.get('telefono').invalid && (formUsuario.get('telefono').dirty || formUsuario.get('telefono').touched)">
                                 <div *ngIf="formUsuario.get('telefono').errors.required">El telefono es requerido.
