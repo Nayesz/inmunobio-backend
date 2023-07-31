@@ -88,8 +88,8 @@ export class JaulaDetalleComponent implements OnInit, OnDestroy {
       },
       (error) => {
         //Acá se podría enviar al usuario a una página de error y que le muestre el mensaje de error.
-        const errorMessages = error.error['Error'].map(msg => msg).join('\n')
-        this.toastService.show(errorMessages, { classname: 'bg-danger text-light', delay: 2000 });
+        //const errorMessages = error.error['Error'].map(msg => msg).join('\n')
+        this.toastService.show(error.error['Error'], { classname: 'bg-danger text-light', delay: 2000 });
       }
     ));
   }
