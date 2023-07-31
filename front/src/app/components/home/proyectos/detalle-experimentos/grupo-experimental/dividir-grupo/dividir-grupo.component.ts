@@ -43,6 +43,7 @@ export class DividirGrupoComponent implements OnInit {
     
     this.getService.obtenerGruposExperimentalesPorId(this.idGrupo).subscribe(res => {
       if (res){
+        console.log("Fuentes experimentales " + JSON.stringify(res))
         this.grupoExperimental = res;
         this.itemList = this.grupoExperimental.fuentesExperimentales  
         this.cargando = false;

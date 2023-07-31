@@ -7,7 +7,7 @@ import { Producto } from 'src/app/models/producto.model'
 import { ProductoEdic, ProductoStock, Stock, StockEdicion } from 'src/app/models/stock.model';
 import { Contenedor } from 'src/app/models/contenedores.model';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DatePipe } from '@angular/common';
+import { DatePipe, JsonPipe } from '@angular/common';
 import { ToastServiceService } from 'src/app/services/toast-service.service';
 
 @Component({
@@ -32,9 +32,9 @@ export class AgregarStockComponent implements OnInit, OnDestroy {
   idProdEnStock:number;
   idUbicacion:number;
   stocks:Stock[]=[];
-  producto:any;
+  stockProducto:Stock;
   prodEspecifico:any;
-  editar = false;
+  modoEditar = false;
   cargando: boolean;
   disabledForm: boolean = false;
  
@@ -52,14 +52,13 @@ export class AgregarStockComponent implements OnInit, OnDestroy {
     this.usuario = JSON.parse(localStorage.getItem('usuario'));
     this.idEspacioFisico = parseInt(this.activatedRouter.snapshot.paramMap.get('idEspacio'), 10);
     this.idProd = parseInt(this.activatedRouter.snapshot.paramMap.get('idProducto'), 10);
-    console.log("idProd " + this.idProd)
     this.idProdEnStock = parseInt(this.activatedRouter.snapshot.paramMap.get('idProductoEnStock'), 10);
     this.idUbicacion = parseInt(this.activatedRouter.snapshot.paramMap.get('idUbicacion'), 10);
     const idGrupoTrabajo = this.usuario.id_grupoDeTrabajo
 
     if(this.esUnaModificacionDeStockDelProducto()){
       this.getStock(idGrupoTrabajo)
-      this.editar = true;
+      this.modoEditar = true;
     }
 
     this.getProducto()
@@ -105,28 +104,29 @@ export class AgregarStockComponent implements OnInit, OnDestroy {
 
   actualizarForm(): void{
     this.formStock.patchValue({
-      producto: this.producto.id_producto,
+      producto: this.stockProducto.id_producto,
       lote: this.prodEspecifico.lote,
       unidad: this.prodEspecifico.unidad,
       contenedor: this.prodEspecifico.codigoContenedor,
       detalleUbicacion: this.prodEspecifico.detalleUbicacion,
-      fechaVencimiento: this.datepipe.transform(this.prodEspecifico.fechaVencimiento, 'yyyy-MM-dd')
+      fechaVencimiento: this.datepipe.transform(this.prodEspecifico.fechaVencimiento, 'yyyy-MM-dd'),
+      seguimiento: this.stockProducto.seguimiento
     });
+    this.formStock.controls['producto'].disable();
+    this.formStock.controls['unidad'].disable();
   }
 
   esUnaModificacionDeStockDelProducto = (): boolean => {return !isNaN(this.idProd)}
 
   getStock(idGrupoTrabajo : number) : void {
-    console.log(idGrupoTrabajo, this.idEspacioFisico)
     this.getService.obtenerStock(idGrupoTrabajo, this.idEspacioFisico)
     .subscribe
     (
       (res) => {
         this.stocks = res;
-        console.log(res)
         this.cargando = false;
-        this.producto = this.stocks.find(stock => (stock.id_producto = this.idProd) && (stock.id_productoEnStock == this.idProdEnStock))
-        this.prodEspecifico = this.producto.producto[this.idUbicacion]
+        this.stockProducto = this.stocks.find(stock => (stock.id_producto = this.idProd) && (stock.id_productoEnStock == this.idProdEnStock))
+        this.prodEspecifico = this.stockProducto.producto[this.idUbicacion]
         this.actualizarForm()
       },
       (error) => {
@@ -182,15 +182,17 @@ export class AgregarStockComponent implements OnInit, OnDestroy {
 
   editarProductoDelStock() : void {
     const edicion : StockEdicion = {
-      id_productoEnStock: this.producto.id_productoEnStock,
+      id_productoEnStock: this.stockProducto.id_productoEnStock,
       producto: {
         codigoContenedor: this.formStock.value.contenedor,
         detalleUbicacion : this.formStock.value.detalleUbicacion,
         unidad : 0,
-        id_productos : this.prodEspecifico.id_productos
-      }
+        lote : this.formStock.value.lote,
+        id_productos : this.prodEspecifico.id_productos,
+        fechaVencimiento: this.datepipe.transform(this.formStock.value.fechaVencimiento, 'yyyy-MM-ddT00:00:0.000Z'),
+      },
+      seguimiento : this.formStock.value.seguimiento
     }
-    
     this.subscription.add(this.postService.editarStock(edicion)
       .subscribe(
         (res) => {
@@ -217,7 +219,7 @@ export class AgregarStockComponent implements OnInit, OnDestroy {
         unidad: this.formStock.value.unidad,
         codigoContenedor: this.formStock.value.contenedor,
         detalleUbicacion: this.formStock.value.detalleUbicacion,
-        fechaVencimiento: this.datepipe.transform(fecha, 'yyyy-MM-ddT23:01:10.288Z'),
+        fechaVencimiento: this.datepipe.transform(fecha, 'yyyy-MM-ddT00:00:00.000Z'),
         nombreContenedor: this.formStock.value.nombreContenedor
       }
     };

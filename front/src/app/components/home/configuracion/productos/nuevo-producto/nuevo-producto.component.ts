@@ -15,11 +15,8 @@ import { ToastServiceService } from 'src/app/services/toast-service.service';
 export class NuevoProductoComponent implements OnInit {
 
   distribuidoras: Distribuidora;
-  archivo: FileList;
 
   cargando: boolean;
-  disabledForm: boolean;
-
   formProducto!: FormGroup;
   estado: string;
   idProducto: number;
@@ -57,7 +54,7 @@ export class NuevoProductoComponent implements OnInit {
       tipo: new FormControl('', [Validators.maxLength(50)]),
       aka: new FormControl('', [Validators.maxLength(100)]),
       url: new FormControl('', [Validators.maxLength(100)]),
-      unidadAgrupacion: new FormControl('', [Validators.maxLength(10)]),
+      unidadAgrupacion: new FormControl('', [Validators.pattern(/^[0-9][0-9]*$/), Validators.min(1)]),
       protocolo: new FormControl('', [Validators.maxLength(200)])
     });
 
@@ -88,7 +85,6 @@ export class NuevoProductoComponent implements OnInit {
   }
 
   crearProducto(): void{
-    this.disabledForm = true;
     const producto: Producto = {
       nombre: this.formProducto.value.nombre,
       marca: this.formProducto.value.marca,
@@ -101,24 +97,14 @@ export class NuevoProductoComponent implements OnInit {
     };
     if (isNaN(this.idProducto)){
       this.postService.crearProducto(producto).subscribe(res => {
-        // console.log(res);
-        // console.log(this.archivo[0]);
-        this.postService.subirArchivo(this.archivo, res).subscribe( res2 => {
-          // console.log(res2);
-          this.toastService.show('Producto Creado', { classname: 'bg-success text-light', delay: 2000 });
-          setTimeout(() => {
-            this.toastService.removeAll()
-            this.router.navigateByUrl('home/configuracion/productos');
-          }, 2000);
-        });
+        this.formProducto.reset()
+        this.toastService.show('Producto creado', { classname: 'bg-success text-light', delay: 2000 });
       }, err => {
         this.toastService.show('Error al crear' + err, { classname: 'bg-danger text-light', delay: 2000 });
-        this.disabledForm = false;
       });
     } else {
       producto.id_producto = this.producto.id_producto;
       this.postService.editarProducto(producto).subscribe(res => {
-        
         if (res.Status){
           this.toastService.show('Producto Editado', { classname: 'bg-success text-light', delay: 2000 });
           setTimeout(() => {
@@ -132,13 +118,9 @@ export class NuevoProductoComponent implements OnInit {
           this.toastService.removeAll()
           this.disabledForm = false;
         }, 2000);
+
       });
     }
-  }
-
-  onArchivoSeleccionado($event): void {
-    // console.log($event.target.files)
-    this.archivo = $event.target.files;
   }
 
   volver(): void {

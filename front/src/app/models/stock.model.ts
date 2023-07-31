@@ -19,13 +19,15 @@ export interface Stock{
 export class StockEdicion{
     id_productoEnStock : number;
     producto: ProductoEdic;
+    seguimiento: boolean;
 }
 export class ProductoEdic{
     codigoContenedor : number;
     detalleUbicacion: string;
     unidad: number;
+    lote: string;
     id_productos: number;
-
+    fechaVencimiento: any;
 }
 export class Consumir{
     unidad: number;

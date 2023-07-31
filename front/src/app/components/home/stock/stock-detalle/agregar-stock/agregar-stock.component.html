@@ -1,20 +1,20 @@
 <div *ngIf='!cargando'>
-<div class="text-black ml-3 mt-3" *ngIf='editar === false' routerLink="../" role="button" style="position: relative;">
+<div class="text-black ml-3 mt-3" *ngIf='modoEditar === false' routerLink="../" role="button" style="position: relative;">
   <h5><span><i class="bi bi-arrow-left"></i></span>VOLVER</h5>
 </div>
-<div class="text-black ml-3 mt-3"*ngIf='editar === true' routerLink="../../../../" role="button" style="position: relative;">
+<div class="text-black ml-3 mt-3"*ngIf='modoEditar === true' routerLink="../../../../" role="button" style="position: relative;">
   <h5><span><i class="bi bi-arrow-left"></i></span>VOLVER</h5>
 </div>
 <div class="mx-4">
   <div class="text-center my-4">
-      <h2 *ngIf='editar === true'> Editar Stock</h2>
-      <h2 *ngIf='editar === false'> Agregar Stock</h2>
+      <h2 *ngIf='modoEditar === true'> Editar Stock</h2>
+      <h2 *ngIf='modoEditar === false'> Agregar Stock</h2>
   </div>
 </div>
-<div class="">
+<div class="form--container">
   <form [formGroup]="formStock">
 
-    <div class="">
+    <div class="form--field ">
       <label for="producto" class="form-label">Producto</label>
       <select class="form-select form-control" aria-label=".form-select-lg example" id="producto" formControlName="producto">
         <option value="0" disabled>Seleccione el nombre del producto</option>
@@ -23,17 +23,15 @@
       <div class="form--field-invalid" *ngIf="formStock.get('producto').touched && formStock.get('producto').value === '0'">Debe seleccionar un producto.</div>
     </div>
 
-    <div class="">
+    <div class="form--field ">
       <label for="lote" class="form-label">Lote</label>
-      <input  *ngIf='editar === true'class="form-control" type="text" placeholder="{{prodEspecifico?.lote}}" aria-label="lote" disabled>
-      <input *ngIf='editar === false' type="text" class="form-control" id="lote" formControlName="lote" placeholder="Ingrese el lote del producto" >
+      <input type="text" class="form-control" id="lote" formControlName="lote" placeholder="Ingrese el lote del producto" >
       <div class="form--field-invalid" *ngIf="formStock.get('lote').errors?.maxlength">El detalle de lote debe tener 50 caracteres o menos.</div>
     </div> 
 
-    <div class="">
+    <div class="form--field ">
       <label for="unidad" class="form-label">Unidades</label>
-      <input *ngIf='editar === true'class="form-control" type="text" placeholder="{{prodEspecifico?.unidad}}" aria-label="unidad" disabled>
-      <input *ngIf='editar === false' type="text" class="form-control" id="unidad" formControlName="unidad" placeholder="Ingrese las unidades" required="true">
+      <input type="text" class="form-control" id="unidad" formControlName="unidad" placeholder="Ingrese las unidades" required="true">
       <div class="form--field-invalid" *ngIf="formStock.get('unidad').touched">
         <div *ngIf="formStock.get('unidad').errors?.pattern">El valor debe ser un número entero</div>
         <div *ngIf="formStock.get('unidad').errors?.min">El valor ingresado debe ser un número entero entero mayor a 0.</div>
@@ -41,7 +39,7 @@
       </div>
     </div>
 
-    <div class="">
+    <div class="form--field ">
         <label for="contenedor" class="form-label">Contenedor</label>
         <select class="form-select form-control" aria-label=".form-select-lg example" id="contenedor" formControlName="contenedor" >
           <!-- <option *ngFor='let contenedor of contenedores' value="{{contenedor?.id_contenedor}}">{{contenedor?.nombre}}</option> -->
@@ -51,7 +49,7 @@
         </select>
         <div class="form--field-invalid" for="contenedor" *ngIf="formStock.get('contenedor').errors?.maxlength">El detalle del contenedor debe tener 30 caracteres o menos.</div>
     </div>
-    <div class="">
+    <div class="form--field ">
       <label for="detalleUbicacion" class="form-label">Detalle Ubicación</label>
       <input type="text" class="form-control" id="detalleUbicacion" formControlName="detalleUbicacion" placeholder="Ingrese el detalle de ubicacion" >
       <div class="form--field-invalid" *ngIf="formStock.get('detalleUbicacion').invalid && (formStock.get('detalleUbicacion').dirty || formStock.get('detalleUbicacion').touched)">
@@ -59,17 +57,16 @@
       </div>
     </div>
     
-    <div class="">
+    <div class="form--field ">
       <label for="fechaVencimiento" class="form-label">Fecha Vencimiento</label>
-      <input  *ngIf='editar === true'class="form-control" type="text" placeholder="{{prodEspecifico?.fechaVencimiento | date: 'dd/MM/yy'}}" aria-label="fechaVencimiento" disabled>
-      <input  *ngIf='editar === false' type="date" class="form-control" id="fechaVencimiento" formControlName="fechaVencimiento">
+      <input  type="date" class="form-control" id="fechaVencimiento" formControlName="fechaVencimiento">
       <div class="form--field-invalid" *ngIf="formStock.get('fechaVencimiento').invalid && (formStock.get('fechaVencimiento').dirty || formStock.get('fechaVencimiento').touched)">
         <div *ngIf="formStock.get('fechaVencimiento').errors?.required">Se debe seleccionar una fecha.</div>
         <div *ngIf="formStock.get('fechaVencimiento').errors?.fechaInvalida">La fecha de vencimiento debe ser mayor a la fecha actual.</div>
       </div>
     </div>
 
-    <div class="seguimiento">
+    <div class="seguimiento form--field">
       <input class="form-check-input mr-4" type="checkbox" value="false" id="seguimiento" formControlName='seguimiento'>
       <label for="seguimiento">Quiere realizar seguimiento del vencimiento del producto?</label>
     </div>
