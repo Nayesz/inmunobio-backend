@@ -33,7 +33,6 @@ form{
 .form--field-invalid {
     font-size: 0.80em;
     color: red;
-    margin-bottom: 0.1vh;
 }
 
 @media screen and (max-width: 360px){
