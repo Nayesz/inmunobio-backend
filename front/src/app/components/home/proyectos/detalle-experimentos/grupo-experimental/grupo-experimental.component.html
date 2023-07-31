@@ -5,9 +5,7 @@
 <div class="m-2">
     <div class="titulo">
         <h2 class="mb-0">Grupo experimental - {{grupoExperimental?.codigo}}</h2>
-        <div class="editar-eliminar">
-          <button class="btn btn-outline-primary" style="cursor: pointer" routerLink='dividir-grupo' *ngIf='grupoExperimental?.fuentesExperimentales.length > 0'><i class="bi bi-pencil text-primary"></i> Dividir Grupo</button>
-          <button class="btn btn-outline-secondary" routerLink='dividir-grupo' *ngIf='grupoExperimental?.fuentesExperimentales.length === 0' disabled><i class="bi bi-pencil text-secondary"></i> Dividir Grupo</button>
+        <div *ngIf='!experimento?.finalizado' class="editar-eliminar">
           <button class="btn btn-outline-danger eliminar" (click)='open(eliminarGrupo)'><i class="bi bi-trash text-danger"></i> Eliminar</button>
         </div>
     </div>
@@ -18,7 +16,7 @@
     <div class="fuentes-experimentales">
       <div class="d-flex align-items-center m-3">
         <h4 class="text-secondary text-staatliches ">Fuentes Experimentales</h4>
-        <div class="ml-4">
+        <div *ngIf='!experimento?.finalizado' class="ml-4">
           <button  *ngIf='grupoExperimental?.tipo === "Otro" '  class="btn btn-outline-primary" style="cursor: pointer" (click)='open(fuenteOtro)'>+Nuevo</button>
           <button *ngIf='grupoExperimental?.tipo === "Animal" ' class="btn btn-outline-primary" style="cursor: pointer" (click)='open(fuenteAnimal)'>+Nuevo</button>
         </div>
@@ -190,7 +188,7 @@
     <div class="modal-body">
       <div class="d-flex mb-3">
         <h3>Muestras Asociadas</h3>
-        <div class="ml-5">
+        <div *ngIf='!experimento?.finalizado' class="ml-5">
           <button class="btn btn-outline-primary" style="cursor: pointer" (click)='muestraModal(DatosMuestra,0)'>+Nuevo</button>
         </div>
       </div>

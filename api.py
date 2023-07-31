@@ -7,7 +7,7 @@ from resources.grupoDeTrabajoResource import GrupoDeTrabajoID,GrupoDeTrabajo,Gru
 from resources.experimentoResource import TodosLosExperimentos,ExperimentoResource, ExperimentoMuestra,ObtenerBlogsExp,Experimentos, CerrarExperimento
 from resources.contenedorResource import Contenedor, ContenedorProyecto, ContenedorParent,ContenedorProyectoId
 
-from resources.grupoExperimentalResource import GrupoExperimental, GruposExperimentales, DividirGrupoExperimental
+from resources.grupoExperimentalResource import GrupoExperimental, GruposExperimentales
 from resources.stockResource import ObtenerProductosStock,ProductoEnStock,BorrarTodoStock,ConsumirStockResource,ProductoEnStockID
 from resources.productoResource import ProductoEnStockDeGrupos,ProductoResource,ObtenerProductosResource,ProductoID,ArchivoProducto
 from resources.distribuidoraResource import DistribuidoraResource,ObtenerDistribuidorasResource,DistribuidoraID
@@ -99,7 +99,6 @@ api.add_resource(TodosLosExperimentos, '/api/v1/experimentos') #para testear
 api.add_resource(GrupoExperimental, '/api/v1/grupoExperimental/<int:idGrupoExperimental>', endpoint='grupo_experimental')
 api.add_resource(GrupoExperimental, '/api/v1/nuevoGrupoExperimental', endpoint='nuevo_grupo_experimental')
 api.add_resource(GruposExperimentales, '/api/v1/experimento/<int:idExperimento>/gruposExperimentales', endpoint='grupos_experimentales_del_experimento')
-api.add_resource(DividirGrupoExperimental, '/api/v1/dividirGrupoExperimental', endpoint='dividir_grupo_experimental')
 api.add_resource(GrupoExperimental, '/api/v1/borrarGrupoExperimental/<int:idGrupoExperimental>', endpoint='borrar_grupo_experimental')
 
 #Jaula

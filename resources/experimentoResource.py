@@ -94,6 +94,8 @@ class ObtenerBlogsExp(Resource):
         datos = request.get_json()
         if(datos):
             try:
+                print("ESTAMOS INTENTANDO OBTENER BLOGS DE:")
+                print(datos)
                 return ExperimentoService.obtenerBlogsEXperimentoPorID(datos)
             except Exception as err:
                 return {'Error' : err.args}, 400          

@@ -181,7 +181,6 @@ export class PostService {
   }
 
   crearFuenteExperimental(obj: any): Observable<any>{
-    console.log(obj)
     return this.http.post<any>(this.API_URL + 'nuevasFuentesExperimentales', obj);
   }
   
@@ -250,9 +249,6 @@ export class PostService {
     return this.http.delete<any>(this.API_URL +'borrarGrupoExperimental/'+idGrupo);
   }
 
-  dividirGrupoExperimental(nuevoGrupo: any): Observable<any>{
-    return this.http.post<any>(this.API_URL +'dividirGrupoExperimental',nuevoGrupo);
-  }
   eliminarMuestra(idMuestra:number): Observable<any>{
     return this.http.delete<any>(this.API_URL +'muestra/'+ idMuestra);
   }
