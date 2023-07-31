@@ -53,7 +53,10 @@ export class EditarUsuarioComponent implements OnInit {
         this.cargando = false;
       } else {
         this.toastService.show('Hubo un error', { classname: 'bg-danger text-light', delay: 2000 });
-        this.cargando = false;
+        setTimeout(() => {
+          this.cargando = false;
+          this.toastService.removeAll()
+        }, 2000);
       }
     });
 
@@ -94,7 +97,10 @@ export class EditarUsuarioComponent implements OnInit {
         this.cargando = false;
       } else {
         this.toastService.show('Hubo un error', { classname: 'bg-danger text-light', delay: 2000 });
-        this.cargando = false;
+        setTimeout(() => {
+          this.cargando = false;
+          this.toastService.removeAll()
+        }, 2000);
       }
 
     });
@@ -127,7 +133,6 @@ export class EditarUsuarioComponent implements OnInit {
       usuario.id = this.usuario.id;
       this.postService.editarUsuario(usuario)
         .subscribe(res => {
-          console.log(res);
           if (res.Status) {
             this.toastService.show('Usuario Editado', { classname: 'bg-success text-light', delay: 2000 });
             setTimeout(() => {

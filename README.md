@@ -28,13 +28,13 @@ TODO:
 
 14. ver validacion de campos al crear muestra ya q si no hay contenedor te deja crear igual
 
-15. creacion de contenedores incluir
+15. creacion de contenedores incluir en jsom
 
 16. Crear Grupo Experimental -> form no valida nada
 
 17. sacar de borrar animales el cartelito de preguntar para eliminar usuarios
 
-18. Datos de nuevo Animal -> form no valida nada
+18. ~~Datos de nuevo Animal -> form no valida nada~~
 
 19. ~~Deshabilitar toda accion de un proyecto cerrado, solo habilitar la vista~~
 
@@ -42,6 +42,8 @@ TODO:
 20. Ficha Técnica de un contenedor es necesario enviar , devuelve errpor
 
 21. Nueva Muestra dentro de grupo exp no valida nada!!
+
+22. asociar muestra externa trae muestras del mismo exp
 ---
 
 
