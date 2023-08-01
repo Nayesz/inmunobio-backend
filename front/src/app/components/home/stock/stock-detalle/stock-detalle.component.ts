@@ -65,7 +65,6 @@ export class StockDetalleComponent implements OnInit, OnDestroy {
     this.filterPost2 ='';
     this.filtroFechaVenc = '-1';
     this.usuario = JSON.parse(localStorage.getItem('usuario'));
-    console.log(this.usuario)
     const idGrupoTrabajo = this.usuario.id_grupoDeTrabajo
     this.idEspacioFisico = parseInt(this.activatedRouter.snapshot.paramMap.get('idEspacio'), 10);
     console.log("Espacio físico " + this.idEspacioFisico);

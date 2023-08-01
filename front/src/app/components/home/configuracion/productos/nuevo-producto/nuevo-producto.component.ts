@@ -15,7 +15,7 @@ import { ToastServiceService } from 'src/app/services/toast-service.service';
 export class NuevoProductoComponent implements OnInit {
 
   distribuidoras: Distribuidora;
-
+  disabledForm: boolean;
   cargando: boolean;
   formProducto!: FormGroup;
   estado: string;
@@ -33,6 +33,7 @@ export class NuevoProductoComponent implements OnInit {
 
   ngOnInit(): void {
     this.cargando = true;
+    this.disabledForm = false;
     window.location.href.includes('editar') ? this.modo = 'EDITAR' : this.modo = 'CREAR';
 
 
@@ -53,12 +54,13 @@ export class NuevoProductoComponent implements OnInit {
       distribuidora: new FormControl('-1', [Validators.maxLength(50)]),
       tipo: new FormControl('', [Validators.maxLength(50)]),
       aka: new FormControl('', [Validators.maxLength(100)]),
-      url: new FormControl('', [Validators.maxLength(100)]),
+      url: new FormControl('', [Validators.maxLength(200)]),
       unidadAgrupacion: new FormControl('', [Validators.pattern(/^[0-9][0-9]*$/), Validators.min(1)]),
       protocolo: new FormControl('', [Validators.maxLength(200)])
     });
 
     if (this.modo === 'EDITAR'){
+      this.disabledForm = true;
       this.idProducto = parseInt(this.activatedRouter.snapshot.paramMap.get('idProducto'), 10);
       this.getService.obtenerProductosPorId(this.idProducto).subscribe(res => {
         if (res){
@@ -74,9 +76,16 @@ export class NuevoProductoComponent implements OnInit {
             protocolo: this.producto.protocolo
           });
           this.cargando = false;
+          this.disabledForm = false;
+
         } else {
           this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
-          this.cargando = false;
+          setTimeout(() => {
+            this.cargando = false;
+            this.disabledForm = false;
+            this.toastService.removeAll()
+          }, 2000);
+
         }
       });
     } else {
@@ -85,6 +94,7 @@ export class NuevoProductoComponent implements OnInit {
   }
 
   crearProducto(): void{
+    this.disabledForm = true;
     const producto: Producto = {
       nombre: this.formProducto.value.nombre,
       marca: this.formProducto.value.marca,
@@ -99,24 +109,35 @@ export class NuevoProductoComponent implements OnInit {
       this.postService.crearProducto(producto).subscribe(res => {
         this.formProducto.reset()
         this.toastService.show('Producto creado', { classname: 'bg-success text-light', delay: 2000 });
+        setTimeout(() => {
+          this.disabledForm = false;
+          this.toastService.removeAll()
+          this.volver()
+        }, 2000);
       }, err => {
         this.toastService.show('Error al crear' + err, { classname: 'bg-danger text-light', delay: 2000 });
+        setTimeout(() => {
+          this.toastService.removeAll()
+          this.disabledForm = false;
+        }, 2000);
       });
     } else {
+
       producto.id_producto = this.producto.id_producto;
       this.postService.editarProducto(producto).subscribe(res => {
         if (res.Status){
           this.toastService.show('Producto Editado', { classname: 'bg-success text-light', delay: 2000 });
           setTimeout(() => {
+            this.disabledForm = false;
             this.toastService.removeAll()
-            this.router.navigateByUrl('home/configuracion/productos');
+            this.volver()
           }, 2000);
         }
       }, err => {
-        this.toastService.show('Error al editar' + err, { classname: 'bg-danger text-light', delay: 2000 });
+        this.toastService.show('Error al editar' + err.error.Error[0], { classname: 'bg-danger text-light', delay: 2000 });
         setTimeout(() => {
-          this.toastService.removeAll()
           this.disabledForm = false;
+          this.toastService.removeAll()
         }, 2000);
 
       });

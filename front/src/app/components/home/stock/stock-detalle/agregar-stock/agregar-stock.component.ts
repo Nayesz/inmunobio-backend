@@ -90,14 +90,11 @@ export class AgregarStockComponent implements OnInit, OnDestroy {
       if (value === null || value === undefined || value === '') {
         return null; 
       }
-
       const fechaVencimiento = new Date(value);
       const hoy = new Date();
-
       if (fechaVencimiento <= hoy) {
         return { fechaInvalida: true };
       }
-
       return null;
     };
   }
@@ -119,6 +116,7 @@ export class AgregarStockComponent implements OnInit, OnDestroy {
   esUnaModificacionDeStockDelProducto = (): boolean => {return !isNaN(this.idProd)}
 
   getStock(idGrupoTrabajo : number) : void {
+    this.cargando = true;
     this.getService.obtenerStock(idGrupoTrabajo, this.idEspacioFisico)
     .subscribe
     (
@@ -131,46 +129,65 @@ export class AgregarStockComponent implements OnInit, OnDestroy {
       },
       (error) => {
         const errorRecived = error.error['Error'];
+        this.cargando = true;
         this.toastService.show(errorRecived,{ classname: 'bg-danger text-light', delay: 2000 });
+        setTimeout(() => {
+          this.toastService.removeAll()
+        }, 2000);
       }
     )
   }
 
   getProducto() : void {
+    this.cargando = true;
     this.subscription.add(this.getService.obtenerProductos()
       .subscribe
       (
         (res) => {
           this.productos = res;
+          this.cargando = false;
+
         },
         (error) => {
           this.productos = [];
           const errorRecived = error.error['Error'];
           this.toastService.show(errorRecived,{ classname: 'bg-danger text-light', delay: 2000 });
-          this.cargando = false;
+          setTimeout(() => {
+            this.cargando = false;
+            this.toastService.removeAll()
+          }, 2000);
         }
       )
     );
   }
 
   getContenedores() : void {
+    this.cargando = true;
     this.subscription.add(this.getService.obtenerContenedores()
       .subscribe
       (
         (res) => {
           this.contenedores = res.filter( contenedor => contenedor.id_espacioFisico == this.idEspacioFisico);
+          setTimeout(() => {
+            this.cargando = false;
+            this.toastService.removeAll()
+          }, 2000);
         },
         (error) => {
           this.contenedores = [];
           const errorRecived = error.error['Error'];
           this.toastService.show(errorRecived,{ classname: 'bg-danger text-light', delay: 2000 });
-          this.cargando = false;
+          setTimeout(() => {
+            this.cargando = false;
+            this.toastService.removeAll()
+          }, 2000);
         }
       )
     );
   }
 
   agregarStock() : void {
+    this.cargando = true;
     this.disabledForm = true;
     if (this.esUnaModificacionDeStockDelProducto()){
       this.editarProductoDelStock()
@@ -197,9 +214,19 @@ export class AgregarStockComponent implements OnInit, OnDestroy {
       .subscribe(
         (res) => {
           this.toastService.show('Información editada ', { classname: 'bg-success text-light', delay: 2000 });
+          setTimeout(() => {
+            this.cargando = false;
+            this.volver()
+            this.toastService.removeAll()
+          }, 2000);
+
         }, 
         (error) => {
           this.toastService.show('Problema al editar la información '+ error.error['Error'], { classname: 'bg-danger text-light', delay: 2000 });
+          setTimeout(() => {
+            this.cargando = false;
+            this.toastService.removeAll()
+          }, 2000);
         }
       )
     );
@@ -228,10 +255,18 @@ export class AgregarStockComponent implements OnInit, OnDestroy {
       .subscribe(
         (res) => {
           this.toastService.show('Producto en stock agregado correctamente ', { classname: 'bg-success text-light', delay: 2000 });
-        }, 
+          setTimeout(() => {
+            this.cargando = false;
+            this.toastService.removeAll()
+            this.volver()
+          }, 2000);        }, 
         (error) => {
           const errorRecived = error.error['Error'];
           this.toastService.show('Problema al agregar producto en stock.\r\nError: ' + errorRecived, { classname: 'bg-danger text-light', delay: 2000 });
+          setTimeout(() => {
+            this.cargando = false;
+            this.toastService.removeAll()
+          }, 2000);
         }
       )
     );
@@ -240,6 +275,10 @@ export class AgregarStockComponent implements OnInit, OnDestroy {
   getEstadoCheckbox() {
     return this.formStock.get('seguimiento').value;
   }
+  volver(): void {
+    this.router.navigateByUrl('home/stock/'+ this.idEspacioFisico);
+  }
+
 
 }
 

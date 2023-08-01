@@ -18,7 +18,7 @@
                                 [attr.disabled]="disabledForm ? true : null">
                             <div *ngIf="formUsuario.get('nombre').invalid && (formUsuario.get('nombre').dirty || formUsuario.get('nombre').touched)">
                                 <div *ngIf="formUsuario.get('nombre').errors.required">El nombre es requerido.</div>
-                                <div *ngIf="formUsuario.get('nombre').errors.maxLength">20 caracteres máximo.</div>
+                                <div *ngIf="formUsuario.get('nombre').errors?.maxlength">20 caracteres máximo.</div>
                             </div>
                         </div>
                         <div class="item-datos">
@@ -30,7 +30,7 @@
                                 *ngIf="formUsuario.get('telefono').invalid && (formUsuario.get('telefono').dirty || formUsuario.get('telefono').touched)">
                                 <div *ngIf="formUsuario.get('telefono').errors.required">El telefono es requerido.
                                 </div>
-                                <div *ngIf="formUsuario.get('telefono').errors.maxLength">15 caracteres máximo.
+                                <div *ngIf="formUsuario.get('telefono').errors?.maxlength">15 caracteres máximo.
                                 </div>
 
 
@@ -47,7 +47,7 @@
                                 *ngIf="formUsuario.get('email').invalid && (formUsuario.get('email').dirty || formUsuario.get('email').touched)">
                                 <div *ngIf="formUsuario.get('email').errors.required">El email es requerido.
                                 </div>
-                                <div *ngIf="formUsuario.get('email').errors.maxLength">50 caracteres máximo.
+                                <div *ngIf="formUsuario.get('email').errors?.maxlength">50 caracteres máximo.
                                 </div>
                             </div>
                         </div>

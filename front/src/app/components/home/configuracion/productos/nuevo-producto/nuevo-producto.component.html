@@ -51,10 +51,10 @@
             </div>
           </div>
           <div class="item-datos">
-            <label  for="url" class="form-label">Url</label>
-            <input type="text" class="form-control" id="url" formControlName="url" placeholder="Ingrese el URL del producto" [attr.disabled]='disabledForm ? true : null'>
+            <label  for="url" class="form-label">Detalles Técnicos</label>
+            <input type="text" class="form-control" id="url" formControlName="url" placeholder="Ingrese el URL con detalles tec. del producto" [attr.disabled]='disabledForm ? true : null'>
             <div class="form--field-invalid" *ngIf="formProducto.get('url').touched">
-              <div *ngIf="formProducto.get('url').errors?.maxlength">La url debe tener 50 caracteres o menos.</div>
+              <div *ngIf="formProducto.get('url').errors?.maxlength">La url debe tener 200 caracteres o menos.</div>
             </div>
           </div>
           <div class="item-datos">
@@ -69,13 +69,17 @@
           </div>
           <div class="item-datos">
             <label  for="protocolo" class="form-label">Protocolo</label>
-            <input type="text" class="form-control" id="protocolo" formControlName="protocolo" placeholder="Ingrese el protocolo del producto" [attr.disabled]='disabledForm ? true : null'>
+            <input type="text" class="form-control" id="protocolo" formControlName="protocolo" placeholder="Ingrese el link protocolo del producto" [attr.disabled]='disabledForm ? true : null'>
             <div class="form--field-invalid" *ngIf="formProducto.get('protocolo').touched">
               <div *ngIf="formProducto.get('protocolo').errors?.maxlength">El protocolo debe tener 200 caracteres o menos.</div>
             </div>
           </div>
           <div class="content__buttons">
             <button class="btn btn-primary btn-lg" type="submit" [disabled]="formProducto.invalid" *ngIf='!disabledForm'>{{modo === 'EDITAR' ? 'Editar' : 'Crear' }} Producto</button>
+            <button class="btn btn-primary btn-lg" type="button" disabled *ngIf='disabledForm'>
+              <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+              Cargando...
+          </button>
           </div>
         </div>
         

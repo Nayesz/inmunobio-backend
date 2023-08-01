@@ -20,7 +20,7 @@
             <th scope="col">Distribuidora</th>
             <th scope="col">Tipo</th>
             <th scope="col">Aka</th>
-            <th scope="col">Url</th>
+            <th scope="col">Detalles Técnicos</th>
             <th scope="col">Unidad de agrupacion</th>
             <th scope="col">Detalles Técnicos</th>
             <th scope="col">Protocolo</th>
@@ -35,10 +35,9 @@
             <td>{{producto.nombreDistribuidora}}</td>
             <td>{{producto.tipo}}</td>
             <td>{{producto.aka}}</td>
-            <td>{{producto.url}}</td>
+            <td><a target="_blank" href='{{producto.url}}'>{{producto.url}}</a></td>
             <td>{{producto.unidadAgrupacion}}</td>
-            <td>{{producto.detallesTecnicos}}</td>
-            <td>{{producto.protocolo}}</td>
+            <td><a target="_blank" href='{{producto.protocolo}}'>{{producto.protocolo}}</a></td>
             <td class="d-flex">
                 <div class="mr-4">
                   <a class="text-primary" role="button" routerLink='editar-productos/{{producto.id_producto}}'>

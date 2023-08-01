@@ -1,3 +1,4 @@
+from resources.token import TokenDeAcceso
 from servicios.productoService import ProductoService
 from flask_restful import Resource
 from flask_jwt import jwt_required
@@ -6,6 +7,7 @@ from schemas.grupoTrabajoSchema import GrupoDeTrabajoSchema
 from servicios.commonService import CommonService
 
 class ProductoResource(Resource):
+    @TokenDeAcceso.token_nivel_de_acceso(TokenDeAcceso.TEC)
     def post(self):
         datos = request.get_json()
         if(datos):

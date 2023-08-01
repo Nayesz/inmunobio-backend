@@ -17,7 +17,7 @@
                             <div
                                 *ngIf="formProyecto.get('nombre').invalid && (formProyecto.get('nombre').dirty || formProyecto.get('nombre').touched)">
                                 <div *ngIf="formProyecto.get('nombre').errors.required">El nombre es requerido.</div>
-                                <div *ngIf="formProyecto.get('nombre').errors.maxLength">30 caracteres máximo.</div>
+                                <div *ngIf="formProyecto.get('nombre').errors?.maxlength">30 caracteres máximo.</div>
                             </div>
                         </div>
                         <div class="codigoYpresupuesto">
@@ -31,7 +31,7 @@
                                     <div *ngIf="formProyecto.get('codigoProyecto').errors.required">El codigo de
                                         proyecto es
                                         requerido.</div>
-                                    <div *ngIf="formProyecto.get('codigoProyecto').errors.maxLength">10 caracteres
+                                    <div *ngIf="formProyecto.get('codigoProyecto').errors?.maxlength">10 caracteres
                                         máximo.
                                     </div>
                                 </div>
@@ -68,7 +68,8 @@
                     <div
                         *ngIf="formProyecto.get('descripcion').invalid && (formProyecto.get('descripcion').dirty || formProyecto.get('descripcion').touched)">
                         <div *ngIf="formProyecto.get('descripcion').errors.required">La descripcion es requerida.</div>
-                        <div *ngIf="formProyecto.get('descripcion').errors.maxLength">1000 caracteres máximo.</div>
+                        <div *ngIf="formProyecto.get('descripcion').errors?.maxlength">1000 caracteres máximo.</div>
+                        
                     </div>
                 </div>
                 <div class="mb-3">

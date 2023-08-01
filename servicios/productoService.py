@@ -8,8 +8,6 @@ class ProductoService():
 
     @classmethod
     def altaProducto(cls,datos):
-            #aca devuelve el id del producto para luego pasarselo a l subida del archivo
-            #y guardar el archivo con esa id
             nuevoProducto = NuevoProductoSchema().load(datos)
             cls.validacionAltaProducto(datos['id_distribuidora'])
             nuevoProducto.save()

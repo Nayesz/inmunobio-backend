@@ -16,7 +16,7 @@
                                     *ngIf="formFinExp.get('conclusiones').invalid && (formFinExp.get('conclusiones').dirty || formFinExp.get('conclusiones').touched)">
                                     <div *ngIf="formFinExp.get('conclusiones').errors.required">La conclusion es requerida.
                                     </div>
-                                    <div *ngIf="formFinExp.get('conclusiones').errors.maxLength">3000 caracteres máximo.
+                                    <div *ngIf="formFinExp.get('conclusiones').errors?.maxlength">3000 caracteres máximo.
                                     </div>
                                 </div>
                             </div>
@@ -31,7 +31,7 @@
                                     *ngIf="formFinExp.get('resultados').invalid && (formFinExp.get('resultados').dirty || formFinExp.get('resultados').touched)">
                                     <div *ngIf="formFinExp.get('resultados').errors.required">Los resultados son
                                         requeridos.</div>
-                                    <div *ngIf="formFinExp.get('resultados').errors.maxLength">3000 caracteres máximo.
+                                    <div *ngIf="formFinExp.get('resultados').errors?.maxlength">3000 caracteres máximo.
                                     </div>
                                 </div>
                             </div>

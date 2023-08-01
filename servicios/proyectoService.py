@@ -138,14 +138,14 @@ class ProyectoService:
         proyecto = cls.find_by_id(id_proyecto)
         proyecto.participantes = cls.obtenerMiembrosProyecto(id_proyecto)
         from servicios.usuarioService import UsuarioService
-        proyecto.idDirectorProyecto = UsuarioService.find_by_id(proyecto.idDirectorProyecto)
+        proyecto.idDirectorProyecto = UsuarioService.find_by_id_all(proyecto.idDirectorProyecto)
         return proyecto
     
     @classmethod
     def agregarDatosProyecto(cls,proyecto):
         proyecto.participantes = cls.obtenerMiembrosProyecto(proyecto.id_proyecto)
         from servicios.usuarioService import UsuarioService
-        proyecto.idDirectorProyecto = UsuarioService.find_by_id(proyecto.idDirectorProyecto)
+        proyecto.idDirectorProyecto = UsuarioService.find_by_id_all(proyecto.idDirectorProyecto)
 
     @classmethod
     def usuarioEsJefeDeAlgunProyecto(cls,id_usuario):

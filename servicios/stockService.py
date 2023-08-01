@@ -35,11 +35,15 @@ class StockService():
     def altaStock(cls,stockNuevo,productoEnSistema):
         stockExistente = cls.busquedaStockExistente(stockNuevo)
         if stockExistente:
+            print("YA EXISTE STOCK CON ESTE PRODUCTO EN ESTE ESPACIO FISICO")
             cls.altaProductoEnStock(stockExistente,stockNuevo,productoEnSistema)
-        else: cls.crearStock(stockNuevo,productoEnSistema)
+        else:
+            print("nuevo STOCK CON ESTE PRODUCTO EN ESTE ESPACIO FISICO")
+
+            cls.crearStock(stockNuevo,productoEnSistema)
 
     def busquedaStockExistente(stockNuevo):
-        return Stock.objects.filter(id_producto=stockNuevo.id_producto,id_espacioFisico = stockNuevo.id_espacioFisico, id_grupoDeTrabajo =stockNuevo.id_grupoDeTrabajo).first()
+        return Stock.objects.filter(id_producto=stockNuevo.id_producto,id_espacioFisico = stockNuevo.id_espacioFisico, id_grupoDeTrabajo = stockNuevo.id_grupoDeTrabajo).first()
 
     def BusquedaEnStock(_id_grupoDeTrabajo,_id_espacioFisico):
         return  Stock.objects.filter(id_espacioFisico = _id_espacioFisico, id_grupoDeTrabajo =_id_grupoDeTrabajo )

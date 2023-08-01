@@ -22,8 +22,6 @@ export class NuevoProyectoComponent implements OnInit {
   estado!: string;
   cargando: boolean;
   nombreDirectorProyecto: string;
-
-
   formProyecto!: FormGroup;
   idProyecto!: number;
   directorProyecto: any ;
@@ -111,6 +109,7 @@ export class NuevoProyectoComponent implements OnInit {
         this.testLog(res);
           this.toastService.show('Proyecto Creado', { classname: 'bg-success text-light', delay: 2000 });
           setTimeout(() => {
+            this.toastService.removeAll()
             this.disabledForm = false;
             this.volver();
           }, 2000);
