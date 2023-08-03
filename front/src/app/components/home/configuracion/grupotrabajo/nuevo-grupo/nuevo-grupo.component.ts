@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Usuario } from 'src/app/models/usuarios.model';
 import { GetService } from 'src/app/services/get.service';
+import { LogService } from 'src/app/services/log.service';
 import { PostService } from 'src/app/services/post.service';
 import { ToastServiceService } from 'src/app/services/toast-service.service';
 
@@ -32,10 +33,14 @@ export class NuevoGrupoComponent implements OnInit {
     private postService: PostService,
     private router: Router,
     public toastService: ToastServiceService,
-    private activatedRouter: ActivatedRoute
+    private activatedRouter: ActivatedRoute,
+    private logger: LogService
     ) { }
     
-    
+    testLog(mensaje): void {
+      this.logger.log(mensaje);
+    }
+  
     ngOnInit(): void {
       this.cargando = true;
       this.formGrupo = new FormGroup({
@@ -62,6 +67,7 @@ export class NuevoGrupoComponent implements OnInit {
       this.candidattosParaGrupo()
   
       if ( this.modo === 'EDITAR'){
+        this.testLog("ESTAMOS EN MODO EDICION")
         this.grupoDeTrabajoID()
       }
       this.cargando = false;
@@ -92,11 +98,21 @@ export class NuevoGrupoComponent implements OnInit {
     this.getService.obtenerGrupoTrabajoPorId(this.idGrupo)
       .subscribe(res => {
         this.grupoTrabajo = res;
+        this.testLog(res)
         console.log(JSON.stringify(this.grupoTrabajo, null, 4))
+        
+        for (const integrante of res.integrantes) {
+          //Si no se agregan a la lista de disponibles, entonces no puedo ver usuarios 
+          //que ya estan en el grupo.
+          this.usuariosDisponibles.push(integrante)
+        }
+        
+        this.jefesDeGrupo.push(res.jefeDeGrupo)
+
         this.formGrupo.patchValue({
           nombre: res.nombre,
           jefeGrupo: res.jefeDeGrupo.id,
-          usuarios: res.integrantes,
+          usuarios: res.integrantes
         });
         this.cargando = false;
       },

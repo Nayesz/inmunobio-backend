@@ -22,14 +22,16 @@ class GrupoDeTrabajoService():
     def modificarGrupo(cls, datos):
         grupoModificado = ModificarGrupoDeTrabajoSchema().load(datos)
         grupoAModificar = cls.find_by_id(grupoModificado.id_grupoDeTrabajo)
-        cls.validarMiembros(cls.diferenciaConjuntos(grupoModificado.integrantes, grupoAModificar.integrantes))
-        cls.validarJefe(grupoModificado.jefeDeGrupo,grupoModificado.id_grupoDeTrabajo)
+        jefeDeGrupoEsJefeDeProyecto = cls.validarJefe(grupoModificado.jefeDeGrupo,grupoModificado.id_grupoDeTrabajo)
+        cls.validarMiembros(cls.diferenciaConjuntos(grupoModificado.integrantes, grupoAModificar.integrantes),jefeDeGrupoEsJefeDeProyecto)
         cls.modificacionMiembros(grupoModificado, grupoAModificar)
         grupoAModificar.update(integrantes= grupoModificado.integrantes, jefeDeGrupo= grupoModificado.jefeDeGrupo, nombre= grupoModificado.nombre)
 
     @classmethod
     def modificacionMiembros(cls, grupoNuevo, grupoViejo):
+        # A los nuevos miembros, le seteamos el nuevo id de grupo
         cls.asignarIdGrupoMiembros(cls.diferenciaConjuntos(grupoNuevo.integrantes, grupoViejo.integrantes), grupoViejo.id_grupoDeTrabajo)
+        # Si dejaron fuera a un miembro que ya  era parte del grupo, seteamos el valor a  0  de nuevo
         cls.asignarIdGrupoMiembros(cls.diferenciaConjuntos(grupoViejo.integrantes, grupoNuevo.integrantes), cls.idGrupoDefault)
         if(grupoNuevo.jefeDeGrupo != grupoViejo.jefeDeGrupo):
             cls.nombrarJefe(grupoNuevo.jefeDeGrupo, grupoNuevo.id_grupoDeTrabajo)
@@ -42,14 +44,10 @@ class GrupoDeTrabajoService():
 
     @classmethod
     def nuevoGrupo(cls, datos):
-        print("entramso a  crear nuevo grupo")
         grupoCreado = NuevoGrupoDeTrabajoSchema().load(datos)
-        print("validamos al jefe y vemos si tambien es jefe de proyecto")
         jefeDeGrupoEsJefeDeProyecto = cls.validarJefe(grupoCreado.jefeDeGrupo,cls.idGrupoDefault)
-        print("MIEMBROS", grupoCreado.integrantes)
         grupoCreado.integrantes = cls.quitarMiembroJefeRepetido(grupoCreado.jefeDeGrupo,grupoCreado.integrantes)
         #no puede haber otro jefe de proyecto entre los integrantes
-        print("MIEMBROS;:" , grupoCreado.integrantes)
         cls.validarMiembros(grupoCreado.integrantes,jefeDeGrupoEsJefeDeProyecto)
         grupoCreado.save()
         cls.asignarIDGrupo(grupoCreado, grupoCreado.id_grupoDeTrabajo)
@@ -61,14 +59,13 @@ class GrupoDeTrabajoService():
         cls.validarDelete(grupoABorrar)
         cls.asignarIDGrupo(grupoABorrar, cls.idGrupoDefault)
         #grupoABorrar.delete()
+
     @classmethod
     def quitarMiembroJefeRepetido(cls, jefe,integrantes):
         nuevaLista = integrantes
         if jefe in nuevaLista: 
             nuevaLista.remove(jefe)
         return nuevaLista
-
-
 
     @classmethod
     def obtenerGrupoPorId(cls, idGrupoDeTrabajo):

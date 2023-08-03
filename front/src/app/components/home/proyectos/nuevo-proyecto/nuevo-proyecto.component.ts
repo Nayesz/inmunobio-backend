@@ -1,7 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import {NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
-import { Usuario } from 'src/app/models/usuarios.model';
 import { GetService } from 'src/app/services/get.service';
 import { PostService } from 'src/app/services/post.service';
 import { ActivatedRoute } from '@angular/router';

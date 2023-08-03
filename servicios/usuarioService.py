@@ -109,7 +109,8 @@ class UsuarioService():
         from models.mysql.permiso import Permiso
         jefes = Usuario.query.filter(
                 Usuario.permisos.any(Permiso.id_permiso == 3) &
-        (Usuario.esJefeDe == 0)
+        (Usuario.esJefeDe == 0),
+        Usuario.habilitado == True
             ).all()
         return jefes
     
@@ -119,7 +120,8 @@ class UsuarioService():
         ids_permisos = [5, 4]
         candidatos = Usuario.query.filter(
         Usuario.permisos.any(Permiso.id_permiso.in_(ids_permisos)),
-        Usuario.id_grupoDeTrabajo == 0
+        Usuario.id_grupoDeTrabajo == 0,
+        Usuario.habilitado == True,
     ).all()
         print("buscamos candidados")
         return candidatos
@@ -143,10 +145,6 @@ class UsuarioService():
         Usuario.permisos.any(Permiso.id_permiso == id_permiso) &
     ~Usuario.permisos.any(Permiso.id_permiso != id_permiso)).all()
         return usuarios_con_permiso_exclusivo
-        #return Usuario.query.filter(~Usuario.permisos.any(
-        #    Permiso.id_permiso.in_([id_permiso])))  
-    
-
 
     @classmethod
     def deshabilitarUsuario(cls, id_usuario):
@@ -170,7 +168,9 @@ class UsuarioService():
     @classmethod
     def asignarGrupoAJefe(cls, _id_usuario, idGrupo ):
         from db import db
-        cls.find_by_id(_id_usuario).esJefeDe = idGrupo
+        user = cls.find_by_id(_id_usuario)
+        user.esJefeDe = idGrupo
+        user.id_grupoDeTrabajo = idGrupo
         db.session.commit()
 
     @classmethod
@@ -196,26 +196,21 @@ class UsuarioService():
         print("validamos unicidad del jefe")
         integrantesObj = cls.busquedaUsuariosID(integrantes)
         if (jefeDeGrupoEsJefeDeProyecto):
+            print("El jefe de g es jefe de proyecto tmb")
+
             for user in integrantesObj: 
                 if cls.esJefeDeProyecto(user.permisos): raise Exception(f"Solo puede existir un jefe de proyecto por grupo de trabajo.")
         else:
-            listaDePermisos = []
+            print("El jefe de g no  es jefe de proyecto tmb")
+            jefes  = []
             for user in integrantesObj: 
-                numeros_permisos = [permiso['id_permiso'] for permiso in user.permisos]
-                listaDePermisos.append(numeros_permisos)
-            # nadie mas puede ser jefe de proyecto:
-            if cls.verificar_repeticion(4,listaDePermisos): raise Exception(f"Solo puede existir un jefe de proyecto por grupo de trabajo.")
-
-    def verificar_repeticion(numero_a_verificar, listas):
-        numeros_vistos = set()
-        for lista in listas:
-            for numero in lista:
-                if numero == numero_a_verificar:
-                    if numero in numeros_vistos:
-                        return True
-                    else:
-                        numeros_vistos.add(numero)
-        return False
+                jefes.append(cls.esJefeDeProyecto(user.permisos)) 
+            print(jefes)
+            if  any(jefes):
+                # nadie mas puede ser jefe de proyecto:
+                raise Exception(f"Solo puede existir un jefe de proyecto por grupo de trabajo.")
+                
+            
 
     @classmethod
     def esJefeDeProyecto(cls, permisos):
