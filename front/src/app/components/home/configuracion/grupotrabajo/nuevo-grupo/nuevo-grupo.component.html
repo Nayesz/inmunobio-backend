@@ -4,9 +4,8 @@
     </div>
     <div class="contenido">
         <div class="contenido__title">
-            <h2>Nuevo Grupo de trabajo</h2>
+            <h2 class="mb-0">{{modo === 'EDITAR' ? 'Editar' : 'Crear' }} Grupo de trabajo</h2>
         </div>
-    
         <div class="contenido__form">
             <form [formGroup]="formGrupo" (ngSubmit)="crearGrupo()">
                 <div class="">
@@ -15,11 +14,10 @@
                             <div class="item-datos">
                                 <label for="nombre" class="form-label">Nombre de Grupo</label>
                                 <input type="text" class="form-control" id="nombre" formControlName='nombre' placeholder="Ingrese el nombre del grupo de trabajo" [attr.disabled]='disabledForm ? true : null'>
-                                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
                             </div>
                             <div class="item-datos">
                                 <label for="jefeGrupo" class="form-label">Jefe de grupo</label>
-                                <select class="form-control" id='jefeGrupo' aria-label="Default select example" formControlName="jefeGrupo" (change)="filtrarJefe()" [attr.disabled]='disabledForm ? true : null'>
+                                <select class="form-control" id='jefeGrupo' aria-label="Default select example" formControlName="jefeGrupo" [attr.disabled]='disabledForm ? true : null'>
                                     <option selected hidden  value="-1" >Seleccione jefe/a de grupo</option>
                                     <option *ngFor='let usuario of jefesDeGrupo' value="{{usuario.id}}">{{usuario.nombre}}</option>
                                 </select>

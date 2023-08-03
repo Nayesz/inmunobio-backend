@@ -1,8 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-
-import { of } from 'rxjs';
 import { Usuario } from 'src/app/models/usuarios.model';
 import { GetService } from 'src/app/services/get.service';
 import { PostService } from 'src/app/services/post.service';
@@ -36,7 +34,40 @@ export class NuevoGrupoComponent implements OnInit {
     public toastService: ToastServiceService,
     private activatedRouter: ActivatedRoute
     ) { }
-
+    
+    
+    ngOnInit(): void {
+      this.cargando = true;
+      this.formGrupo = new FormGroup({
+        nombre: new FormControl('', [Validators.required, Validators.maxLength(20)]),
+        jefeGrupo: new FormControl(-1, [Validators.required]),
+        usuarios: new FormControl([],[Validators.required])
+      });
+  
+      this.settings = {
+        text: 'Seleccione usuarios pertenecientes al grupo',
+        selectAllText: 'Seleccione Todos',
+        unSelectAllText: 'Quitar Todos',
+        classes: 'myclass custom-class',
+        primaryKey: 'id',
+        labelKey: 'nombre',
+        enableSearchFilter: true,
+        searchBy: ['nombre'],
+        disabled: false,
+      };
+  
+      window.location.href.includes('editar') ? this.modo = 'EDITAR' : this.modo = 'CREAR';
+  
+      this.jefesParaProyectos()
+      this.candidattosParaGrupo()
+  
+      if ( this.modo === 'EDITAR'){
+        this.grupoDeTrabajoID()
+      }
+      this.cargando = false;
+      
+    }
+  
   jefesParaProyectos(){
     this.getService.obtenerJefesParaProyectos().subscribe(res => {
       this.jefesDeGrupo = res
@@ -45,8 +76,8 @@ export class NuevoGrupoComponent implements OnInit {
     })
   }
 
-  tecnicosParaProyecto(){
-    this.getService.obtenerCandidatosProyecto()
+  candidattosParaGrupo(){
+    this.getService.candidattosParaGrupo()
       .subscribe(res => {
         this.usuariosDisponibles = res
       },
@@ -58,12 +89,10 @@ export class NuevoGrupoComponent implements OnInit {
 
   grupoDeTrabajoID(){
     this.idGrupo = parseInt(this.activatedRouter.snapshot.paramMap.get('id'), 10);
-
     this.getService.obtenerGrupoTrabajoPorId(this.idGrupo)
       .subscribe(res => {
         this.grupoTrabajo = res;
         console.log(JSON.stringify(this.grupoTrabajo, null, 4))
-        
         this.formGrupo.patchValue({
           nombre: res.nombre,
           jefeGrupo: res.jefeDeGrupo.id,
@@ -79,53 +108,7 @@ export class NuevoGrupoComponent implements OnInit {
   }
 
 
-  ngOnInit(): void {
-    this.cargando = true;
-    this.formGrupo = new FormGroup({
-      nombre: new FormControl('', [Validators.required, Validators.maxLength(20)]),
-      jefeGrupo: new FormControl(-1, [Validators.required]),
-      usuarios: new FormControl([])
-    });
-
-    this.settings = {
-      text: 'Seleccione usuarios pertenecientes al grupo',
-      selectAllText: 'Seleccione Todos',
-      unSelectAllText: 'Quitar Todos',
-      classes: 'myclass custom-class',
-      primaryKey: 'id',
-      labelKey: 'nombre',
-      enableSearchFilter: true,
-      searchBy: ['nombre'],
-      disabled: false,
-    };
-
-    window.location.href.includes('editar') ? this.modo = 'EDITAR' : this.modo = 'CREAR';
-
-    this.jefesParaProyectos()
-    this.tecnicosParaProyecto()
-
-    if ( this.modo === 'EDITAR'){
-      this.grupoDeTrabajoID()
-    }
-    this.cargando = false;
-    
-    /*
-    this.getService.obtenerUsuarios().subscribe(res => {
-      if (res){
-        this.itemList = res;
-        this.usuariosDisponibles = res;
-        this.jefesDeGrupo = res.filter(usuario => {
-          return usuario.permisos.some(permiso => permiso.id_permiso === 3);
-        });
-        this.cargando = false;
-      } else {
-        this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
-        this.cargando = false;
-      }
-      console.log(res);
-    });*/
-  }
-
+ 
   onItemRemove(usuarioEliminado) {
     this.usuariosDisponibles.push(usuarioEliminado)
   }
@@ -159,7 +142,7 @@ export class NuevoGrupoComponent implements OnInit {
           }, 2000);
       }, err => {
           console.log(err)
-          this.toastService.show('Problema al crear grupo' + err.error.error, { classname: 'bg-danger text-light', delay: 2000 });
+          this.toastService.show('Problema al crear grupo: ' + err.error['Error'], { classname: 'bg-danger text-light', delay: 2000 });
           this.clearForm();
       });
     } else {
@@ -172,43 +155,11 @@ export class NuevoGrupoComponent implements OnInit {
         }, 2000);
       }, err => {
         console.log(err)
-        this.toastService.show('Problema al editar grupo ' + err.error.error, { classname: 'bg-danger text-light', delay: 2000 });
+        this.toastService.show('Problema al editar grupo: ' + err.error['Error'], { classname: 'bg-danger text-light', delay: 2000 });
         this.clearForm();
       });
     }
-    // const int = [];
-    // this.usuariosAsignados.map(usuario => {
-    //   int.push(usuario.id_usuario);
-    // });
-    // if (this.modo === 'CREAR'){
-    //   const grupoTrabajo = {
-    //     nombre: this.formGrupo.value.nombre,
-    //     jefeDeGrupo: this.formGrupo.value.jefeGrupo,
-    //     integrantes: int,
-    //   };
-    //   this.postService.crearGrupoTrabajo(grupoTrabajo).subscribe(res => {
-    //     console.log(res);
-    //   });
-    // } else {
-    //   const editarGrupo = {
-    //     id_grupoDeTrabajo: this.element.id_grupoDeTrabajo,
-    //     integrantes: int
-    //   };
 
-    //   this.postService.editarGrupoTrabajo(editarGrupo).subscribe(res => {
-    //     console.log(res);
-    //   });
-
-    //   const editarJefe = {
-    //     id_grupoDeTrabajo: this.element.id_grupoDeTrabajo,
-    //     jefeDeGrupo: JSON.parse(this.formGrupo.value.jefeGrupo)
-    //   };
-
-    //   console.log(editarJefe)
-    //   this.postService.editarJefeGrupo(editarJefe).subscribe(res => {
-    //     console.log(res);
-    //   });
-    // }
   }
 
   clearForm(): void {

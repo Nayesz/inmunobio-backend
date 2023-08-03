@@ -8,7 +8,7 @@
     <p class="mb-0"><i>Crear, editar o eliminar usuarios</i></p>
     <i class="bi bi-arrow-right-circle-fill mr-3" style="color: #033980;"></i>
   </div>
-  <div class="card rounded shadow my-3 d-flex flex-row justify-content-between align-items-center" routerLink="grupo-trabajo" style="min-height: 5em;">
+  <div *ngIf='esSuperUsuario()' class="card rounded shadow my-3 d-flex flex-row justify-content-between align-items-center" routerLink="grupo-trabajo" style="min-height: 5em;">
     <div class="d-flex justify-content-center align-items-center ml-3">
       <i class="bi bi-person-fill" style="color: #033980; font-size: 2em;"></i>
       <h5 class="mb-0">Grupos de trabajo</h5>
@@ -29,7 +29,7 @@
       <i class="bi bi-person-fill" style="color: #033980; font-size: 2em;"></i>
       <h5 class="mb-0">Distribuidoras</h5>
     </div>
-    <p class="mb-0"><i>Crear, editar y dar de baja productos en el sistema.</i></p>
+    <p class="mb-0"><i>Crear, editar y dar de baja distribuidoras en el sistema.</i></p>
     <i class="bi bi-arrow-right-circle-fill mr-3" style="color: #033980;"></i>
   </div>
   <div class="card rounded shadow my-3 d-flex flex-row justify-content-between align-items-center" routerLink="espacio-fisico" style="min-height: 5em;">

@@ -70,7 +70,7 @@ export class PostService {
   }
 
   eliminarGrupoTrabajo(grupoTrabajo: number): Observable<any>{
-    return this.http.delete<any>(this.API_URL + 'grupoDeTrabajo');
+    return this.http.delete<any>(this.API_URL + `grupoDeTrabajo/${grupoTrabajo}`);
   }
 
   crearProyecto(proyecto: any): Observable<any>{

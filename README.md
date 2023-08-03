@@ -38,7 +38,6 @@ TODO:
 
 19. ~~Deshabilitar toda accion de un proyecto cerrado, solo habilitar la vista~~
 
-
 20. Ficha Técnica de un contenedor es necesario enviar , devuelve errpor
 
 21. Nueva Muestra dentro de grupo exp no valida nada!!
@@ -49,8 +48,37 @@ TODO:
 
 24. ver como quedo la descripcions de jaula
 
----
+25. ~~Edicion de grupos de trabajo solo superusuario~~
 
+26. Grupos de trabajo:
+
+Solo se permite un jefe de proyecto en cada grupo de trabajo, est puede ser tanto
+integrante de grupo como jefe de grupo:
+    1- al crear un nuevo grupo de trabajo tenemos que verificar que:
+        a. Si el jefe es jefe de proyecto, entonces entre los miembros no puede haber ningun otro jefe de proyecto.
+        b. Si el jefe no es jefe de proyecto, entonces entre los miembros puede  haber solo un jefe de proyecto y el resto tecnicos.
+        c. nadie puede pertenecer a otro grupo de trabajo, hay que eliminarlo primero del grupo anterior.
+    2-  al eliminar un grupo de trabajo no puede haber:
+        a.  stock activo con ese id de grupo.
+        b. ningun proyecto abierto donde el jefe de proyecto pertenezca a dicho grupo.
+    3-  al eliminar a un miembro del grupo este no puede pertenecer a ningun proyecto
+    activo (iniciado por el jefe de proyecto que exista en el grupo de trabajo)
+
+    27. Usuarios para grupode trabajo -> solo  usuarios q n o tengan asignado grupo de trabajo
+
+    28. cuando damos  de alta a un jefe de proyeco como jefe de grupo hay q ponerle el id de grupo tambien
+    
+---
+# Anotaciones 
+1. class ObtenerUsuariosParaProyecto(Resource):
+    # aca el 5 representa el id de los tecnicos, ya que ellos pueden formar parte de proyectos
+    @TokenDeAcceso.token_nivel_de_acceso(TokenDeAcceso.BIO)
+    def get(self):
+        return CommonService.jsonMany(UsuarioService.usuariosSoloConElPermiso(5), UsuarioSchema)
+        #return CommonService.jsonMany(UsuarioService.usuariosSinElPermiso(4), UsuarioSchema)
+        #return CommonService.jsonMany(UsuarioService.usuariosTecnicos(), UsuarioSchema)
+
+se cambio al primer metodo ya que no traia a los usuarios tecnicos.
 
 # Pasos para levantar el entorno con docker-compose:
 

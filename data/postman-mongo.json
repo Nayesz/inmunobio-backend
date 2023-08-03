@@ -22,7 +22,7 @@
             "montoInicial": 2331000,
             "conclusion": "La aplicación de nanotecnología en medicina podría haber llevado a la reducción de efectos secundarios no deseados en tratamientos médicos, lo que mejora la calidad de vida de los pacientes.",
             "participantes": [
-                1
+                6
             ],
             "idDirectorProyecto": 3
         },
@@ -33,7 +33,7 @@
             "finalizado": false,
             "montoInicial": 13940000,
             "participantes": [
-                1
+                7,8
             ],
             "idDirectorProyecto": 4,
             "fechaInicio": "2022-06-13T02:21:33.617000"
@@ -224,13 +224,13 @@
                     "fecha": "2023-07-26T15:15:00.617000",
                     "detalle": "Mantenimiento de Pipeta Micropipetor - Limpieza y calibración",
                     "id_usuario": 1,
-                    "tipo": "Mantenimiento"
+                    "tipo": "Herramienta"
                 },
                 {
                     "fecha": "2023-07-25T10:30:00.617000",
                     "detalle": "Mantenimiento de Pipeta Micropipetor - Reemplazo de puntas desgastadas",
                     "id_usuario": 4,
-                    "tipo": "Mantenimiento"
+                    "tipo": "Herramienta"
                 }
             ]
         },
@@ -243,13 +243,13 @@
                     "fecha": "2023-07-02T11:45:00.617000",
                     "detalle": "Uso de la Centrífuga de Mesa para separación de muestras sanguíneas",
                     "id_usuario": 3,
-                    "tipo": "Separación"
+                    "tipo": "Herramienta"
                 },
                 {
                     "fecha": "2023-07-05T14:00:00.617000",
                     "detalle": "Mantenimiento de la Centrífuga de Mesa - Limpieza y revisión de rotores",
                     "id_usuario": 5,
-                    "tipo": "Mantenimiento"
+                    "tipo": "Herramienta"
                 }
             ]
         }
@@ -303,15 +303,15 @@
     ],
     "grupoDeTrabajo": [
         {
-            "nombre": "GRUPO DE TRABAJO 1",
+            "nombre": "G.T: Benson",
             "jefeDeGrupo": 2,
             "integrantes": [
                 1
             ],
-            "grupoGral": true
+            "grupoGral": false
         },
         {
-            "nombre": "GRUPO DE TRABAJO 2",
+            "nombre": "G.T: Siffre",
             "jefeDeGrupo": 3,
             "integrantes": [
                 6
@@ -319,7 +319,7 @@
             "grupoGral": false
         },
         {
-            "nombre": "GRUPO DE TRABAJO 3",
+            "nombre": "G.T: Rodríguez",
             "jefeDeGrupo": 4,
             "integrantes": [
                 7,

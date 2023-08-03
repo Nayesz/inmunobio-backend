@@ -53,7 +53,7 @@
        ],
        "telefono": "+92 125 142 9573",
        "esJefeDe":1,
-        "id_grupoDeTrabajo":0
+       "id_grupoDeTrabajo":1
 
 
    },
@@ -78,7 +78,7 @@
        ],
        "telefono": "+82 173 506 5621",
         "esJefeDe":2,
-        "id_grupoDeTrabajo":0
+        "id_grupoDeTrabajo":2
 
    },
        {
@@ -107,7 +107,7 @@
        ],
        "telefono": "+82 173 506 5621",
         "esJefeDe":3,
-        "id_grupoDeTrabajo":0
+        "id_grupoDeTrabajo":3
 
 
        

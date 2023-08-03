@@ -42,18 +42,33 @@ class GrupoDeTrabajoService():
 
     @classmethod
     def nuevoGrupo(cls, datos):
+        print("entramso a  crear nuevo grupo")
         grupoCreado = NuevoGrupoDeTrabajoSchema().load(datos)
-        cls.validarMiembros(grupoCreado.integrantes)
-        #cls.validarJefe(grupoCreado.jefeDeGrupo,cls.idGrupoDefault)
+        print("validamos al jefe y vemos si tambien es jefe de proyecto")
+        jefeDeGrupoEsJefeDeProyecto = cls.validarJefe(grupoCreado.jefeDeGrupo,cls.idGrupoDefault)
+        print("MIEMBROS", grupoCreado.integrantes)
+        grupoCreado.integrantes = cls.quitarMiembroJefeRepetido(grupoCreado.jefeDeGrupo,grupoCreado.integrantes)
+        #no puede haber otro jefe de proyecto entre los integrantes
+        print("MIEMBROS;:" , grupoCreado.integrantes)
+        cls.validarMiembros(grupoCreado.integrantes,jefeDeGrupoEsJefeDeProyecto)
         grupoCreado.save()
         cls.asignarIDGrupo(grupoCreado, grupoCreado.id_grupoDeTrabajo)
 
     @classmethod
     def removerGrupo(cls, id_grupoDeTrabajo):
         grupoABorrar = cls.find_by_id(id_grupoDeTrabajo)
+        print("llegamos a borrar")
         cls.validarDelete(grupoABorrar)
         cls.asignarIDGrupo(grupoABorrar, cls.idGrupoDefault)
-        grupoABorrar.delete()
+        #grupoABorrar.delete()
+    @classmethod
+    def quitarMiembroJefeRepetido(cls, jefe,integrantes):
+        nuevaLista = integrantes
+        if jefe in nuevaLista: 
+            nuevaLista.remove(jefe)
+        return nuevaLista
+
+
 
     @classmethod
     def obtenerGrupoPorId(cls, idGrupoDeTrabajo):
@@ -82,10 +97,10 @@ class GrupoDeTrabajoService():
         grupo.integrantes = UsuarioService.busquedaUsuariosID(grupo.integrantes)
 
     @classmethod
-    def asignarIDGrupo(cls, grupo, id):
+    def asignarIDGrupo(cls, grupo, id):        
+        from servicios.usuarioService import UsuarioService
         cls.asignarIdGrupoMiembros(grupo.integrantes, id)
-        # UsuarioService.cambiarIdGrupo(grupo.jefeDeGrupo,id)
-        # |-> ser jefe de grupo se asume como integrante, no hacefalta sumarlo a la lista de integrantes
+        UsuarioService.cambiarIdGrupo(grupo.jefeDeGrupo,id)
         cls.nombrarJefe(grupo.jefeDeGrupo, id)
 
     @classmethod
@@ -101,18 +116,36 @@ class GrupoDeTrabajoService():
         from servicios.usuarioService import UsuarioService
         UsuarioService.asignarGrupoAJefe(idJefe, idGrupo)
 
-    def validarDelete(grupo):
+    @classmethod
+    def validarDelete(cls,grupo):
         if grupo.grupoGral: raise Exception("El grupo es general y no puede darse de baja." )
+        #  Validar existencia de stock asociado a este grupo.
+        cls.validarStockAsociadoAlGrupo(grupo.id_grupoDeTrabajo)
+        # Validar que no existan proyectos activos donde el jefe de grupo pertenezca
+        cls.validarProyectosAsociadosAlGrupo(grupo)
 
     @classmethod
-    def validarMiembros(cls, integrantes):
+    def validarStockAsociadoAlGrupo(cls,idGrupo):
+        from servicios.stockService import StockService
+        if(len(StockService.stockDeGrupo(idGrupo))):raise Exception("El grupo tiene stock activo y no puede darse de baja." )
+
+    @classmethod
+    def validarProyectosAsociadosAlGrupo(cls,grupo):
+        #from servicios.stockService import StockService
+        #if(len(StockService.stockDeGrupo(idGrupo))):raise Exception("El grupo tiene stock activo y no puede darse de baja." )
+        print(grupo.integrantes)
+
+
+    @classmethod
+    def validarMiembros(cls, integrantes,jefeDeGrupoEsJefeDeProyecto):
         from servicios.usuarioService import UsuarioService
-        [UsuarioService.validaAsignacionGrupo(idIntegrante) for idIntegrante in integrantes]
+        for idIntegrante in integrantes: UsuarioService.validaAsignacionGrupo(idIntegrante)
+        UsuarioService.validaUnicidadDeJefe(integrantes,jefeDeGrupoEsJefeDeProyecto)
 
     @classmethod
     def validarJefe(cls, id_jefeDeGrupo,idGrupo): 
         from servicios.usuarioService import UsuarioService
-        UsuarioService.validarJefeDeGrupo(id_jefeDeGrupo,idGrupo)
+        return UsuarioService.validarJefeDeGrupo(id_jefeDeGrupo,idGrupo)
 
     #-------------------este endpoint ya no se usa:
     @classmethod

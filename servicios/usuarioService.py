@@ -8,6 +8,8 @@ from servicios.validationService import  ValidacionesUsuario
 from werkzeug.security import generate_password_hash,check_password_hash
 
 class UsuarioService():
+
+    
     @classmethod
     def modificarUsuario(cls, datos):
         usuario = cls.validarModificacion(datos)
@@ -105,11 +107,22 @@ class UsuarioService():
     @classmethod
     def usuariosJefes(cls):
         from models.mysql.permiso import Permiso
-        ids_permisos = [1, 2, 3, 4]
         jefes = Usuario.query.filter(
-            Usuario.permisos.any(Permiso.id_permiso.in_(ids_permisos))
+                Usuario.permisos.any(Permiso.id_permiso == 3) &
+        (Usuario.esJefeDe == 0)
             ).all()
         return jefes
+    
+    @classmethod
+    def candidatosAGrupo(cls):
+        from models.mysql.permiso import Permiso
+        ids_permisos = [5, 4]
+        candidatos = Usuario.query.filter(
+        Usuario.permisos.any(Permiso.id_permiso.in_(ids_permisos)),
+        Usuario.id_grupoDeTrabajo == 0
+    ).all()
+        print("buscamos candidados")
+        return candidatos
 
     @classmethod
     def usuariosTecnicos(cls):
@@ -133,6 +146,7 @@ class UsuarioService():
         #return Usuario.query.filter(~Usuario.permisos.any(
         #    Permiso.id_permiso.in_([id_permiso])))  
     
+
 
     @classmethod
     def deshabilitarUsuario(cls, id_usuario):
@@ -163,16 +177,55 @@ class UsuarioService():
     def validaAsignacionGrupo(cls, _id_usuario):
         usuario = cls.find_by_id(_id_usuario)
         if usuario.id_grupoDeTrabajo:
-            raise Exception(f"El usuario con id {_id_usuario} ya se encuentra asignado al grupo de trabajo con id.{ usuario.id_grupoDeTrabajo}")
+            raise Exception(f"El usuario {usuario.nombre} pertenece a otro grupo (con id.{usuario.id_grupoDeTrabajo})")
 
     @classmethod
     def validarJefeDeGrupo(cls, _id_usuario,idNueva ):
         from servicios.permisosService import PermisosService
         jefe = cls.find_by_id(_id_usuario)
-        if jefe.esJefeDe and jefe.esJefeDe != idNueva : raise Exception(f"El usuario con id {_id_usuario} ya es jefe del grupo {jefe.esJefeDe}")
+        print(jefe)
+        if jefe.esJefeDe and jefe.esJefeDe != idNueva : raise Exception(f"El usuario {jefe.nombre} ya es jefe del grupo {jefe.esJefeDe}")
         if not PermisosService.tieneElPermiso(jefe.permisos, PermisosService.jefeDeGrupo):
-            raise Exception(f"El usuario con id {_id_usuario} no posee permisos para ser jefe de grupo.")
+            raise Exception(f"El usuario {jefe.nombre} no posee permisos para ser jefe de grupo.")
+        #Devolvemos true en caso de que tmb sea jefe de proyecto
+        return cls.esJefeDeProyecto(jefe.permisos)
+
+
+    @classmethod
+    def validaUnicidadDeJefe(cls,integrantes,jefeDeGrupoEsJefeDeProyecto):
+        print("validamos unicidad del jefe")
+        integrantesObj = cls.busquedaUsuariosID(integrantes)
+        if (jefeDeGrupoEsJefeDeProyecto):
+            for user in integrantesObj: 
+                if cls.esJefeDeProyecto(user.permisos): raise Exception(f"Solo puede existir un jefe de proyecto por grupo de trabajo.")
+        else:
+            listaDePermisos = []
+            for user in integrantesObj: 
+                numeros_permisos = [permiso['id_permiso'] for permiso in user.permisos]
+                listaDePermisos.append(numeros_permisos)
+            # nadie mas puede ser jefe de proyecto:
+            if cls.verificar_repeticion(4,listaDePermisos): raise Exception(f"Solo puede existir un jefe de proyecto por grupo de trabajo.")
+
+    def verificar_repeticion(numero_a_verificar, listas):
+        numeros_vistos = set()
+        for lista in listas:
+            for numero in lista:
+                if numero == numero_a_verificar:
+                    if numero in numeros_vistos:
+                        return True
+                    else:
+                        numeros_vistos.add(numero)
+        return False
+
+    @classmethod
+    def esJefeDeProyecto(cls, permisos):
+        from servicios.permisosService import PermisosService
+        print("verificamos si el jefe de g e s jefe de p")
+        if PermisosService.tieneElPermiso(permisos, PermisosService.jefeProyecto): return True
+        return False
+
     
+
     @classmethod
     def loginUsuario(cls,datos):
         from flask import jsonify

@@ -166,6 +166,8 @@ class StockService():
     @classmethod
     def stockContieneProducto(cls,idProducto):
         stocks = Stock.objects(id_producto = idProducto)
-        return StockSchema().dump(stocks,many=True)       
-
-
+        return StockSchema().dump(stocks,many=True)  
+         
+    @classmethod
+    def stockDeGrupo(cls,idGrupo):
+        return Stock.objects(id_grupoDeTrabajo = idGrupo).all()
