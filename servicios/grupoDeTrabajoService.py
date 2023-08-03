@@ -1,6 +1,6 @@
 from schemas.grupoTrabajoSchema import jefeDeGrupoSchema, ModificarGrupoDeTrabajoSchema, GrupoDeTrabajoSchema, GrupoDeTrabajo, NuevoGrupoDeTrabajoSchema
+from schemas.usuarioSchema import UsuarioSchema
 from servicios.commonService import CommonService
-
 
 class GrupoDeTrabajoService():
 
@@ -14,6 +14,9 @@ class GrupoDeTrabajoService():
 
     def find_by_nombre(_nombre):
         return GrupoDeTrabajo.objects(nombre=_nombre).first()
+    
+    def find_by_jefeDeGrupo(idJefe):
+        return CommonService.jsonMany(GrupoDeTrabajo.objects(jefeDeGrupo = idJefe), GrupoDeTrabajoSchema)
 
     @classmethod
     def modificarGrupo(cls, datos):
@@ -41,7 +44,7 @@ class GrupoDeTrabajoService():
     def nuevoGrupo(cls, datos):
         grupoCreado = NuevoGrupoDeTrabajoSchema().load(datos)
         cls.validarMiembros(grupoCreado.integrantes)
-        cls.validarJefe(grupoCreado.jefeDeGrupo,cls.idGrupoDefault)
+        #cls.validarJefe(grupoCreado.jefeDeGrupo,cls.idGrupoDefault)
         grupoCreado.save()
         cls.asignarIDGrupo(grupoCreado, grupoCreado.id_grupoDeTrabajo)
 
@@ -57,6 +60,20 @@ class GrupoDeTrabajoService():
         grupoConsulta = cls.find_by_id(idGrupoDeTrabajo)
         cls.agregarDatosGrupo(grupoConsulta)
         return grupoConsulta
+    
+    @classmethod
+    def obtenerTodosLosGruposDe(cls, idUsuario):
+        from servicios.usuarioService import UsuarioService
+        usuario = UsuarioService.find_by_id(idUsuario)
+        usaurioJson = CommonService.json(usuario, UsuarioSchema)
+        print(f"Permisos del usuario {usaurioJson['permisos']} ")
+        for permiso in usaurioJson['permisos']:            
+            if permiso['descripcion'] in ['Superusuario', 'Director de centro', 'Director de proyecto / bioterio']:
+                return cls.obtenerTodosLosGrupos()
+            elif permiso['descripcion'] in ['Jefe de grupo']:
+                return cls.find_by_jefeDeGrupo(idUsuario)
+            else:
+                raise Exception(f"El usuario no tiene permisos para ver los grupos de trabajo.")
 
     @classmethod
     def agregarDatosGrupo(cls,grupo):

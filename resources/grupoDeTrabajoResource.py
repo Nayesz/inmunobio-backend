@@ -1,6 +1,7 @@
 from db import dbMongo
 from flask_restful import Resource
 from flask import request
+from resources.token import TokenDeAcceso
 from servicios.grupoDeTrabajoService import GrupoDeTrabajoService
 from servicios.commonService import CommonService
 from schemas.grupoTrabajoSchema import GrupoDeTrabajoDatosExtra
@@ -47,6 +48,15 @@ class GrupoDeTrabajoID(Resource):
 class GruposDeTrabajo(Resource):
     def get(self):
         return GrupoDeTrabajoService.obtenerTodosLosGrupos()
+
+class GruposDeTrabajos(Resource):
+    def get(self, idUsuario):
+        if(idUsuario):
+            try:
+                return GrupoDeTrabajoService.obtenerTodosLosGruposDe(idUsuario)
+            except Exception as err:
+                return {'Error': err.args},400
+        return {'Error': 'Debe indicarse el id del jefe de trabajo.'},400
 
 #en desuso
 class RenombrarJefeGrupo(Resource):

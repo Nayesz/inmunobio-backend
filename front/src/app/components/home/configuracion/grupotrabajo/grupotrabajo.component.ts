@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { GetService } from 'src/app/services/get.service';
 import { PostService } from 'src/app/services/post.service';
 import { ToastServiceService } from 'src/app/services/toast-service.service';
@@ -16,23 +17,38 @@ export class GrupotrabajoComponent implements OnInit {
   step: number;
   modo: string;
   cargando: boolean;
+  usuario : any;
+
 
   constructor(
     private getService: GetService, 
     private postService: PostService,
+    private router: Router,
     public toastService: ToastServiceService) { }
 
   ngOnInit(): void {
     this.cargando = true;
-    this.getService.obtenerGrupos().subscribe(res => {
-      if (res){
+    this.usuario = JSON.parse(localStorage.getItem('usuario'));
+    this.getService.obtenerGruposCorrespondientesA(this.usuario['id']).subscribe(
+      (res) => {
         this.gruposTrabajo = res;
         this.cargando = false;
-      } else {
-        this.gruposTrabajo = [];
-        this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
-        this.cargando = false;
+      },(error) => {
+        this.toastService.show(error.error['Error'],{ classname: 'bg-danger text-light', delay: 1500 });
+        console.log()
+        
+        setTimeout(() => {
+          this.cargando = true;
+          this.refreshPage()  
+        }, 1500);
+        
       }
+    );
+  }
+
+  refreshPage() {
+    this.router.navigateByUrl('/home/configuracion', { skipLocationChange: false }).then(() => {
+      this.router.navigate([this.router.url]);
     });
   }
 

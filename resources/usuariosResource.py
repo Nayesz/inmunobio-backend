@@ -68,8 +68,14 @@ class ObtenerUsuariosParaProyecto(Resource):
     # aca el 5 representa el id de los tecnicos, ya que ellos pueden formar parte de proyectos
     @TokenDeAcceso.token_nivel_de_acceso(TokenDeAcceso.BIO)
     def get(self):
-        return CommonService.jsonMany(UsuarioService.usuariosSoloConElPermiso(5), UsuarioSchema)
+        #return CommonService.jsonMany(UsuarioService.usuariosSoloConElPermiso(5), UsuarioSchema)
         #return CommonService.jsonMany(UsuarioService.usuariosSinElPermiso(4), UsuarioSchema)
+        return CommonService.jsonMany(UsuarioService.usuariosTecnicos(), UsuarioSchema)
+
+class ObtenerJefesParaProyecto(Resource):
+    def get(self):
+        return CommonService.jsonMany(UsuarioService.usuariosJefes(), UsuarioSchema)
+
 
 class Logins(Resource):
     def post(self):
