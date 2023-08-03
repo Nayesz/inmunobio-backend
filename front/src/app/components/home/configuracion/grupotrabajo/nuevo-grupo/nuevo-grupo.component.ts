@@ -1,7 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+
 import { of } from 'rxjs';
+import { Usuario } from 'src/app/models/usuarios.model';
 import { GetService } from 'src/app/services/get.service';
 import { PostService } from 'src/app/services/post.service';
 import { ToastServiceService } from 'src/app/services/toast-service.service';
@@ -20,7 +22,7 @@ export class NuevoGrupoComponent implements OnInit {
   cargando: boolean;
   disabledForm: boolean;
 
-  usuariosDisponibles = [];
+  usuariosDisponibles : Usuario[] = [];
   jefesDeGrupo = [];
 
   itemList: any = [];
@@ -34,6 +36,48 @@ export class NuevoGrupoComponent implements OnInit {
     public toastService: ToastServiceService,
     private activatedRouter: ActivatedRoute
     ) { }
+
+  jefesParaProyectos(){
+    this.getService.obtenerJefesParaProyectos().subscribe(res => {
+      this.jefesDeGrupo = res
+    },(error) => {
+      this.toastService.show(error.error['Error'],{ classname: 'bg-danger text-light', delay: 2000 });
+    })
+  }
+
+  tecnicosParaProyecto(){
+    this.getService.obtenerCandidatosProyecto()
+      .subscribe(res => {
+        this.usuariosDisponibles = res
+      },
+      (error)=> {
+        this.toastService.show(error.error['Error'],{ classname: 'bg-danger text-light', delay: 2000 });
+      }
+    )
+  }
+
+  grupoDeTrabajoID(){
+    this.idGrupo = parseInt(this.activatedRouter.snapshot.paramMap.get('id'), 10);
+
+    this.getService.obtenerGrupoTrabajoPorId(this.idGrupo)
+      .subscribe(res => {
+        this.grupoTrabajo = res;
+        console.log(JSON.stringify(this.grupoTrabajo, null, 4))
+        
+        this.formGrupo.patchValue({
+          nombre: res.nombre,
+          jefeGrupo: res.jefeDeGrupo.id,
+          usuarios: res.integrantes,
+        });
+        this.cargando = false;
+      },
+      (error) => {
+        this.toastService.show(error.error['Error'], { classname: 'bg-danger text-light', delay: 2000 });
+        this.cargando = false;
+      }
+    );
+  }
+
 
   ngOnInit(): void {
     this.cargando = true;
@@ -57,6 +101,15 @@ export class NuevoGrupoComponent implements OnInit {
 
     window.location.href.includes('editar') ? this.modo = 'EDITAR' : this.modo = 'CREAR';
 
+    this.jefesParaProyectos()
+    this.tecnicosParaProyecto()
+
+    if ( this.modo === 'EDITAR'){
+      this.grupoDeTrabajoID()
+    }
+    this.cargando = false;
+    
+    /*
     this.getService.obtenerUsuarios().subscribe(res => {
       if (res){
         this.itemList = res;
@@ -70,36 +123,11 @@ export class NuevoGrupoComponent implements OnInit {
         this.cargando = false;
       }
       console.log(res);
-    });
-
-    if ( this.modo === 'EDITAR'){
-      this.idGrupo = parseInt(this.activatedRouter.snapshot.paramMap.get('id'), 10);
-      this.getService.obtenerGrupoTrabajoPorId(this.idGrupo).subscribe(res => {
-        if (res){
-          this.grupoTrabajo = res;
-          this.formGrupo.patchValue({
-            nombre: res.nombre,
-            jefeGrupo: res.jefeDeGrupo,
-            usuarios: res.integrantes
-          });
-          this.cargando = false;
-        } else {
-          this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
-          this.cargando = false;
-        }
-      });
-    } else {
-      this.cargando = false;
-    }
+    });*/
   }
 
-  filtrarJefe(): void{
-    const jefeDeGrupo = this.formGrupo.value.jefeGrupo;
-    console.log(jefeDeGrupo)
-    this.itemList = this.usuariosDisponibles.filter(usuario => usuario.id != jefeDeGrupo);
-    console.log(this.itemList)
-    this.selectedItems = this.selectedItems.filter(usuario => usuario.id != jefeDeGrupo)
-    console.log(this.selectedItems)
+  onItemRemove(usuarioEliminado) {
+    this.usuariosDisponibles.push(usuarioEliminado)
   }
 
   crearGrupo(): void {
@@ -121,8 +149,6 @@ export class NuevoGrupoComponent implements OnInit {
       jefeDeGrupo: this.formGrupo.value.jefeGrupo,
       integrantes: this.formGrupo.value.usuarios.map(usuario => usuario.id)
     };
-
-    console.log(grupoTrabajo);
 
     if (this.modo === 'CREAR'){
         this.postService.crearGrupoTrabajo(grupoTrabajo).subscribe(res => {

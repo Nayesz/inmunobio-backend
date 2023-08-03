@@ -103,6 +103,27 @@ class UsuarioService():
             Permiso.id_permiso.in_([id_permiso])))            
 
     @classmethod
+    def usuariosJefes(cls):
+        from models.mysql.permiso import Permiso
+        ids_permisos = [1, 2, 3, 4]
+        jefes = Usuario.query.filter(
+            Usuario.permisos.any(Permiso.id_permiso.in_(ids_permisos))
+            ).all()
+        return jefes
+
+    @classmethod
+    def usuariosTecnicos(cls):
+        from models.mysql.permiso import Permiso
+        ids_permisos = [1, 2, 3, 4]
+        tecnicos = Usuario.query.filter(
+            Usuario.permisos.any(
+                ~Permiso.id_permiso.in_(ids_permisos) & 
+                Usuario.id_grupoDeTrabajo == 0
+            )
+        ).all()
+        return tecnicos
+    
+    @classmethod
     def usuariosSoloConElPermiso(cls, id_permiso):
         from models.mysql.permiso import Permiso
         usuarios_con_permiso_exclusivo = Usuario.query.filter(

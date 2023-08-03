@@ -1,9 +1,9 @@
 from flask_restful import Api
 
-from resources.usuariosResource import  ObtenerUsuariosResource,UsuarioResource, UsuarioID,ObtenerUsuariosParaProyecto, Logins
+from resources.usuariosResource import  ObtenerUsuariosResource,UsuarioResource, UsuarioID, ObtenerUsuariosParaProyecto, Logins, ObtenerJefesParaProyecto
 from resources.proyectoResource import *
 from resources.permisosResource import Permisos,ObtenerPermisoPorId
-from resources.grupoDeTrabajoResource import GrupoDeTrabajoID,GrupoDeTrabajo,GruposDeTrabajo,RenombrarJefeGrupo
+from resources.grupoDeTrabajoResource import GrupoDeTrabajoID,GrupoDeTrabajo,GruposDeTrabajo,RenombrarJefeGrupo, GruposDeTrabajos
 from resources.experimentoResource import TodosLosExperimentos,ExperimentoResource, ExperimentoMuestra,ObtenerBlogsExp,Experimentos, CerrarExperimento
 from resources.contenedorResource import Contenedor, ContenedorProyecto, ContenedorParent,ContenedorProyectoId
 
@@ -45,6 +45,7 @@ api.add_resource(UsuarioResource, '/api/v1/usuario')
 api.add_resource(UsuarioID, '/api/v1/usuario/<int:id_usuario>')
 api.add_resource(ObtenerUsuariosParaProyecto, '/api/v1/usuariosParaProyecto')
 api.add_resource(Logins, '/api/v1/login', endpoint='login' )
+api.add_resource(ObtenerJefesParaProyecto, '/api/v1/jefes', endpoint='jefes')
 api.add_resource(Logins, '/api/v1/prueba', endpoint='login_prueba' )
 
 #proyectos
@@ -64,6 +65,7 @@ api.add_resource(GrupoDeTrabajo,'/api/v1/grupoDeTrabajo')
 api.add_resource(GruposDeTrabajo, '/api/v1/gruposDeTrabajo')
 api.add_resource(GrupoDeTrabajoID, '/api/v1/grupoDeTrabajo/<int:id_grupoDeTrabajo>')
 api.add_resource(RenombrarJefeGrupo, '/api/v1/nuevoJefeDeGrupo') # ver si se queda o no 
+api.add_resource(GruposDeTrabajos, '/api/v1/gruposDeTrabajoDe/<int:idUsuario>' )
 
 #stock
 api.add_resource(ObtenerProductosStock, '/api/v1/obtenerStock/<int:id_grupoDeTrabajo>/<int:id_espacioFisico>')

@@ -32,8 +32,12 @@ export class GetService {
 
   obtenerUsuariosPorId(id: number): Observable<Usuario>{
     return this.http.get<Usuario>(this.API_URL + `usuario/${id}`);
-
   }
+  
+  obtenerJefesParaProyectos() : Observable<Usuario[]>{
+    return this.http.get<Usuario[]>(this.API_URL + `jefes`);
+  }
+
   obtenerPermisos(): Observable<any>{
     return this.http.get<any>(this.API_URL + 'permisos');
   }
@@ -96,6 +100,10 @@ export class GetService {
 
   obtenerGrupos(): Observable<any>{
     return this.http .get<any>(this.API_URL + 'gruposDeTrabajo');
+  }
+
+  obtenerGruposCorrespondientesA(idUsuario : any) : Observable<any> {
+    return this.http .get<any>(this.API_URL + `gruposDeTrabajoDe/${idUsuario}`);
   }
 
   obtenerGrupoTrabajoPorId(idGrupo: number): Observable<any>{

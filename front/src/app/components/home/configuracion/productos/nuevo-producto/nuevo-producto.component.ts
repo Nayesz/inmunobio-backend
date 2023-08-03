@@ -116,7 +116,6 @@ export class NuevoProductoComponent implements OnInit {
         this.toastService.show('Error al editar' + err, { classname: 'bg-danger text-light', delay: 2000 });
         setTimeout(() => {
           this.toastService.removeAll()
-          this.disabledForm = false;
         }, 2000);
 
       });

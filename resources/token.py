@@ -31,6 +31,7 @@ class TokenDeAcceso():
                 permisosUsuario = UsuarioService.find_by_email(data['email']).permisos
                 
                 for permiso in permisosUsuario:
+                    print(f"El permiso es + {permiso}")
                     if permisoUsuario in permiso.descripcion:
                         return f(*args, **kwargs)
                 return {"Error": f"El usuario {data['email']} no tiene permisos suficientes para realizar esta petición."}, 400
