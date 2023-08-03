@@ -126,7 +126,9 @@ export class NuevoGrupoComponent implements OnInit {
 
  
   onItemRemove(usuarioEliminado) {
-    this.usuariosDisponibles.push(usuarioEliminado)
+      this.usuariosDisponibles.push(usuarioEliminado)
+    
+    
   }
 
   crearGrupo(): void {

@@ -151,7 +151,8 @@ class UsuarioService():
         from db import db
         usuario = UsuarioService.find_by_id(id_usuario)
         ValidacionesUsuario.jefeDeProyecto(usuario)  
-        usuario.habilitado =False 
+        ValidacionesUsuario.jefeDeGrupo(usuario)  
+        usuario.habilitado = False 
         db.session.commit()
         ValidacionesUsuario.desvincularDeProyectos(id_usuario)
 

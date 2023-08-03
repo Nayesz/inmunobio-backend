@@ -11,10 +11,14 @@ class ValidacionesUsuario():
     def jefeDeProyecto(cls,usuario):
         if  Proyecto.objects(id_proyecto=usuario.id,finalizado= False).first():
             raise Exception(f"El usuario {usuario.nombre} es jefe de un proyecto activo. Debe desasignarse primero.")
-
+    @classmethod
+    def jefeDeGrupo(cls,usuario):
+        from models.mongo.grupoDeTrabajo import GrupoDeTrabajo
+        if  GrupoDeTrabajo.objects(jefeDeGrupo=usuario.id,).first():
+            raise Exception(f"El usuario {usuario.nombre} es jefe de un grupo de trabajo activo. Debe desasignarse primero.")
     @classmethod
     def desvincularDeProyectos(cls,id_usuario):
-        Proyecto.objects.update(pull__participantes=id_usuario)
+        Proyecto.objects.update(pull__participantes=id_usuario)    
 
 class Validacion():
 
