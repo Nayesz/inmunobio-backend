@@ -10,7 +10,7 @@ import { Proyecto } from 'src/app/models/proyectos.model';
 import { BlogBuscadoJaula, BlogJaula, Blogs, BlogsJaula } from 'src/app/models/blogs.model';
 import { ToastServiceService } from 'src/app/services/toast-service.service';
 import { Animal } from 'src/app/models/animal.model';
-import { catchError, mergeMap, map, switchMap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 
 
 @Component({
@@ -229,6 +229,7 @@ export class JaulaDetalleComponent implements OnInit, OnDestroy {
       }, 4000);
     }))
   }
+  
   eliminarModalAnimal(id:number,content){
     this.idAnimal_eliminar = id;
     this.open(content)

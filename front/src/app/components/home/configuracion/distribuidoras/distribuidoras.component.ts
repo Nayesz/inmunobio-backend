@@ -3,8 +3,8 @@ import { PostService } from '../../../../services/post.service';
 import { GetService } from '../../../../services/get.service';
 import { Subscription } from 'rxjs';
 import { Distribuidora } from '../../../../models/distribuidora.model';
-import { ASTWithSource } from '@angular/compiler';
 import { ToastServiceService } from 'src/app/services/toast-service.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-distribuidoras',
@@ -16,11 +16,15 @@ export class DistribuidorasComponent implements OnInit, OnDestroy {
 
   distribuidoras: Distribuidora;
   cargando: boolean;
+  id_dist = -1;
+  disabledForm: boolean;
 
   constructor(
     private getService: GetService,
     private postService: PostService,
-    public toastService: ToastServiceService
+    public toastService: ToastServiceService,
+    private modalService: NgbModal
+
   ) { }
 
   ngOnDestroy(): void {
@@ -44,21 +48,34 @@ export class DistribuidorasComponent implements OnInit, OnDestroy {
     );
   }
 
-  eliminar(distribuidora: Distribuidora): void{
-    this.postService.eliminarDistribuidora(distribuidora.id_distribuidora).subscribe(res =>{
-      if (res.Status){
-        this.toastService.show('Distribuidora Eliminada', { classname: 'bg-danger text-light', delay: 2000 });
-        setTimeout(() => {
-          this.toastService.removeAll()
-        }, 2000);
-      } else {
-        this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
-        setTimeout(() => {
-          this.cargando = false;
-          this.toastService.removeAll()
-        }, 2000);
-      }
-    });
+  open(content , id_dist_a_borrar): void {
+    this.id_dist = id_dist_a_borrar;
+    this.modalService.open(content, { centered: true, size: 'lg' });
+  }
+
+  eliminar(): void{
+      if(this.id_dist != -1){
+        this.disabledForm = true;
+        this.postService.eliminarDistribuidora(this.id_dist).subscribe(res =>{
+          if (res.Status){
+            this.toastService.show('Distribuidora Eliminada', { classname: 'bg-danger text-light', delay: 2000 });
+            setTimeout(() => {
+              this.toastService.removeAll()
+              this.modalService.dismissAll()
+              this.id_dist = -1;
+              this.disabledForm = false;
+            }, 2000);
+          } else {
+            this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
+            setTimeout(() => {
+              this.cargando = false;
+              this.toastService.removeAll()
+              this.id_dist = -1;
+              this.disabledForm = false;
+            }, 2000);
+          }
+        });
+    }
   }
 
 }
