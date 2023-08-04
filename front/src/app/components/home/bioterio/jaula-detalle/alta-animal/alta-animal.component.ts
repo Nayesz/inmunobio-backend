@@ -29,7 +29,7 @@ export class AltaAnimalComponent implements OnInit, OnDestroy {
     this.formAnimal = new FormGroup({
       especie: new FormControl('', [Validators.required, Validators.maxLength(20)]),
       cepa: new FormControl('', [Validators.required, Validators.maxLength(50)]),
-      sexo: new FormControl('0', [Validators.maxLength(50)]),
+      sexo: new FormControl('0', [Validators.required, Validators.min(1)]),
     });
   }
 
