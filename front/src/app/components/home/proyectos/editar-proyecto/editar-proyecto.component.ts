@@ -44,7 +44,7 @@ export class EditarProyectoComponent implements OnInit {
     this.usuario = JSON.parse(localStorage.getItem('usuario'));
     this.nombreDirectorProyecto = JSON.parse(localStorage.getItem('usuario')).nombre;
     this.directorProyecto = JSON.parse(localStorage.getItem('usuario'));
-    this.getService.obtenerCandidatosProyecto().subscribe(res => {
+    this.getService.obtenerCandidatosProyecto(this.directorProyecto.id).subscribe(res => {
       if (res){
         this.itemList = res;
         this.usuariosDisponibles = res;

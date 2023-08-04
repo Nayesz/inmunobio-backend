@@ -24,7 +24,7 @@ export class NuevoBlogHerramientaComponent implements OnInit {
     this.alert = false;
     this.idHerramienta = parseInt(this.activatedRouter.snapshot.paramMap.get('idHerramienta'), 10);
     this.formBlogH = new FormGroup({
-      detalle: new FormControl('', [Validators.maxLength(100)]),
+      detalle: new FormControl('', [Validators.required, Validators.maxLength(100)]),
     });
   }
 

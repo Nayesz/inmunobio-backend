@@ -166,7 +166,7 @@ export class DetalleExperimentosComponent implements OnInit {
       }, 2000);
 
     }, err => {
-      this.toastService.show('Problema al crear Grupo Experimental' + err, { classname: 'bg-danger text-light', delay: 2000 });
+      this.toastService.show('Problema al crear Grupo Experimental' + err.error.Error[0], { classname: 'bg-danger text-light', delay: 2000 });
       setTimeout(() => {
         this.toastService.removeAll()
         this.modalService.dismissAll()
