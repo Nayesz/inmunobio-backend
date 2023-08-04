@@ -11,6 +11,7 @@ class GrupoDeTrabajo(Resource):
         datos = request.get_json()
         if datos:
             try:
+                print("nuevo grupo")
                 GrupoDeTrabajoService.nuevoGrupo(datos)
                 return {'Status':'Se creó el grupo.'},200  
             except Exception as err:

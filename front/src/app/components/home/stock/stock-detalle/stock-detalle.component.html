@@ -6,6 +6,9 @@
     <h2 class='text-staatliches title'>{{espacioFisico?.nombre}}</h2>
   </div>
 
+  <div *ngIf='!perteneceAGrupo()'>
+    <p class="text-danger m-2" style="text-align: center;"> Usted no tiene grupo de trabajo asignado - No se puede visualizar stock. </p>
+  </div>
 <ul ngbNav #nav="ngbNav" class="nav-tabs nav-fill">
   <li [ngbNavItem]="1" >
     <a ngbNavLink >Stock</a>
@@ -29,8 +32,8 @@
               </span>
               <input type="text" class="form-control " id="usuario" name='filterPost' placeholder="Buscar por nombre" [(ngModel)]='filterPost'>
           </div>
-          <div>
-            <button class="btn btn-outline-primary button-agregarstock" routerLink='agregar-stock'>Agregar Stock</button>
+          <div *ngIf='perteneceAGrupo()'>
+            <button  class="btn btn-outline-primary button-agregarstock" routerLink='agregar-stock'>Agregar Stock</button>
           </div>
         </div>
       
@@ -44,7 +47,7 @@
                 <div class="datos-internos-nombre">
                   <h4 class="card-title nombre-prod ">{{stock.nombre}}</h4>
                   <h5 class="card-title nombre-prod"> lote {{prod.lote}}</h5>
-                  <div class="d-flex">
+                  <div *ngIf='perteneceAGrupo()'class="d-flex">
                     <a class="text-primary m-2" role="button" routerLink='agregar-stock/{{stock.id_producto}}/{{stock.id_productoEnStock}}/{{j}}' >
                       <i class="bi bi-pencil"></i>
                     </a>
