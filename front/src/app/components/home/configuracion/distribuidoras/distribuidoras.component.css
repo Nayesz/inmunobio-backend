@@ -21,6 +21,7 @@ tr{
     align-items: center;
     flex-direction: column;
 }
+
 @media screen and (max-width: 360px){
     .table{
         width: 100%;
