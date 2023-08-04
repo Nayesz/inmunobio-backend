@@ -211,7 +211,8 @@ class UsuarioService():
             print("El jefe de g es jefe de proyecto tmb")
 
             for user in integrantesObj: 
-                if cls.esJefeDeProyecto(user.permisos): raise Exception(f"Solo puede existir un jefe de proyecto por grupo de trabajo.")
+                pass
+                #if cls.esJefeDeProyecto(user.permisos): raise Exception(f"Solo puede existir un jefe de proyecto por grupo de trabajo.")
         else:
             print("El jefe de g no  es jefe de proyecto tmb")
             jefes  = []
