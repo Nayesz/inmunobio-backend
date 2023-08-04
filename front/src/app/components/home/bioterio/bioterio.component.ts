@@ -34,6 +34,7 @@ export class BioterioComponent implements OnInit, OnDestroy {
     this.subscription.add(this.getService.obtenerJaulas().subscribe(res => {
       if(res){
       this.jaulas = res;
+      console.log("Jaulas: " + JSON.stringify(res, null, 4))
       this.cargando = false;
       } else {
         this.jaulas = [];

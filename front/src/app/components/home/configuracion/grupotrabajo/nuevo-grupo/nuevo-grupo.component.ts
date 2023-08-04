@@ -22,6 +22,7 @@ export class NuevoGrupoComponent implements OnInit {
   disabledForm: boolean;
 
   usuariosDisponibles : Usuario[] = [];
+  candidatos : Usuario[] = [];
   jefesDeGrupo = [];
 
   itemList: any = [];
@@ -43,11 +44,6 @@ export class NuevoGrupoComponent implements OnInit {
   
     ngOnInit(): void {
       this.cargando = true;
-      this.formGrupo = new FormGroup({
-        nombre: new FormControl('', [Validators.required, Validators.maxLength(20)]),
-        jefeGrupo: new FormControl(-1, [Validators.required]),
-        usuarios: new FormControl([],[Validators.required])
-      });
   
       this.settings = {
         text: 'Seleccione usuarios pertenecientes al grupo',
@@ -56,20 +52,29 @@ export class NuevoGrupoComponent implements OnInit {
         classes: 'myclass custom-class',
         primaryKey: 'id',
         labelKey: 'nombre',
-        enableSearchFilter: true,
+        enableSearchFilter: false,
         searchBy: ['nombre'],
         disabled: false,
+        singleSelection : false,
+        badgeShowLimit : 10
       };
   
       window.location.href.includes('editar') ? this.modo = 'EDITAR' : this.modo = 'CREAR';
   
       this.jefesParaProyectos()
       this.candidattosParaGrupo()
-  
+
       if ( this.modo === 'EDITAR'){
         this.testLog("ESTAMOS EN MODO EDICION")
         this.grupoDeTrabajoID()
+      }else{
+        this.usuariosDisponibles = this.candidatos
       }
+      this.formGrupo = new FormGroup({
+        nombre: new FormControl('', [Validators.required, Validators.maxLength(20)]),
+        jefeGrupo: new FormControl(-1, [Validators.required]),
+        usuarios: new FormControl([],[Validators.required])
+      });
       this.cargando = false;
       
     }
@@ -85,7 +90,7 @@ export class NuevoGrupoComponent implements OnInit {
   candidattosParaGrupo(){
     this.getService.candidattosParaGrupo()
       .subscribe(res => {
-        this.usuariosDisponibles = res
+        this.candidatos.push(...res)
       },
       (error)=> {
         this.toastService.show(error.error['Error'],{ classname: 'bg-danger text-light', delay: 2000 });
@@ -99,21 +104,21 @@ export class NuevoGrupoComponent implements OnInit {
       .subscribe(res => {
         this.grupoTrabajo = res;
         this.testLog(res)
-        console.log(JSON.stringify(this.grupoTrabajo, null, 4))
-        
-        for (const integrante of res.integrantes) {
-          //Si no se agregan a la lista de disponibles, entonces no puedo ver usuarios 
-          //que ya estan en el grupo.
-          this.usuariosDisponibles.push(integrante)
-        }
+        console.log("Integrantes del grupo: " + JSON.stringify(res.integrantes, null, 4))
+        this.candidatos.push(...res.integrantes)
+        this.usuariosDisponibles = this.candidatos
         
         this.jefesDeGrupo.push(res.jefeDeGrupo)
+        console.log("Usuarios disponibles: " + JSON.stringify(this.usuariosDisponibles, null, 4))
 
         this.formGrupo.patchValue({
           nombre: res.nombre,
           jefeGrupo: res.jefeDeGrupo.id,
-          usuarios: res.integrantes
+         // usuarios: res.integrantes
         });
+
+        this.selectedItems.push(...res.integrantes)
+
         this.cargando = false;
       },
       (error) => {
@@ -123,13 +128,6 @@ export class NuevoGrupoComponent implements OnInit {
     );
   }
 
-
- 
-  onItemRemove(usuarioEliminado) {
-      this.usuariosDisponibles.push(usuarioEliminado)
-    
-    
-  }
 
   crearGrupo(): void {
     this.disabledForm = true;
@@ -142,6 +140,7 @@ export class NuevoGrupoComponent implements OnInit {
       labelKey: 'nombre',
       enableSearchFilter: true,
       searchBy: ['nombre'],
+      tagToBody : false,
       disabled: true,
     };
 
