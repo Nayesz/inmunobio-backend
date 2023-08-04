@@ -61,7 +61,8 @@ export class DistribuidorasComponent implements OnInit, OnDestroy {
             this.toastService.show('Distribuidora Eliminada', { classname: 'bg-danger text-light', delay: 2000 });
             setTimeout(() => {
               this.toastService.removeAll()
-              this.modalService.dismissAll()
+              this.modalService.dismissAll()  
+              this.ngOnInit()
               this.id_dist = -1;
               this.disabledForm = false;
             }, 2000);
