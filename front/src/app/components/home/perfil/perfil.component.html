@@ -1,25 +1,25 @@
 <h2 class="text-center title">Perfil</h2>
-<div class="container card shadow">
+<form [formGroup]="formContenedor" class="container card shadow" (ngSubmit)="crearContenedor()">
     <div class="container_bloque">
         <div class="container_bloque_parte1">
             <div class="container_bloque_parte1_datos">
                 <div class="item">
-                    <h4 class="text-secondary text-staatliches mb-0">Nombre</h4>
-                    <p class="ml-2">{{usuario.nombre}}</p>
+                    <h4 for="nombre" class="text-secondary text-staatliches mb-0">Nombre</h4>
+                    <input type="text" class="form-control" id="nombre" formControlName="nombre" [attr.disabled]='disabledForm ? true : null'>
                 </div>
                 <div class="item">
-                    <h4 class="text-secondary text-staatliches mb-0">Email</h4>
-                    <p class="ml-2">{{usuario.email}}</p>
+                    <h4 for="email" class="text-secondary text-staatliches mb-0">Correo</h4>
+                    <input type="text" class="form-control" id="email" formControlName="email" [attr.disabled]='disabledForm ? true : null'>
                 </div>
             </div>
             <div class="container_bloque_parte1_datos">
                 <div class="item">
-                    <h4 class="text-secondary text-staatliches mb-0">Teléfono</h4>
-                    <p class="ml-2">{{usuario.telefono}}</p>
+                    <h4 for="telefono" class="text-secondary text-staatliches mb-0">Telefono</h4>
+                    <input type="text" class="form-control" id="telefono" formControlName="telefono" [attr.disabled]='disabledForm ? true : null'>
                 </div>
                 <div class="item">
-                    <h4 class="text-secondary text-staatliches mb-0">Dirección</h4>
-                    <p class="ml-2">{{usuario.direccion}}</p>
+                    <h4 for="direccion" class="text-secondary text-staatliches mb-0">Direccion</h4>
+                    <input type="text" class="form-control" id="direccion" formControlName="direccion" [attr.disabled]='disabledForm ? true : null'>
                 </div>
             </div>
         </div>
@@ -34,5 +34,7 @@
             <p class="ml-2" *ngFor='let permiso of usuario.permisos'>{{permiso.descripcion}}</p>
             </div>
         </div>
+        <button class="btn btn-primary btn-lg" type="submit" [disabled]="!formContenedor.valid">Guardar</button>
     </div>
-</div>
+</form>
+<app-toast></app-toast>
