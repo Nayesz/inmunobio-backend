@@ -9,6 +9,18 @@ from werkzeug.security import generate_password_hash,check_password_hash
 
 class UsuarioService():
 
+    @classmethod
+    def candidatosAProyecto(cls, id_permiso,id_jefe):
+        from models.mysql.permiso import Permiso
+        jefeDeProyecto = cls.find_by_id(id_jefe)
+        usuarios_con_permiso_exclusivo_y_grupo = Usuario.query.filter(
+        Usuario.permisos.any(Permiso.id_permiso == id_permiso ) ,
+        ~Usuario.permisos.any(Permiso.id_permiso != id_permiso) ,
+        Usuario.id_grupoDeTrabajo == jefeDeProyecto.id_grupoDeTrabajo 
+        ).all()
+        print(usuarios_con_permiso_exclusivo_y_grupo)
+        return usuarios_con_permiso_exclusivo_y_grupo
+
     
     @classmethod
     def modificarUsuario(cls, datos):
@@ -123,7 +135,6 @@ class UsuarioService():
         Usuario.id_grupoDeTrabajo == 0,
         Usuario.habilitado == True,
     ).all()
-        print("buscamos candidados")
         return candidatos
 
     @classmethod

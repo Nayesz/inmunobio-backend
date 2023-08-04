@@ -67,10 +67,14 @@ class UsuarioID(Resource):
 class ObtenerUsuariosParaProyecto(Resource):
     # aca el 5 representa el id de los tecnicos, ya que ellos pueden formar parte de proyectos
     @TokenDeAcceso.token_nivel_de_acceso(TokenDeAcceso.BIO)
-    def get(self):
-        return CommonService.jsonMany(UsuarioService.usuariosSoloConElPermiso(5), UsuarioSchema)
-        #return CommonService.jsonMany(UsuarioService.usuariosSinElPermiso(4), UsuarioSchema)
-        #return CommonService.jsonMany(UsuarioService.usuariosTecnicos(), UsuarioSchema)
+    def get(self, id_usuario):
+        if(id_usuario):
+            try:
+                usuarios = UsuarioService.candidatosAProyecto(5,id_usuario)
+                return CommonService.jsonMany(usuarios, UsuarioSchema)
+            except Exception as err:
+                return {'Error': err.args}, 400
+        return {'Error': 'Debe indicarse id_usuario'}, 400
 
 class ObtenerJefesParaProyecto(Resource):
     def get(self):

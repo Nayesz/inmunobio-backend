@@ -47,7 +47,7 @@ export class NuevoProyectoComponent implements OnInit {
     this.cargando = false;
     this.directorProyecto = JSON.parse(localStorage.getItem('usuario')).id;
     this.nombreDirectorProyecto = JSON.parse(localStorage.getItem('usuario')).nombre;
-    this.getService.obtenerCandidatosProyecto().subscribe(res => {
+    this.getService.obtenerCandidatosProyecto(this.directorProyecto).subscribe(res => {
       if (res){
         this.testLog("Candidatos obtenidos: ")
         this.testLog(res)
@@ -56,10 +56,12 @@ export class NuevoProyectoComponent implements OnInit {
         this.cargando = false;
       } else {
         this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
-        this.cargando = false;
+        setTimeout(() => {
+          this.toastService.removeAll(),
+          this.cargando = false;
+        }, 3000);
       }
     });
-
 
     this.settings = {
       text: 'Seleccione usuarios',
@@ -118,11 +120,11 @@ export class NuevoProyectoComponent implements OnInit {
           let mensaje = err.error.Error[0]
           this.testLog(err)
           this.testLog(mensaje)
-          this.toastService.show('Problema al crear Proyecto'  , { classname: 'bg-danger text-light', delay: 2000 });
+          this.toastService.show('Problema al crear Proyecto: ' + mensaje  , { classname: 'bg-danger text-light', delay: 2000 });
           setTimeout(() => {
             this.toastService.removeAll()
+            this.disabledForm = false;
           }, 3000);
-          this.disabledForm = false;
         });
     } 
   }
