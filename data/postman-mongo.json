@@ -224,13 +224,13 @@
                     "fecha": "2023-07-26T15:15:00.617000",
                     "detalle": "Mantenimiento de Pipeta Micropipetor - Limpieza y calibración",
                     "id_usuario": 1,
-                    "tipo": "Herramienta"
+                    "tipo": "herramienta"
                 },
                 {
                     "fecha": "2023-07-25T10:30:00.617000",
                     "detalle": "Mantenimiento de Pipeta Micropipetor - Reemplazo de puntas desgastadas",
                     "id_usuario": 4,
-                    "tipo": "Herramienta"
+                    "tipo": "herramienta"
                 }
             ]
         },
@@ -243,13 +243,13 @@
                     "fecha": "2023-07-02T11:45:00.617000",
                     "detalle": "Uso de la Centrífuga de Mesa para separación de muestras sanguíneas",
                     "id_usuario": 3,
-                    "tipo": "Herramienta"
+                    "tipo": "herramienta"
                 },
                 {
                     "fecha": "2023-07-05T14:00:00.617000",
                     "detalle": "Mantenimiento de la Centrífuga de Mesa - Limpieza y revisión de rotores",
                     "id_usuario": 5,
-                    "tipo": "Herramienta"
+                    "tipo": "herramienta"
                 }
             ]
         }
