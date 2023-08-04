@@ -32,7 +32,11 @@ class ProyectoService:
     @classmethod
     def find_by_nombre(cls, _nombre):
         return Proyecto.objects(nombre = _nombre).first()
-
+    
+    @classmethod
+    def proeyctosActivosSegunJefe(cls, id_jefe):
+        if Proyecto.objects(idDirectorProyecto = id_jefe, finalizado = False).first() : return True
+        else: return False
     @classmethod
     def validacionCierreProyecto(cls,proyecto):
         from servicios.experimentoService import ExperimentoService

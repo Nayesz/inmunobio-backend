@@ -16,6 +16,7 @@ class UsuarioService():
         usuarios_con_permiso_exclusivo_y_grupo = Usuario.query.filter(
         Usuario.permisos.any(Permiso.id_permiso == id_permiso ) ,
         ~Usuario.permisos.any(Permiso.id_permiso != id_permiso) ,
+        Usuario.id_grupoDeTrabajo != 0,
         Usuario.id_grupoDeTrabajo == jefeDeProyecto.id_grupoDeTrabajo 
         ).all()
         print(usuarios_con_permiso_exclusivo_y_grupo)
@@ -224,16 +225,11 @@ class UsuarioService():
                 # nadie mas puede ser jefe de proyecto:
                 raise Exception(f"Solo puede existir un jefe de proyecto por grupo de trabajo.")
                 
-            
-
     @classmethod
     def esJefeDeProyecto(cls, permisos):
         from servicios.permisosService import PermisosService
-        print("verificamos si el jefe de g e s jefe de p")
         if PermisosService.tieneElPermiso(permisos, PermisosService.jefeProyecto): return True
         return False
-
-    
 
     @classmethod
     def loginUsuario(cls,datos):

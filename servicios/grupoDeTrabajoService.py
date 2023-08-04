@@ -1,6 +1,7 @@
 from schemas.grupoTrabajoSchema import jefeDeGrupoSchema, ModificarGrupoDeTrabajoSchema, GrupoDeTrabajoSchema, GrupoDeTrabajo, NuevoGrupoDeTrabajoSchema
-from schemas.usuarioSchema import UsuarioSchema
+from schemas.usuarioSchema import UsuarioSchema, UsuarioSchemaModificar
 from servicios.commonService import CommonService
+
 
 class GrupoDeTrabajoService():
 
@@ -58,7 +59,7 @@ class GrupoDeTrabajoService():
         print("llegamos a borrar")
         cls.validarDelete(grupoABorrar)
         cls.asignarIDGrupo(grupoABorrar, cls.idGrupoDefault)
-        ##grupoABorrar.delete()
+        grupoABorrar.delete()
 
     @classmethod
     def quitarMiembroJefeRepetido(cls, jefe,integrantes):
@@ -128,9 +129,20 @@ class GrupoDeTrabajoService():
 
     @classmethod
     def validarProyectosAsociadosAlGrupo(cls,grupo):
-        #from servicios.stockService import StockService
-        #if(len(StockService.stockDeGrupo(idGrupo))):raise Exception("El grupo tiene stock activo y no puede darse de baja." )
-        print(grupo.integrantes)
+        # primero preguntamos si el jefe es jefe de proyecto, de ser asi buscamos proyectos asociados:
+        from servicios.usuarioService import UsuarioService
+        from servicios.permisosService import PermisosService
+        from servicios.proyectoService import ProyectoService
+        jefe = UsuarioService.find_by_id_all(grupo.jefeDeGrupo);
+        permisosJefe = PermisosService.permisosById(jefe['permisos'])
+        if UsuarioService.esJefeDeProyecto(permisosJefe):
+            if ProyectoService.proeyctosActivosSegunJefe(grupo.jefeDeGrupo): raise Exception(f"Hay proyectos activos para este grupo de trabajo")
+        for miembro in grupo.integrantes:
+            user = UsuarioService.find_by_id_all(miembro);
+            permisosUser = PermisosService.permisosById(user['permisos'])
+            if UsuarioService.esJefeDeProyecto(permisosUser):
+                if ProyectoService.proeyctosActivosSegunJefe(user): raise Exception(f"Hay proyectos activos para este grupo de trabajo")
+
 
 
     @classmethod

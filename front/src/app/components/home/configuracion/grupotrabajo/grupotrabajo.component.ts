@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { GetService } from 'src/app/services/get.service';
 import { PostService } from 'src/app/services/post.service';
 import { ToastServiceService } from 'src/app/services/toast-service.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-grupotrabajo',
@@ -12,31 +13,34 @@ import { ToastServiceService } from 'src/app/services/toast-service.service';
 export class GrupotrabajoComponent implements OnInit {
 
   gruposTrabajo = [];
-
+  id_grupo_a_borrar: -1;
   grupoSeleccionado: any;
   step: number;
   modo: string;
   cargando: boolean;
   usuario : any;
-
+  disabledForm: boolean;
 
   constructor(
     private getService: GetService, 
     private postService: PostService,
     private router: Router,
+    private modalService: NgbModal,
     public toastService: ToastServiceService) { }
 
   ngOnInit(): void {
     this.cargando = true;
+    this.disabledForm = true;
     this.usuario = JSON.parse(localStorage.getItem('usuario'));
     this.getService.obtenerGruposCorrespondientesA(this.usuario['id']).subscribe(
       (res) => {
         this.gruposTrabajo = res;
         this.cargando = false;
+        this.disabledForm = false;
+
       },(error) => {
         this.toastService.show(error.error['Error'],{ classname: 'bg-danger text-light', delay: 1500 });
         console.log()
-        
         setTimeout(() => {
           this.cargando = true;
           this.refreshPage()  
@@ -44,6 +48,10 @@ export class GrupotrabajoComponent implements OnInit {
         
       }
     );
+  }
+  open(content , id_grupo): void {
+    this.id_grupo_a_borrar = id_grupo;
+    this.modalService.open(content, { centered: true, size: 'lg' });
   }
 
   refreshPage() {
@@ -63,22 +71,32 @@ export class GrupotrabajoComponent implements OnInit {
     this.step = 1;
   }
 
-  eliminarGrupo(grupo: any): void{
-    this.postService.eliminarGrupoTrabajo(grupo.id_grupoDeTrabajo).subscribe(res =>{
-      if (res.Status){
-        this.toastService.show('Grupo Eliminado', { classname: 'bg-danger text-light', delay: 2000 });
-        setTimeout(() => {
-          this.toastService.removeAll()
-        }, 2000);
-      }else{
-        this.toastService.show('Ocurrio un error', { classname: 'bg-danger text-light', delay: 2000 });
-        setTimeout(() => { 
-          this.toastService.removeAll() 
-        }, 2000);
-      }
+  eliminarGrupo(): void{
+    if(this.id_grupo_a_borrar != -1){
+      this.disabledForm = true;
+      this.postService.eliminarGrupoTrabajo(this.id_grupo_a_borrar).subscribe(
+        (res) =>{
+          if (res.Status){
+            this.toastService.show('Grupo Eliminado', { classname: 'bg-danger text-light', delay: 2000 });
+            setTimeout(() => {    
+              this.id_grupo_a_borrar = -1;
+              this.toastService.removeAll();
+              this.disabledForm = false;
+              this.modalService.dismissAll();
+            }, 2000);
+          }
+        },(error) => {
+          this.toastService.show(error.error['Error'],{ classname: 'bg-danger text-light', delay: 1500 });
+          setTimeout(() => { 
+            this.id_grupo_a_borrar = -1;
+            this.toastService.removeAll();
+            this.modalService.dismissAll();
+            this.disabledForm = false;
+          }, 2000);
+        });
+    }
+    }
       
-    })
-  }
 
   onVolver(e: number): void{
     this.step = e;
