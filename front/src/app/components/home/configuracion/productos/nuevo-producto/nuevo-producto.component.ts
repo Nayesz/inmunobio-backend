@@ -51,11 +51,11 @@ export class NuevoProductoComponent implements OnInit {
     this.formProducto = new FormGroup({
       nombre: new FormControl('', [Validators.required, Validators.maxLength(50)]),
       marca: new FormControl('', [Validators.required, Validators.maxLength(50)]),
-      distribuidora: new FormControl('-1', [Validators.maxLength(50)]),
-      tipo: new FormControl('', [Validators.maxLength(50)]),
-      aka: new FormControl('', [Validators.maxLength(100)]),
-      url: new FormControl('', [Validators.maxLength(200)]),
-      unidadAgrupacion: new FormControl('', [Validators.pattern(/^[0-9][0-9]*$/), Validators.min(1)]),
+      distribuidora: new FormControl('-1', [Validators.required,Validators.maxLength(50)]),
+      tipo: new FormControl('', [Validators.required,Validators.maxLength(50)]),
+      aka: new FormControl('', [Validators.required,Validators.maxLength(100)]),
+      url: new FormControl('', [Validators.required,Validators.maxLength(200)]),
+      unidadAgrupacion: new FormControl('', [Validators.required,Validators.pattern(/^[0-9][0-9]*$/), Validators.min(1)]),
       protocolo: new FormControl('', [Validators.maxLength(200)])
     });
 

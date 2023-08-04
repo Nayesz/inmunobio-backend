@@ -23,8 +23,6 @@ export class AgregarStockComponent implements OnInit, OnDestroy {
   productos: Producto[] = [];
   contenedores: Contenedor[] = [];
   contenedoresEspecificos: Contenedor[]=[];
-  
-  
   formStock!: FormGroup;
 
   idEspacioFisico:number;
@@ -37,7 +35,8 @@ export class AgregarStockComponent implements OnInit, OnDestroy {
   modoEditar = false;
   cargando: boolean;
   disabledForm: boolean = false;
- 
+  idGrupoTrabajo: number;
+
   constructor(
     private router: Router,
     private activatedRouter: ActivatedRoute,
@@ -54,10 +53,10 @@ export class AgregarStockComponent implements OnInit, OnDestroy {
     this.idProd = parseInt(this.activatedRouter.snapshot.paramMap.get('idProducto'), 10);
     this.idProdEnStock = parseInt(this.activatedRouter.snapshot.paramMap.get('idProductoEnStock'), 10);
     this.idUbicacion = parseInt(this.activatedRouter.snapshot.paramMap.get('idUbicacion'), 10);
-    const idGrupoTrabajo = this.usuario.id_grupoDeTrabajo
+    this.idGrupoTrabajo = this.usuario.id_grupoDeTrabajo;
 
     if(this.esUnaModificacionDeStockDelProducto()){
-      this.getStock(idGrupoTrabajo)
+      this.getStock(this.idGrupoTrabajo)
       this.modoEditar = true;
     }
 
@@ -237,7 +236,7 @@ export class AgregarStockComponent implements OnInit, OnDestroy {
     const fecha = this.formStock.value.fechaVencimiento;
 
     const stock : Stock = {
-      id_grupoDeTrabajo : 1 ,
+      id_grupoDeTrabajo : this.idGrupoTrabajo,
       id_espacioFisico : this.idEspacioFisico ,
       id_producto: this.formStock.value.producto,
       seguimiento: this.getEstadoCheckbox(),
