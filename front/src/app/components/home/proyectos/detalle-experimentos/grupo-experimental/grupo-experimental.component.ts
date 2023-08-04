@@ -106,7 +106,7 @@ export class GrupoExperimentalComponent implements OnInit {
       animal: new FormControl('0',Validators.required)
     });
     this.formFuenteExperimentalOtro = new FormGroup({
-      tipo: new FormControl('', [Validators.required]),
+      tipo: new FormControl('Otro', [Validators.required]),
       codigo: new FormControl('', [Validators.required, Validators.maxLength(10)]),
       descripcion: new FormControl('', [Validators.required, Validators.maxLength(150)]),
     });

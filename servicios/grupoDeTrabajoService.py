@@ -58,7 +58,7 @@ class GrupoDeTrabajoService():
         print("llegamos a borrar")
         cls.validarDelete(grupoABorrar)
         cls.asignarIDGrupo(grupoABorrar, cls.idGrupoDefault)
-        #grupoABorrar.delete()
+        ##grupoABorrar.delete()
 
     @classmethod
     def quitarMiembroJefeRepetido(cls, jefe,integrantes):

@@ -57,7 +57,7 @@
         </div>
         <div class="content__buttons">
           <div class="">
-              <button class="btn btn-primary btn-lg" type="submit" [disabled]="!formContenedor.valid">Guardar</button>
+              <button class="btn btn-primary btn-lg" type="submit" [disabled]="!formContenedor.valid && !disabledForm">Guardar</button>
               <button class="btn btn-primary btn-lg" type="button" disabled *ngIf='disabledForm'>
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                 Cargando...

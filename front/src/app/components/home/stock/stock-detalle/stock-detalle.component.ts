@@ -166,7 +166,13 @@ export class StockDetalleComponent implements OnInit, OnDestroy {
   open(content, size): void {
     this.modalService.open(content, { centered: true, size: size });
   }
-  
+  perteneceAGrupo(){
+    if (this.usuario.id_grupoDeTrabajo != 0){
+      return true;
+    }else{
+      return false;
+    }
+  }
   Buscar(){
     this.testLog("vamos a buscar blogs!")
     this.fecDesde =  new Date(this.fecDesde.year,(this.fecDesde.month -1)  ,this.fecDesde.day)

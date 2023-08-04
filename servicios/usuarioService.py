@@ -181,6 +181,7 @@ class UsuarioService():
     def asignarGrupoAJefe(cls, _id_usuario, idGrupo ):
         from db import db
         user = cls.find_by_id(_id_usuario)
+        print("LE CAMBIAMOS AL JEFE  EL ID DE GRUPO")
         user.esJefeDe = idGrupo
         user.id_grupoDeTrabajo = idGrupo
         db.session.commit()
