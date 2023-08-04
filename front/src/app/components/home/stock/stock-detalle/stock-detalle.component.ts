@@ -68,7 +68,6 @@ export class StockDetalleComponent implements OnInit, OnDestroy {
     const idGrupoTrabajo = this.usuario.id_grupoDeTrabajo
     this.idEspacioFisico = parseInt(this.activatedRouter.snapshot.paramMap.get('idEspacio'), 10);
     console.log("Espacio físico " + this.idEspacioFisico);
-    //STOCK
     console.log("Id Grupo: " + idGrupoTrabajo)
     console.log("Id espacio físico: " + this.idEspacioFisico)
     if(idGrupoTrabajo > 0){
@@ -79,7 +78,6 @@ export class StockDetalleComponent implements OnInit, OnDestroy {
             this.stocks = res;
             this.cargando = false;
           },
-          //TO-DO: Acá se captura el error, pero por alguna razón sigue apareciendo el 400 en la consola
           (error) => {
             console.log(`Error: ${error.error['Error']}`);
             this.cargando = false;
@@ -87,8 +85,6 @@ export class StockDetalleComponent implements OnInit, OnDestroy {
         )
       );
     }
-    
-
     this.subscription.add( this.getService.obtenerEspacioFisico(this.idEspacioFisico).subscribe(res => {
       if(res){
         this.espacioFisico = res; 
@@ -147,10 +143,30 @@ export class StockDetalleComponent implements OnInit, OnDestroy {
        }
     ));
   }
+  blogCreadoEF(){
+    const blog : BlogsBuscadosEspFisico = {
+      id_espacioFisico: this.idEspacioFisico,
+      fechaDesde: 'Mon May 31 2021',
+      fechaHasta: this.fecHasta
+    } 
+    this.subscription.add(this.postService.obtenerBlogEspacioFisico(blog).subscribe(res =>{
+      if(res){
+        this.blogs = res;
+        this.cargando = false;
+      } else{
+        this.blogs = [];
+        this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
+        this.cargando = false;
+      }
+       })
+    );
+
+  }
 
   open(content, size): void {
     this.modalService.open(content, { centered: true, size: size });
   }
+  
   Buscar(){
     this.testLog("vamos a buscar blogs!")
     this.fecDesde =  new Date(this.fecDesde.year,(this.fecDesde.month -1)  ,this.fecDesde.day)

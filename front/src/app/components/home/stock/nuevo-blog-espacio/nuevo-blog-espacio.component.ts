@@ -20,15 +20,18 @@ export class NuevoBlogEspacioComponent implements OnInit {
   idEspacioFisico:number;
   herramientas:any;
   herramientasFiltradas:any;
+  usuario:any;
+  @Output() blogCreado = new EventEmitter<void>();
 
   constructor(private getService: GetService, private postService: PostService, private activatedRouter: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.usuario = JSON.parse(localStorage.getItem('usuario')).id;
     this.idEspacioFisico = parseInt(this.activatedRouter.snapshot.paramMap.get('idEspacio'), 10);
     this.alert = false;
     this.step = 6;
     this.formBlog = new FormGroup({
-      detalle: new FormControl('', [Validators.maxLength(200)]),
+      detalle: new FormControl('', [Validators.required, Validators.maxLength(200)]),
       tipo: new FormControl(),
       id: new FormControl()
     });
@@ -41,7 +44,6 @@ export class NuevoBlogEspacioComponent implements OnInit {
       this.herramientasFiltradas =  this.herramientas.filter(function(herramienta) {
         return herramienta.id_espacioFisico == id;
       });
-      console.log(this.herramientasFiltradas)
     }, 500);
   }
 
@@ -49,31 +51,32 @@ export class NuevoBlogEspacioComponent implements OnInit {
     if(this.formBlog.value.tipo === 'herramienta'){
       this.crearBlogHerramienta()
     } else{
-    const blog: Blogs ={
-      id_usuario: 1,
-      detalle: this.formBlog.value.detalle,
-      tipo :'espacioFisico'
-    }
-    const nuevoBlog : BlogEspacio ={
-      id_espacioFisico: this.idEspacioFisico,
-      blogs: blog
-    }
-    this.postService.crearBlogEspacio(nuevoBlog).subscribe(res => {
-      if (res.Status){
-        this.alert = true;
-        this.estado = 'success';
-        this.mensajeAlert = 'Blog creado correctamente';
+      const blog: Blogs ={
+        id_usuario: this.usuario,
+        detalle: this.formBlog.value.detalle,
+        tipo :'espacioFisico'
       }
-    }, err => {
-      this.alert = true;
-      this.estado = 'danger';
-      this.mensajeAlert = JSON.stringify(err.error.error);
-    });
+      const nuevoBlog : BlogEspacio ={
+        id_espacioFisico: this.idEspacioFisico,
+        blogs: blog
+      }
+      this.postService.crearBlogEspacio(nuevoBlog).subscribe(res => {
+        if (res.Status){
+          this.alert = true;
+          this.estado = 'success';
+          this.mensajeAlert = 'Blog creado correctamente';
+
+        }
+      }, err => {
+        this.alert = true;
+        this.estado = 'danger';
+        this.mensajeAlert = JSON.stringify(err.error.error);
+      });
     }
   }
   crearBlogHerramienta(): void{
     const blog: Blogs ={
-      id_usuario: 1,
+      id_usuario: this.usuario,
       detalle: this.formBlog.value.detalle,
       tipo :'herramienta'
     }
@@ -83,6 +86,9 @@ export class NuevoBlogEspacioComponent implements OnInit {
     }
     this.postService.crearBlogHerramienta(nuevoBlog).subscribe(res => {
       if (res.Status){
+        setTimeout(() => {
+          this.ngOnInit();
+        }, 2000);
         this.alert = true;
         this.estado = 'success';
         this.mensajeAlert = 'Blog creado correctamente';

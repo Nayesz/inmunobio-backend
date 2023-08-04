@@ -32,7 +32,6 @@ export class NuevoProyectoComponent implements OnInit {
   constructor(
     private getService: GetService,
     private postService: PostService,
-    private activatedRouter: ActivatedRoute,
     private router: Router,
     public toastService: ToastServiceService,
     private logger: LogService

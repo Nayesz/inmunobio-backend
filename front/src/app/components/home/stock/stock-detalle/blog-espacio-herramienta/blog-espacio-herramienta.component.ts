@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component,  EventEmitter, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
@@ -23,6 +23,8 @@ export class BlogEspacioHerramientaComponent implements OnInit {
   idEspacioFisico:number;
   herramientasFiltradas: Herramienta[] =[];
   cargando:boolean;
+  @Output() blogCreado = new EventEmitter<void>();
+
   constructor(
     private activatedRouter: ActivatedRoute,
     private getService: GetService,
@@ -45,7 +47,6 @@ export class BlogEspacioHerramientaComponent implements OnInit {
         this.toastService.show('Hubo un error',{ classname: 'bg-danger text-light', delay: 2000 });
         this.cargando = false;
       }
-      console.log(res)
        })
     );
   }
@@ -97,6 +98,8 @@ export class BlogEspacioHerramientaComponent implements OnInit {
             this.toastService.removeAll()
             this.modalService.dismissAll()
             this.disabledForm = false;
+            console.log("CREAMOS BLOG Y EMITIMOS EL EVENTO")
+            this.blogCreado.emit();
             this.ngOnInit()
           }, 2000);
         }
