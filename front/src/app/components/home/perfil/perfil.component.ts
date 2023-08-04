@@ -13,7 +13,7 @@ import { ToastServiceService } from 'src/app/services/toast-service.service';
 export class PerfilComponent implements OnInit {
   usuario:any;
   formContenedor: FormGroup;
-  disabledForm : Boolean = false
+  disabledForm : Boolean = false;
   constructor(
     private postService: PostService,
     public toastService: ToastServiceService,
@@ -34,6 +34,7 @@ export class PerfilComponent implements OnInit {
   }
 
   crearContenedor(){
+    this.disabledForm = true;
     this.usuario.nombre = this.formContenedor.value.nombre
     this.usuario.email = this.formContenedor.value.email
     this.usuario.telefono = this.formContenedor.value.telefono
@@ -41,13 +42,19 @@ export class PerfilComponent implements OnInit {
     delete this.usuario.exp
     
     this.postService.editarUsuario(this.usuario)
-      .subscribe(res => {
+      .subscribe(
+      (res) => {
         this.toastService.show('Se modificó el usuario.', { classname: 'bg-success text-light', delay: 2000 });
         localStorage.setItem('usuario', JSON.stringify(this.usuario));
+        setTimeout(() => {
+          this.disabledForm = false;
+        }, 2000);
       },
       (error)=>{
         this.toastService.show(error.error['Error'],{ classname: 'bg-danger text-light', delay: 2000 });
-      }
+        setTimeout(() => {
+          this.disabledForm = false;
+        }, 2000);}
     )
 
   }

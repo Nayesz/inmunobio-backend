@@ -31,10 +31,20 @@
         <div>
             <h4 class="text-secondary text-staatliches mb-0">Permisos</h4>
             <div class="d-flex">
-            <p class="ml-2" *ngFor='let permiso of usuario.permisos'>{{permiso.descripcion}}</p>
+            <p class="ml-2" *ngFor='let permiso of usuario.permisos'>{{permiso.descripcion}}/</p>
             </div>
         </div>
-        <button class="btn btn-primary btn-lg" type="submit" [disabled]="!formContenedor.valid">Guardar</button>
+        <!-- <button class="btn btn-primary btn-lg" type="submit" [disabled]="!formContenedor.valid">Guardar</button> -->
+    </div>
+    <div class="content__buttons">
+        <div class="">
+            <button class="btn btn-primary btn-lg" type="submit" [disabled]="!formContenedor.valid" 
+                *ngIf="!formContenedor.invalid && !disabledForm">Guardar</button>
+            <button class="btn btn-primary btn-lg" type="button" disabled *ngIf='disabledForm'>
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Cargando...
+            </button>
+        </div>
     </div>
 </form>
 <app-toast></app-toast>
