@@ -61,6 +61,7 @@
     height: auto;
     margin: auto;
     justify-content: space-around;
+    align-items: center;
 }
 .btn-asociar_muestra{
     margin-left: 1em;
